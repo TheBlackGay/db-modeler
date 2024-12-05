@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.db.modeler.mapper.UserMapper">
+    <resultMap id="UserResultMap" type="com.db.modeler.entity.User">
+        <id property="id" column="id" typeHandler="com.db.modeler.mapper.typehandler.UUIDTypeHandler" />
+        <result property="username" column="username" />
+        <result property="email" column="email" />
+        <result property="password" column="password" />
+        <result property="role" column="role" typeHandler="com.db.modeler.mapper.typehandler.RoleTypeHandler" />
+        <result property="status" column="status" typeHandler="com.db.modeler.mapper.typehandler.UserStatusTypeHandler" />
+        <result property="lastLogin" column="last_login" />
+        <result property="createdAt" column="created_at" />
+        <result property="updatedAt" column="updated_at" />
+    </resultMap>
+
+    <insert id="insertUser" parameterType="com.db.modeler.entity.User">
+        INSERT INTO users (
+            id, username, email, password, role, status, last_login, created_at, updated_at
+        ) VALUES (
+            #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler},
+            #{username},
+            #{email},
+            #{password},
+            #{role,typeHandler=com.db.modeler.mapper.typehandler.RoleTypeHandler},
+            #{status,typeHandler=com.db.modeler.mapper.typehandler.UserStatusTypeHandler},
+            #{lastLogin},
+            #{createdAt},
+            #{updatedAt}
+        )
+    </insert>
+
+    <select id="findUserById" resultMap="UserResultMap">
+        SELECT * FROM users WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </select>
+
+    <select id="findAllUsers" resultMap="UserResultMap">
+        SELECT * FROM users
+    </select>
+
+    <update id="updateUser" parameterType="com.db.modeler.entity.User">
+        UPDATE users
+        SET username = #{username},
+            email = #{email},
+            password = #{password},
+            role = #{role,typeHandler=com.db.modeler.mapper.typehandler.RoleTypeHandler},
+            status = #{status,typeHandler=com.db.modeler.mapper.typehandler.UserStatusTypeHandler},
+            last_login = #{lastLogin},
+            updated_at = #{updatedAt}
+        WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </update>
+
+    <delete id="deleteUser">
+        DELETE FROM users WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </delete>
+
+    <select id="findByEmail" resultMap="UserResultMap">
+        SELECT * FROM users WHERE email = #{email}
+    </select>
+
+    <update id="updateResetCode">
+        UPDATE users
+        SET reset_code = #{resetCode},
+            reset_code_expiry = DATE_ADD(NOW(), INTERVAL 1 HOUR),
+            updated_at = NOW()
+        WHERE email = #{email}
+    </update>
+</mapper>

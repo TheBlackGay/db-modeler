@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "root",
+    "password": "sally",
+    "database": "pdmaner",
+    "host": "192.168.24.15",
+    "port": 13306,
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "sally",
+    "database": "pdmaner",
+    "host": "192.168.24.15",
+    "port": 13306,
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "sally",
+    "database": "pdmaner",
+    "host": "192.168.24.15",
+    "port": 13306,
+    "dialect": "mysql"
+  }
+}

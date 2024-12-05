@@ -1,0 +1,12 @@
+
+> db-modeler-frontend@1.0.0 dev /Users/zhongjiafeng/Desktop/5000_Project/ai-project/db-modeler/frontend
+> vite
+
+
+  VITE v5.4.11  ready in 267 ms
+
+  ➜  Local:   http://localhost:3001/
+  ➜  Network: http://192.168.20.236:3001/
+  ➜  Network: http://192.168.64.1:3001/
+  ➜  Network: http://192.168.24.15:3001/
+2:39:48 PM [vite] hmr update /src/pages/Login.tsx, /src/pages/ForgotPassword.tsx, /src/pages/Dashboard.tsx, /src/pages/DatabaseDetail.tsx, /src/pages/AdminDashboard.tsx, /src/pages/AuditLogs.tsx, /src/pages/UserProfile.tsx, /src/pages/TableSchemaDesigner.tsx, /src/pages/Register.tsx, /src/components/AuthPersist.tsx

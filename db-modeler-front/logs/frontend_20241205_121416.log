@@ -1,0 +1,22 @@
+
+> db-modeler-frontend@1.0.0 dev /Users/zhongjiafeng/Desktop/5000_Project/ai-project/db-modeler/frontend
+> vite
+
+
+  VITE v5.4.11  ready in 134 ms
+
+  ➜  Local:   http://localhost:3001/
+  ➜  Network: http://192.168.20.236:3001/
+  ➜  Network: http://192.168.64.1:3001/
+  ➜  Network: http://192.168.24.15:3001/
+12:16:02 PM [vite] hmr update /src/pages/Dashboard.tsx
+12:17:00 PM [vite] hmr update /src/pages/Login.tsx, /src/pages/Register.tsx, /src/pages/ForgotPassword.tsx, /src/pages/Dashboard.tsx, /src/pages/DatabaseDetail.tsx, /src/pages/TableSchemaDesigner.tsx, /src/components/AuthPersist.tsx, /src/pages/UserProfile.tsx, /src/pages/AdminDashboard.tsx, /src/pages/AuditLogs.tsx
+12:17:11 PM [vite] hmr update /src/components/AuthPersist.tsx
+12:17:22 PM [vite] hmr update /src/pages/Login.tsx, /src/pages/Register.tsx, /src/pages/ForgotPassword.tsx, /src/pages/Dashboard.tsx, /src/pages/DatabaseDetail.tsx, /src/pages/TableSchemaDesigner.tsx, /src/components/AuthPersist.tsx, /src/pages/UserProfile.tsx, /src/pages/AdminDashboard.tsx, /src/pages/AuditLogs.tsx
+12:23:51 PM [vite] hmr update /src/pages/Login.tsx, /src/pages/Register.tsx, /src/pages/ForgotPassword.tsx, /src/pages/Dashboard.tsx, /src/pages/DatabaseDetail.tsx, /src/pages/TableSchemaDesigner.tsx, /src/components/AuthPersist.tsx, /src/pages/UserProfile.tsx, /src/pages/AdminDashboard.tsx, /src/pages/AuditLogs.tsx
+12:24:03 PM [vite] hmr update /src/pages/Login.tsx, /src/pages/Register.tsx, /src/pages/ForgotPassword.tsx, /src/pages/Dashboard.tsx, /src/pages/DatabaseDetail.tsx, /src/pages/TableSchemaDesigner.tsx, /src/components/AuthPersist.tsx, /src/pages/UserProfile.tsx, /src/pages/AdminDashboard.tsx, /src/pages/AuditLogs.tsx
+12:24:13 PM [vite] hmr update /src/pages/Login.tsx, /src/pages/Register.tsx, /src/pages/ForgotPassword.tsx, /src/pages/Dashboard.tsx, /src/pages/DatabaseDetail.tsx, /src/pages/TableSchemaDesigner.tsx, /src/components/AuthPersist.tsx, /src/pages/UserProfile.tsx, /src/pages/AdminDashboard.tsx, /src/pages/AuditLogs.tsx
+12:24:31 PM [vite] hmr update /src/pages/Login.tsx, /src/pages/Register.tsx, /src/pages/ForgotPassword.tsx, /src/pages/Dashboard.tsx, /src/pages/DatabaseDetail.tsx, /src/pages/TableSchemaDesigner.tsx, /src/components/AuthPersist.tsx, /src/pages/UserProfile.tsx, /src/pages/AdminDashboard.tsx, /src/pages/AuditLogs.tsx
+12:28:35 PM [vite] hmr update /src/pages/Login.tsx, /src/pages/Register.tsx, /src/pages/ForgotPassword.tsx, /src/pages/Dashboard.tsx, /src/pages/DatabaseDetail.tsx, /src/pages/TableSchemaDesigner.tsx, /src/components/AuthPersist.tsx, /src/pages/UserProfile.tsx, /src/pages/AdminDashboard.tsx, /src/pages/AuditLogs.tsx
+12:28:43 PM [vite] hmr update /src/components/AuthPersist.tsx
+12:28:52 PM [vite] hmr update /src/pages/Login.tsx, /src/pages/Register.tsx, /src/pages/ForgotPassword.tsx, /src/pages/Dashboard.tsx, /src/pages/DatabaseDetail.tsx, /src/pages/TableSchemaDesigner.tsx, /src/components/AuthPersist.tsx, /src/pages/UserProfile.tsx, /src/pages/AdminDashboard.tsx, /src/pages/AuditLogs.tsx

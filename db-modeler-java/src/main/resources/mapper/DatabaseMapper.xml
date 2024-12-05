@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.db.modeler.mapper.DatabaseMapper">
+    <!-- 基本的CRUD操作将由JPA处理 -->
+    <resultMap id="DatabaseResultMap" type="com.db.modeler.entity.Database">
+        <id property="id" column="id" typeHandler="com.db.modeler.mapper.typehandler.UUIDTypeHandler" />
+        <result property="userId" column="user_id" typeHandler="com.db.modeler.mapper.typehandler.UUIDTypeHandler" />
+        <result property="name" column="name" />
+        <result property="description" column="description" />
+        <result property="type" column="dbType" typeHandler="com.db.modeler.mapper.typehandler.DbTypeHandler" />
+        <result property="host" column="host" />
+        <result property="port" column="port" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="status" column="status" typeHandler="com.db.modeler.mapper.typehandler.StatusTypeHandler" />
+        <result property="lastSync" column="last_sync" />
+    </resultMap>
+
+    <insert id="insertDatabase" parameterType="com.db.modeler.entity.Database">
+        INSERT INTO db_configs (id, user_id, name, description, dbType, host, port, username, password, status, last_sync)
+        VALUES (
+            #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler},
+            #{userId,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler},
+            #{name},
+            #{description},
+            #{type,typeHandler=com.db.modeler.mapper.typehandler.DbTypeHandler},
+            #{host},
+            #{port},
+            #{username},
+            #{password},
+            #{status,typeHandler=com.db.modeler.mapper.typehandler.StatusTypeHandler},
+            #{lastSync}
+        )
+    </insert>
+
+    <select id="findDatabaseById" resultMap="DatabaseResultMap">
+        SELECT * FROM db_configs WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </select>
+
+    <select id="findAllDatabases" resultMap="DatabaseResultMap">
+        SELECT * FROM db_configs
+    </select>
+
+    <update id="updateDatabase" parameterType="com.db.modeler.entity.Database">
+        UPDATE db_configs
+        SET user_id = #{userId,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler},
+            name = #{name},
+            description = #{description},
+            dbType = #{type,typeHandler=com.db.modeler.mapper.typehandler.DbTypeHandler},
+            host = #{host},
+            port = #{port},
+            username = #{username},
+            password = #{password},
+            status = #{status,typeHandler=com.db.modeler.mapper.typehandler.StatusTypeHandler},
+            last_sync = #{lastSync}
+        WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </update>
+
+    <delete id="deleteDatabase">
+        DELETE FROM db_configs WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </delete>
+</mapper>

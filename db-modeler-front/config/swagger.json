@@ -1,0 +1,186 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DB Modeler API",
+    "version": "1.0.0",
+    "description": "数据库建模和管理API"
+  },
+  "paths": {
+    "/api/users/register": {
+      "post": {
+        "summary": "用户注册",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRegistration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "注册成功"
+          }
+        }
+      }
+    },
+    "/api/users/login": {
+      "post": {
+        "summary": "用户登录",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLogin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "登录成功"
+          }
+        }
+      }
+    },
+    "/api/databases": {
+      "post": {
+        "summary": "创建数据库",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Database"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "成功创建数据库"
+          }
+        }
+      },
+      "get": {
+        "summary": "获取所有数据库",
+        "responses": {
+          "200": {
+            "description": "成功获取数据库列表"
+          }
+        }
+      }
+    },
+    "/api/table-schemas": {
+      "post": {
+        "summary": "创建表结构",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TableSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "成功创建表结构"
+          }
+        }
+      },
+      "get": {
+        "summary": "获取所有表结构",
+        "responses": {
+          "200": {
+            "description": "成功获取表结构列表"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserRegistration": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["admin", "editor", "viewer"]
+          }
+        },
+        "required": ["username", "email", "password"]
+      },
+      "UserLogin": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": ["username", "password"]
+      },
+      "Database": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["MySQL", "PostgreSQL", "SQLite", "MongoDB"]
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "TableSchema": {
+        "type": "object",
+        "properties": {
+          "databaseId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "columns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "nullable": {
+                  "type": "boolean"
+                },
+                "primaryKey": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

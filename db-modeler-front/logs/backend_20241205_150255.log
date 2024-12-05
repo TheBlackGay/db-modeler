@@ -1,0 +1,661 @@
+
+> db-modeler@1.0.0 dev /Users/zhongjiafeng/Desktop/5000_Project/ai-project/db-modeler
+> nodemon src/server.js
+
+[33m[nodemon] 3.1.7[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[32m[nodemon] starting `node src/server.js`[39m
+[32minfo[39m: 数据库配置: {"database":"pdmaner","dialect":"mysql","host":"127.0.0.1","port":"13306","service":"db-modeler","timestamp":"2024-12-05 15:02:58","username":"root"}
+[32minfo[39m: 数据库配置: {"database":"pdmaner","dialect":"mysql","host":"127.0.0.1","port":"13306","service":"db-modeler","timestamp":"2024-12-05 15:02:58","username":"root"}
+[32minfo[39m: 数据库连接成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 数据库连接成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 开始初始化所有模型 {"sequelizeInstanceKeys":["options","config","dialect","queryInterface","models","modelManager","connectionManager"],"sequelizeInstanceType":"object","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: User {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 users 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"users","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 用户模型初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 User 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: Database {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 Database 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"Database","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 Database 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: TableSchema {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 TableSchema 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"TableSchema","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 TableSchema 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: Table {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 Table 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"Table","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 Table 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: ColumnType {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 ColumnType 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"ColumnType","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 ColumnType 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: DataMapping {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 DataMapping 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"DataMapping","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 DataMapping 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: DataMappingConfig {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 DataMappingConfig 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: DataMappingVersion {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 DataMappingVersion 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: DataMappingCollaboration {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 DataMappingCollaboration 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: Metadata {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 Metadata 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: TableDesign {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 TableDesign 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: UserRoles {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 UserRoles 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: AuditLogs {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 audit_logs 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"audit_logs","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 AuditLogs 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 所有模型初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 开始初始化所有模型 {"sequelizeInstanceKeys":["options","config","dialect","queryInterface","models","modelManager","connectionManager"],"sequelizeInstanceType":"object","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: User {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 User 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: Database {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 Database 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"Database","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 Database 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: TableSchema {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 TableSchema 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"TableSchema","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 TableSchema 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: Table {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 Table 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"Table","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 Table 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: ColumnType {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 ColumnType 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"ColumnType","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 ColumnType 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: DataMapping {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 DataMapping 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"DataMapping","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 DataMapping 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: DataMappingConfig {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 DataMappingConfig 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: DataMappingVersion {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 DataMappingVersion 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: DataMappingCollaboration {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 DataMappingCollaboration 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: Metadata {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 Metadata 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: TableDesign {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 TableDesign 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: UserRoles {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 UserRoles 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: AuditLogs {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 audit_logs 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"audit_logs","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 AuditLogs 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 所有模型初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 当前数据库版本: 1 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 当前数据库版本: 1 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+DatabaseController 初始化成功
+[32minfo[39m: 服务器配置: {"DB_HOST":"127.0.0.1","DB_NAME":"pdmaner","DB_PORT":"13306","PORT":5001,"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: JWT Secret: {"JWT_SECRET":"loaded","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 数据库配置: {"database":"pdmaner","dialect":"mysql","host":"127.0.0.1","port":"13306","service":"db-modeler","timestamp":"2024-12-05 15:02:58","username":"root"}
+[32minfo[39m: 数据库连接成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 开始初始化所有模型 {"sequelizeInstanceKeys":["options","config","dialect","queryInterface","models","modelManager","connectionManager"],"sequelizeInstanceType":"object","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: User {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 users 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"users","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 用户模型初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 User 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: Database {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 Database 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"Database","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 Database 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: TableSchema {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 TableSchema 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"TableSchema","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 TableSchema 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: Table {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 Table 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"Table","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 Table 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: ColumnType {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 ColumnType 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"ColumnType","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 ColumnType 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: DataMapping {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 DataMapping 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"DataMapping","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 DataMapping 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: DataMappingConfig {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 DataMappingConfig 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: DataMappingVersion {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 DataMappingVersion 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: DataMappingCollaboration {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 DataMappingCollaboration 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: Metadata {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 Metadata 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: TableDesign {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 TableDesign 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: UserRoles {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 UserRoles 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 正在初始化模型: AuditLogs {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 audit_logs 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"audit_logs","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 模型 AuditLogs 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 所有模型初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 当前数据库版本: 1 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 数据库和模型初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 服务器运行在 http://localhost:5001 {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+[32minfo[39m: 环境: development {"service":"db-modeler","timestamp":"2024-12-05 15:02:58"}
+info: Request processed {"duration":1,"ip":"::1","method":"OPTIONS","path":"/api/v1/auth/login","requestId":"f9ab59bf-92ac-49bb-a853-7d2c3cd88cfb","statusCode":204,"timestamp":"2024-12-05T07:03:00.677Z","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
+Performance Metrics: {
+  request: { method: 'OPTIONS', path: '/api/v1/auth/login' },
+  duration: 2,
+  memory: {
+    rss: { before: 139706368, after: 140017664, change: 311296 },
+    heapUsed: { before: 43521216, after: 43609848, change: 88632 }
+  },
+  cpu: { user: 1809, system: 228 },
+  systemLoad: [ 9.34423828125, 8.255859375, 7.50341796875 ]
+}
+[32minfo[39m: 登录尝试: {"passwordLength":9,"passwordType":"string","service":"db-modeler","timestamp":"2024-12-05 15:03:00","username":"testuser6"}
+[32minfo[39m: 数据库连接成功 {"service":"db-modeler","timestamp":"2024-12-05 15:03:00"}
+[32minfo[39m: 模型 users 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"users","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 15:03:00"}
+[32minfo[39m: 用户模型初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:03:00"}
+[32minfo[39m: 用户模型初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 15:03:00"}
+[32minfo[39m: 找到用户: {"hashedPasswordLength":60,"id":"2bb75fe0-fb7d-4faf-9314-84befb169686","service":"db-modeler","timestamp":"2024-12-05 15:03:00","username":"testuser6"}
+[32minfo[39m: 密码验证结果: {"service":"db-modeler","timestamp":"2024-12-05 15:03:00"}
+[32minfo[39m: 生成 JWT token... {"service":"db-modeler","timestamp":"2024-12-05 15:03:00"}
+[32minfo[39m: 登录成功: {"0":"t","1":"e","2":"s","3":"t","4":"u","5":"s","6":"e","7":"r","8":"6","service":"db-modeler","timestamp":"2024-12-05 15:03:00"}
+info: Request processed {"duration":120,"ip":"::1","method":"POST","path":"/login","requestId":"0beec28a-5d45-47cf-8730-49353dc6dec6","statusCode":200,"timestamp":"2024-12-05T07:03:00.799Z","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
+Performance Metrics: {
+  request: { method: 'POST', path: '/login' },
+  duration: 120,
+  memory: {
+    rss: { before: 140050432, after: 140656640, change: 606208 },
+    heapUsed: { before: 43687768, after: 48734624, change: 5046856 }
+  },
+  cpu: { user: 111513, system: 3443 },
+  systemLoad: [ 9.34423828125, 8.255859375, 7.50341796875 ]
+}
+info: Request processed {"duration":1,"ip":"::1","method":"OPTIONS","path":"/api/v1/database","requestId":"b3facdd6-961c-441a-b077-fec88ab8073d","statusCode":204,"timestamp":"2024-12-05T07:03:00.826Z","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
+Performance Metrics: {
+  request: { method: 'OPTIONS', path: '/api/v1/database' },
+  duration: 1,
+  memory: {
+    rss: { before: 140673024, after: 140689408, change: 16384 },
+    heapUsed: { before: 48814840, after: 48842840, change: 28000 }
+  },
+  cpu: { user: 482, system: 137 },
+  systemLoad: [ 9.34423828125, 8.255859375, 7.50341796875 ]
+}
+[33mwarn[39m: 无效的认证令牌 {"service":"db-modeler","timestamp":"2024-12-05 15:03:00"}
+error: Request failed {"duration":2,"ip":"::1","method":"GET","path":"/","requestId":"a8410696-0a26-44c3-b123-6200ef9a4bd0","statusCode":401,"timestamp":"2024-12-05T07:03:00.829Z","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
+Performance Metrics: {
+  request: { method: 'GET', path: '/' },
+  duration: 2,
+  memory: {
+    rss: { before: 140722176, after: 140754944, change: 32768 },
+    heapUsed: { before: 49104888, after: 49164816, change: 59928 }
+  },
+  cpu: { user: 1123, system: 270 },
+  systemLoad: [ 9.34423828125, 8.255859375, 7.50341796875 ]
+}
+info: Request processed {"duration":0,"ip":"::1","method":"OPTIONS","path":"/api/v1/auth/profile","requestId":"2e05f90e-013b-42a8-8014-eca0130c2f5d","statusCode":204,"timestamp":"2024-12-05T07:03:00.830Z","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
+Performance Metrics: {
+  request: { method: 'OPTIONS', path: '/api/v1/auth/profile' },
+  duration: 1,
+  memory: {
+    rss: { before: 140771328, after: 140771328, change: 0 },
+    heapUsed: { before: 49209856, after: 49237512, change: 27656 }
+  },
+  cpu: { user: 191, system: 81 },
+  systemLoad: [ 9.34423828125, 8.255859375, 7.50341796875 ]
+}
+[32minfo[39m: Received headers: {"accept":"application/json, text/plain, */*","accept-encoding":"gzip, deflate, br, zstd","accept-language":"zh-CN,zh;q=0.9","authorization":"Bearer Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyYmI3NWZlMC1mYjdkLTRmYWYtOTMxNC04NGJlZmIxNjk2ODYiLCJ1c2VybmFtZSI6InRlc3R1c2VyNiIsInJvbGUiOiJ2aWV3ZXIiLCJpYXQiOjE3MzMzODIxODAsImV4cCI6MTczMzQ2ODU4MH0.cBOImm5qOv5bJXLxabgWzmT92FXB3hEx6eBfIDg3acc","connection":"keep-alive","host":"localhost:5001","origin":"http://localhost:3001","referer":"http://localhost:3001/","sec-ch-ua":"\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"","sec-ch-ua-mobile":"?0","sec-ch-ua-platform":"\"macOS\"","sec-fetch-dest":"empty","sec-fetch-mode":"cors","sec-fetch-site":"same-site","service":"db-modeler","timestamp":"2024-12-05 15:03:00","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
+[32minfo[39m: Auth header: {"authHeader":"present","service":"db-modeler","timestamp":"2024-12-05 15:03:00"}
+[33mwarn[39m: Invalid token: {"0":"j","1":"w","10":"m","11":"e","12":"d","2":"t","3":" ","4":"m","5":"a","6":"l","7":"f","8":"o","9":"r","service":"db-modeler","timestamp":"2024-12-05 15:03:00"}
+error: Request failed {"duration":1,"ip":"::1","method":"GET","path":"/profile","requestId":"69286aab-307a-4ef4-9a06-901f109a3a67","statusCode":401,"timestamp":"2024-12-05T07:03:00.831Z","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
+Performance Metrics: {
+  request: { method: 'GET', path: '/profile' },
+  duration: 1,
+  memory: {
+    rss: { before: 140771328, after: 140787712, change: 16384 },
+    heapUsed: { before: 49272856, after: 49395256, change: 122400 }
+  },
+  cpu: { user: 968, system: 170 },
+  systemLoad: [ 9.34423828125, 8.255859375, 7.50341796875 ]
+}
+info: Request processed {"duration":0,"ip":"::1","method":"OPTIONS","path":"/api/v1/database","requestId":"f5208be8-0969-4b43-af53-a70ba90f1d5c","statusCode":204,"timestamp":"2024-12-05T07:03:00.832Z","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
+Performance Metrics: {
+  request: { method: 'OPTIONS', path: '/api/v1/database' },
+  duration: 0,
+  memory: {
+    rss: { before: 140820480, after: 140820480, change: 0 },
+    heapUsed: { before: 49434880, after: 49542328, change: 107448 }
+  },
+  cpu: { user: 227, system: 38 },
+  systemLoad: [ 9.34423828125, 8.255859375, 7.50341796875 ]
+}
+[33mwarn[39m: 无效的认证令牌 {"service":"db-modeler","timestamp":"2024-12-05 15:03:00"}
+error: Request failed {"duration":1,"ip":"::1","method":"GET","path":"/","requestId":"c61803aa-d502-4f4a-a688-1d0b56b65645","statusCode":401,"timestamp":"2024-12-05T07:03:00.833Z","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
+Performance Metrics: {
+  request: { method: 'GET', path: '/' },
+  duration: 1,
+  memory: {
+    rss: { before: 140820480, after: 140820480, change: 0 },
+    heapUsed: { before: 49583536, after: 49645224, change: 61688 }
+  },
+  cpu: { user: 443, system: 82 },
+  systemLoad: [ 9.34423828125, 8.255859375, 7.50341796875 ]
+}
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node src/server.js`[39m
+[32minfo[39m: 数据库配置: {"database":"pdmaner","dialect":"mysql","host":"127.0.0.1","port":"13306","service":"db-modeler","timestamp":"2024-12-05 16:10:46","username":"root"}
+[32m[nodemon] restarting due to changes...[39m
+[32minfo[39m: 数据库配置: {"database":"pdmaner","dialect":"mysql","host":"127.0.0.1","port":"13306","service":"db-modeler","timestamp":"2024-12-05 16:10:49","username":"root"}
+[32m[nodemon] restarting due to changes...[39m
+[32minfo[39m: 数据库连接成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 数据库连接成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 开始初始化所有模型 {"sequelizeInstanceKeys":["options","config","dialect","queryInterface","models","modelManager","connectionManager"],"sequelizeInstanceType":"object","service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: User {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 users 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"users","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 用户模型初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 User 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: Database {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 Database 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"Database","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 Database 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: TableSchema {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 TableSchema 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"TableSchema","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 TableSchema 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: Table {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 Table 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"Table","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 Table 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: ColumnType {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32m[nodemon] restarting due to changes...[39m
+[32minfo[39m: 模型 ColumnType 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"ColumnType","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 ColumnType 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: DataMapping {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 DataMapping 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"DataMapping","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 DataMapping 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: DataMappingConfig {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 DataMappingConfig 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: DataMappingVersion {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 DataMappingVersion 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: DataMappingCollaboration {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 DataMappingCollaboration 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: Metadata {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 Metadata 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: TableDesign {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 TableDesign 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: UserRoles {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 UserRoles 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: AuditLogs {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 audit_logs 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"audit_logs","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 AuditLogs 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 所有模型初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 开始初始化所有模型 {"sequelizeInstanceKeys":["options","config","dialect","queryInterface","models","modelManager","connectionManager"],"sequelizeInstanceType":"object","service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: User {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 User 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: Database {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 Database 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"Database","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 Database 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: TableSchema {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 TableSchema 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"TableSchema","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 TableSchema 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: Table {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 Table 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"Table","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 Table 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: ColumnType {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 ColumnType 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"ColumnType","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 ColumnType 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: DataMapping {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 DataMapping 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"DataMapping","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 DataMapping 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: DataMappingConfig {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 DataMappingConfig 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: DataMappingVersion {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 DataMappingVersion 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: DataMappingCollaboration {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 DataMappingCollaboration 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: Metadata {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 Metadata 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: TableDesign {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 TableDesign 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: UserRoles {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 UserRoles 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 正在初始化模型: AuditLogs {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 audit_logs 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"audit_logs","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 模型 AuditLogs 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 所有模型初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 当前数据库版本: 1 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+[32minfo[39m: 当前数据库版本: 1 {"service":"db-modeler","timestamp":"2024-12-05 16:10:49"}
+DatabaseController 初始化成功
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node src/server.js`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32minfo[39m: 数据库配置: {"database":"pdmaner","dialect":"mysql","host":"127.0.0.1","port":"13306","service":"db-modeler","timestamp":"2024-12-05 16:10:52","username":"root"}
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32minfo[39m: 数据库配置: {"database":"pdmaner","dialect":"mysql","host":"127.0.0.1","port":"13306","service":"db-modeler","timestamp":"2024-12-05 16:10:53","username":"root"}
+[32m[nodemon] starting `node src/server.js`[39m
+[32minfo[39m: 数据库配置: {"database":"pdmaner","dialect":"mysql","host":"127.0.0.1","port":"13306","service":"db-modeler","timestamp":"2024-12-05 16:10:57","username":"root"}
+[32minfo[39m: 数据库配置: {"database":"pdmaner","dialect":"mysql","host":"127.0.0.1","port":"13306","service":"db-modeler","timestamp":"2024-12-05 16:10:59","username":"root"}
+[32minfo[39m: 数据库连接成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 数据库连接成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 开始初始化所有模型 {"sequelizeInstanceKeys":["options","config","dialect","queryInterface","models","modelManager","connectionManager"],"sequelizeInstanceType":"object","service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 正在初始化模型: User {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 users 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"users","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 用户模型初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 User 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 正在初始化模型: Database {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 Database 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"Database","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 Database 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 正在初始化模型: TableSchema {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 TableSchema 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"TableSchema","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 TableSchema 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 正在初始化模型: Table {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 Table 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"Table","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 Table 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 正在初始化模型: ColumnType {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 ColumnType 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"ColumnType","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 ColumnType 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 正在初始化模型: DataMapping {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 DataMapping 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"DataMapping","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 DataMapping 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 正在初始化模型: DataMappingConfig {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 DataMappingConfig 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 正在初始化模型: DataMappingVersion {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 DataMappingVersion 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 正在初始化模型: DataMappingCollaboration {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 DataMappingCollaboration 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 正在初始化模型: Metadata {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 Metadata 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 正在初始化模型: TableDesign {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 TableDesign 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 正在初始化模型: UserRoles {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 UserRoles 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 正在初始化模型: AuditLogs {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 audit_logs 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"audit_logs","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 模型 AuditLogs 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 所有模型初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 开始初始化所有模型 {"sequelizeInstanceKeys":["options","config","dialect","queryInterface","models","modelManager","connectionManager"],"sequelizeInstanceType":"object","service":"db-modeler","timestamp":"2024-12-05 16:11:00"}
+[32minfo[39m: 正在初始化模型: User {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 User 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: Database {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 Database 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"Database","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 Database 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: TableSchema {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 TableSchema 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"TableSchema","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 TableSchema 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: Table {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 Table 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"Table","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 Table 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: ColumnType {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 ColumnType 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"ColumnType","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 ColumnType 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: DataMapping {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 DataMapping 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"DataMapping","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 DataMapping 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: DataMappingConfig {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 DataMappingConfig 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: DataMappingVersion {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 DataMappingVersion 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: DataMappingCollaboration {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 DataMappingCollaboration 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: Metadata {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 Metadata 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: TableDesign {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 TableDesign 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: UserRoles {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 UserRoles 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: AuditLogs {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 audit_logs 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"audit_logs","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 AuditLogs 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 所有模型初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 当前数据库版本: 1 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 当前数据库版本: 1 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+DatabaseController 初始化成功
+[32minfo[39m: 服务器配置: {"DB_HOST":"127.0.0.1","DB_NAME":"pdmaner","DB_PORT":"13306","PORT":5001,"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: JWT Secret: {"JWT_SECRET":"loaded","service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 数据库配置: {"database":"pdmaner","dialect":"mysql","host":"127.0.0.1","port":"13306","service":"db-modeler","timestamp":"2024-12-05 16:11:01","username":"root"}
+[32minfo[39m: 数据库连接成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 开始初始化所有模型 {"sequelizeInstanceKeys":["options","config","dialect","queryInterface","models","modelManager","connectionManager"],"sequelizeInstanceType":"object","service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: User {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 users 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"users","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 用户模型初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 User 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: Database {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 Database 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"Database","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 Database 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: TableSchema {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 TableSchema 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"TableSchema","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 TableSchema 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: Table {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 Table 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"Table","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 Table 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: ColumnType {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 ColumnType 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"ColumnType","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 ColumnType 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: DataMapping {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 DataMapping 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"DataMapping","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 DataMapping 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: DataMappingConfig {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 DataMappingConfig 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: DataMappingVersion {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 DataMappingVersion 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: DataMappingCollaboration {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 DataMappingCollaboration 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: Metadata {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 Metadata 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: TableDesign {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 TableDesign 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: UserRoles {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 UserRoles 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 正在初始化模型: AuditLogs {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 audit_logs 创建成功 {"modelKeys":["sequelize","options","associations","underscored","tableName","_schema","_schemaDelimiter","rawAttributes","_indexes","primaryKeys","_readOnlyAttributes","_timestampAttributes","_hasReadOnlyAttributes","_dataTypeChanges","_dataTypeSanitizers","_hasBooleanAttributes","_hasDateAttributes","_jsonAttributes","_virtualAttributes","_defaultValues","fieldRawAttributesMap","uniqueKeys","fieldAttributeMap","_hasJsonAttributes","_hasVirtualAttributes","_hasDefaultValues","tableAttributes","primaryKeyAttributes","primaryKeyAttribute","primaryKeyField","_hasPrimaryKeys","_isPrimaryKey","_attributeManipulation","autoIncrementAttribute","_scope","_scopeNames"],"modelName":"audit_logs","modelType":"function","service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 模型 AuditLogs 初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 所有模型初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 当前数据库版本: 1 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+[32minfo[39m: 数据库和模型初始化成功 {"service":"db-modeler","timestamp":"2024-12-05 16:11:01"}
+未捕获的异常: Error: listen EADDRINUSE: address already in use :::5001
+    at Server.setupListenHandle [as _listen2] (node:net:1817:16)
+    at listenInCluster (node:net:1865:12)
+    at Server.listen (node:net:1953:7)
+    at Function.listen (/Users/zhongjiafeng/Desktop/5000_Project/ai-project/db-modeler/node_modules/.pnpm/express@4.21.1/node_modules/express/lib/application.js:635:24)
+    at startServer (file:///Users/zhongjiafeng/Desktop/5000_Project/ai-project/db-modeler/src/server.js:74:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+  code: 'EADDRINUSE',
+  errno: -48,
+  syscall: 'listen',
+  address: '::',
+  port: 5001
+}
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node src/server.js`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node src/server.js`[39m
+node:internal/errors:496
+    ErrorCaptureStackTrace(err);
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/zhongjiafeng/Desktop/5000_Project/ai-project/db-modeler/config/env.js' imported from /Users/zhongjiafeng/Desktop/5000_Project/ai-project/db-modeler/src/services/emailService.js
+    at new NodeError (node:internal/errors:405:5)
+    at finalizeResolution (node:internal/modules/esm/resolve:327:11)
+    at moduleResolve (node:internal/modules/esm/resolve:980:10)
+    at defaultResolve (node:internal/modules/esm/resolve:1206:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:404:12)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:373:25)
+    at ModuleLoader.getModuleJob (node:internal/modules/esm/loader:250:38)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:39)
+    at link (node:internal/modules/esm/module_job:75:36) {
+  url: 'file:///Users/zhongjiafeng/Desktop/5000_Project/ai-project/db-modeler/config/env.js',
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v18.20.5
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node src/server.js`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node src/server.js`[39m
+(node:83421) Warning: To load an ES module, set "type": "module" in the package.json or use the .mjs extension.
+(Use `node --trace-warnings ...` to show where the warning was created)
+/Users/zhongjiafeng/Desktop/5000_Project/ai-project/db-modeler/src/server.js:1
+import dotenv from 'dotenv';
+^^^^^^
+
+SyntaxError: Cannot use import statement outside a module
+    at internalCompileFunction (node:internal/vm:76:18)
+    at wrapSafe (node:internal/modules/cjs/loader:1283:20)
+    at Module._compile (node:internal/modules/cjs/loader:1328:27)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1422:10)
+    at Module.load (node:internal/modules/cjs/loader:1203:32)
+    at Module._load (node:internal/modules/cjs/loader:1019:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:128:12)
+    at node:internal/main/run_main_module:28:49
+
+Node.js v18.20.5
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node src/server.js`[39m
+[32m[nodemon] restarting due to changes...[39m
+node:internal/modules/cjs/loader:1143
+  throw err;
+  ^
+
+Error: Cannot find module '/Users/zhongjiafeng/Desktop/5000_Project/ai-project/db-modeler/src/server.js'
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1140:15)
+    at Module._load (node:internal/modules/cjs/loader:981:27)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:128:12)
+    at node:internal/main/run_main_module:28:49 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v18.20.5
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node src/server.js`[39m
+node:internal/modules/cjs/loader:1143
+  throw err;
+  ^
+
+Error: Cannot find module '/Users/zhongjiafeng/Desktop/5000_Project/ai-project/db-modeler/src/server.js'
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1140:15)
+    at Module._load (node:internal/modules/cjs/loader:981:27)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:128:12)
+    at node:internal/main/run_main_module:28:49 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v18.20.5
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m

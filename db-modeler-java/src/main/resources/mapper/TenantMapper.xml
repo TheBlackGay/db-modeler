@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.db.modeler.mapper.TenantMapper">
+    <resultMap id="TenantResultMap" type="com.db.modeler.entity.Tenant">
+        <id property="id" column="id" typeHandler="com.db.modeler.mapper.typehandler.UUIDTypeHandler" />
+        <result property="name" column="name" />
+        <result property="description" column="description" />
+        <result property="status" column="status" />
+        <result property="createdAt" column="created_at" />
+        <result property="updatedAt" column="updated_at" />
+    </resultMap>
+
+    <insert id="insertTenant" parameterType="com.db.modeler.entity.Tenant">
+        INSERT INTO tenants (
+            id, name, description, status
+        ) VALUES (
+            #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler},
+            #{name},
+            #{description},
+            #{status}
+        )
+    </insert>
+
+    <select id="findTenantById" resultMap="TenantResultMap">
+        SELECT * FROM tenants 
+        WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </select>
+
+    <select id="findAllTenants" resultMap="TenantResultMap">
+        SELECT * FROM tenants
+    </select>
+
+    <update id="updateTenant" parameterType="com.db.modeler.entity.Tenant">
+        UPDATE tenants SET
+            name = #{name},
+            description = #{description},
+            status = #{status}
+        WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </update>
+
+    <delete id="deleteTenant">
+        DELETE FROM tenants 
+        WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </delete>
+</mapper>
