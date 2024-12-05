@@ -13,13 +13,15 @@
 
     <insert id="insertTenant" parameterType="com.db.modeler.entity.Tenant">
         INSERT INTO tenants (
-            id, name, code, description, status
+            id, name, code, description, status, created_at, updated_at
         ) VALUES (
             #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler},
             #{name},
             #{code},
             #{description},
-            #{status}
+            #{status},
+            #{createdAt},
+            #{updatedAt}
         )
     </insert>
 

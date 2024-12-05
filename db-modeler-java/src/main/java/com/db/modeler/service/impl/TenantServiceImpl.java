@@ -94,6 +94,12 @@ public class TenantServiceImpl implements TenantService {
         if (tenant.getName().length() > 100) {
             throw new ValidationException("Tenant name cannot exceed 100 characters");
         }
+        if (!StringUtils.hasText(tenant.getCode())) {
+            throw new ValidationException("Tenant code cannot be empty");
+        }
+        if (tenant.getCode().length() > 50) {
+            throw new ValidationException("Tenant code cannot exceed 50 characters");
+        }
         if (tenant.getDescription() != null && tenant.getDescription().length() > 500) {
             throw new ValidationException("Tenant description cannot exceed 500 characters");
         }
