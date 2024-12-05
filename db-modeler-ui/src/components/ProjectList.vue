@@ -53,6 +53,9 @@ import { ref, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import type { Project } from '../api/project'
 import { projectApi } from '../api/project'
+import { useGlobalStore } from '../stores/global'
+
+const globalStore = useGlobalStore()
 
 const columns = [
   {
@@ -83,7 +86,7 @@ const modalMode = ref<'create' | 'edit'>('create')
 const formState = ref({
   name: '',
   description: '',
-  tenantId: '123e4567-e89b-12d3-a456-426614174000', // 使用一个有效的 UUID
+  tenantId: globalStore.currentTenant?.id
 })
 
 const rules = {
@@ -91,9 +94,13 @@ const rules = {
 }
 
 const loadProjects = async () => {
+  if (!globalStore.currentTenant?.id) {
+    message.error('请先选择租户')
+    return
+  }
   loading.value = true
   try {
-    const response = await projectApi.getProjects('123e4567-e89b-12d3-a456-426614174000') // 使用一个有效的 UUID
+    const response = await projectApi.getProjects(globalStore.currentTenant.id)
     projects.value = response.data
   } catch (error) {
     message.error('加载项目列表失败')
@@ -103,11 +110,15 @@ const loadProjects = async () => {
 }
 
 const showCreateModal = () => {
+  if (!globalStore.currentTenant?.id) {
+    message.error('请先选择租户')
+    return
+  }
   modalMode.value = 'create'
   formState.value = {
     name: '',
     description: '',
-    tenantId: '123e4567-e89b-12d3-a456-426614174000', // 使用一个有效的 UUID
+    tenantId: globalStore.currentTenant.id
   }
   modalVisible.value = true
 }
@@ -122,7 +133,7 @@ const handleEdit = (record: Project) => {
   modalVisible.value = true
 }
 
-const handleDelete = async (id: number) => {
+const handleDelete = async (id: string) => {
   try {
     await projectApi.deleteProject(id)
     message.success('删除成功')
