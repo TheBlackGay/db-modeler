@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.db.modeler.mapper.DatabaseConfigMapper">
+    <resultMap id="DatabaseConfigMap" type="com.db.modeler.entity.DatabaseConfig">
+        <id property="id" column="id" typeHandler="com.db.modeler.mapper.typehandler.UUIDTypeHandler"/>
+        <result property="projectId" column="project_id" typeHandler="com.db.modeler.mapper.typehandler.UUIDTypeHandler"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="host" column="host"/>
+        <result property="port" column="port"/>
+        <result property="databaseName" column="database_name"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="type" column="type" typeHandler="com.db.modeler.mapper.typehandler.DatabaseTypeHandler"/>
+        <result property="status" column="status" typeHandler="com.db.modeler.mapper.typehandler.DatabaseConfigStatusHandler"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, project_id, name, description, host, port, database_name, username, password,
+        type, status, created_at, updated_at
+    </sql>
+
+    <insert id="insertDatabaseConfig" parameterType="com.db.modeler.entity.DatabaseConfig">
+        INSERT INTO database_configs (
+            id, project_id, name, description, host, port, database_name, username, password,
+            type, status, created_at, updated_at
+        ) VALUES (
+            #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler},
+            #{projectId,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler},
+            #{name}, #{description}, #{host}, #{port}, #{databaseName}, #{username}, #{password},
+            #{type,typeHandler=com.db.modeler.mapper.typehandler.DatabaseTypeHandler},
+            #{status,typeHandler=com.db.modeler.mapper.typehandler.DatabaseConfigStatusHandler},
+            #{createdAt}, #{updatedAt}
+        )
+    </insert>
+
+    <select id="findDatabaseConfigById" resultMap="DatabaseConfigMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM database_configs
+        WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </select>
+
+    <select id="findAllDatabaseConfigs" resultMap="DatabaseConfigMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM database_configs
+        WHERE status != 'DELETED'
+    </select>
+
+    <select id="findDatabaseConfigsByProjectId" resultMap="DatabaseConfigMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM database_configs
+        WHERE project_id = #{projectId,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+        AND status != 'DELETED'
+    </select>
+
+    <update id="updateDatabaseConfig" parameterType="com.db.modeler.entity.DatabaseConfig">
+        UPDATE database_configs
+        SET project_id = #{projectId,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler},
+            name = #{name},
+            description = #{description},
+            host = #{host},
+            port = #{port},
+            database_name = #{databaseName},
+            username = #{username},
+            password = #{password},
+            type = #{type,typeHandler=com.db.modeler.mapper.typehandler.DatabaseTypeHandler},
+            status = #{status,typeHandler=com.db.modeler.mapper.typehandler.DatabaseConfigStatusHandler},
+            updated_at = #{updatedAt}
+        WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </update>
+
+    <update id="deleteDatabaseConfig">
+        UPDATE database_configs
+        SET status = 'DELETED',
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </update>
+
+    <update id="deleteDatabaseConfigsByProjectId">
+        UPDATE database_configs
+        SET status = 'DELETED',
+            updated_at = CURRENT_TIMESTAMP
+        WHERE project_id = #{projectId,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </update>
+</mapper>
