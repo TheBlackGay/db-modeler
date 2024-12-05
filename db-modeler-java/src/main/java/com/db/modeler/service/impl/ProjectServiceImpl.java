@@ -2,7 +2,7 @@ package com.db.modeler.service.impl;
 
 import com.db.modeler.entity.Project;
 import com.db.modeler.entity.Tenant;
-import com.db.modeler.mapper.ProjectMapper;
+import com.db.modeler.repository.ProjectRepository;
 import com.db.modeler.service.ProjectService;
 import com.db.modeler.service.TenantService;
 import com.db.modeler.exception.ResourceNotFoundException;
@@ -21,7 +21,7 @@ import java.util.UUID;
 public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
-    private ProjectMapper projectMapper;
+    private ProjectRepository projectRepository;
 
     @Autowired
     private TenantService tenantService;
@@ -41,13 +41,13 @@ public class ProjectServiceImpl implements ProjectService {
         project.setStatus(Project.Status.ACTIVE);
         project.setCreatedAt(new Date());
         project.setUpdatedAt(new Date());
-        projectMapper.insertProject(project);
+        projectRepository.save(project);
         return project;
     }
 
     @Override
     public Project getProjectById(UUID id) {
-        Project project = projectMapper.findProjectById(id);
+        Project project = projectRepository.findById(id);
         if (project == null) {
             throw new ResourceNotFoundException("Project not found with id: " + id);
         }
@@ -56,67 +56,47 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Project> getAllProjects() {
-        return projectMapper.findAllProjects();
+        return projectRepository.findByTenantId(null);
     }
 
     @Override
     public List<Project> getProjectsByTenantId(UUID tenantId) {
-        // Verify tenant exists
-        tenantService.getTenantById(tenantId);
-        return projectMapper.findProjectsByTenantId(tenantId);
+        return projectRepository.findByTenantId(tenantId);
     }
 
     @Override
     @Transactional
     public Project updateProject(Project project) {
-        if (project.getId() == null) {
-            throw new ValidationException("Project ID cannot be null");
-        }
+        validateProject(project);
         
-        // Check if project exists
         Project existingProject = getProjectById(project.getId());
         
-        // Verify tenant exists and is active
-        Tenant tenant = tenantService.getTenantById(project.getTenantId());
-        if (tenant.getStatus() != Tenant.Status.ACTIVE) {
-            throw new IllegalOperationException("Cannot update project for inactive tenant");
-        }
+        // Update fields
+        existingProject.setName(project.getName());
+        existingProject.setDescription(project.getDescription());
+        existingProject.setStatus(project.getStatus());
+        existingProject.setUpdatedAt(new Date());
         
-        validateProject(project);
-        project.setUpdatedAt(new Date());
-        projectMapper.updateProject(project);
-        return project;
+        projectRepository.update(existingProject);
+        return existingProject;
     }
 
     @Override
     @Transactional
     public void deleteProject(UUID id) {
         Project project = getProjectById(id);
-        if (project.getStatus() == Project.Status.DELETED) {
-            throw new IllegalOperationException("Project is already deleted");
-        }
-        
-        // Soft delete the project
-        project.setStatus(Project.Status.DELETED);
-        project.setUpdatedAt(new Date());
-        projectMapper.updateProject(project);
+        projectRepository.deleteById(id);
     }
 
     private void validateProject(Project project) {
         if (project == null) {
             throw new ValidationException("Project cannot be null");
         }
-        if (project.getTenantId() == null) {
-            throw new ValidationException("Tenant ID cannot be null");
-        }
         if (!StringUtils.hasText(project.getName())) {
-            throw new ValidationException("Project name cannot be empty");
+            throw new ValidationException("Project name is required");
         }
-        if (project.getName().length() > 100) {
-            throw new ValidationException("Project name cannot exceed 100 characters");
-        }
-        if (project.getDescription() != null && project.getDescription().length() > 500) {
-            throw new ValidationException("Project description cannot exceed 500 characters");
+        if (project.getTenantId() == null) {
+            throw new ValidationException("Tenant ID is required");
         }
     }
 }

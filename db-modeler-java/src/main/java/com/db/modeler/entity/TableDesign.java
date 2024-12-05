@@ -1,37 +1,23 @@
 package com.db.modeler.entity;
 
-import javax.persistence.*;
 import java.util.UUID;
 
-@Entity
-@Table(name = "table_designs")
 public class TableDesign {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false, length = 100)
     private String name;
 
-    @Column
     private String comment;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Type type = Type.TABLE;
 
-    @Column(nullable = false, columnDefinition = "json")
     private String columns;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Status status = Status.DRAFT;
 
-    @Column(columnDefinition = "json")
     private String metadata;
 
-    @Column
     private UUID createdBy;
 
     public enum Type {
@@ -42,5 +28,69 @@ public class TableDesign {
         DRAFT, ACTIVE, ARCHIVED
     }
 
-    // Getters and setters omitted for brevity
+    // Getters
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public String getColumns() {
+        return columns;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public String getMetadata() {
+        return metadata;
+    }
+
+    public UUID getCreatedBy() {
+        return createdBy;
+    }
+
+    // Setters
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public void setColumns(String columns) {
+        this.columns = columns;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
+    }
+
+    public void setCreatedBy(UUID createdBy) {
+        this.createdBy = createdBy;
+    }
 }

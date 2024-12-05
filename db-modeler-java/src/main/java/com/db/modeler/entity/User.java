@@ -1,47 +1,30 @@
 package com.db.modeler.entity;
 
-import javax.persistence.*;
 import java.util.UUID;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "users")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false, length = 50)
     private String username;
 
-    @Column(nullable = false, length = 255)
     private String email;
 
-    @Column(nullable = false, length = 255)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Role role = Role.VIEWER;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Status status = Status.ACTIVE;
 
-    @Column
     private LocalDateTime lastLogin;
 
-    @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @Column
     private String resetCode;
 
-    @Column
     private LocalDateTime resetCodeExpiry;
 
     // Getters and Setters

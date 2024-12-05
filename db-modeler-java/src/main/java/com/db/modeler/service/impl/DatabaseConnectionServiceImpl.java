@@ -4,8 +4,6 @@ import com.db.modeler.config.DynamicDataSourceConfig;
 import com.db.modeler.entity.DatabaseConfig;
 import com.db.modeler.exception.DatabaseConnectionException;
 import com.db.modeler.service.DatabaseConnectionService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
@@ -13,12 +11,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.UUID;
 
-@Slf4j
-@Service
-@RequiredArgsConstructor
 public class DatabaseConnectionServiceImpl implements DatabaseConnectionService {
     
     private final DynamicDataSourceConfig dataSourceConfig;
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DatabaseConnectionServiceImpl.class);
+
+    public DatabaseConnectionServiceImpl(DynamicDataSourceConfig dataSourceConfig) {
+        this.dataSourceConfig = dataSourceConfig;
+    }
 
     @Override
     public DataSource initializeConnection(DatabaseConfig config) {

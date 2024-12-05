@@ -1,34 +1,25 @@
 package com.db.modeler.entity;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
-@Entity
-@Table(name = "tenants")
 public class Tenant {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false, length = 100)
     private String name;
 
-    @Column
+    private String code;
+
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Status status = Status.ACTIVE;
 
-    @Column(name = "created_at")
     private Date createdAt;
 
-    @Column(name = "updated_at")
     private Date updatedAt;
 
     public enum Status {
-        ACTIVE, INACTIVE
+        ACTIVE, INACTIVE, DELETED
     }
 
     // Getters and Setters
@@ -46,6 +37,14 @@ public class Tenant {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getDescription() {

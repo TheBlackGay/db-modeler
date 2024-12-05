@@ -1,47 +1,30 @@
 package com.db.modeler.entity;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
-@Entity
-@Table(name = "db_configs")
 public class Database {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false)
     private UUID userId;
 
-    @Column(nullable = false, length = 100)
     private String name;
 
-    @Column
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, name = "dbType")
     private DbType type;
 
-    @Column(nullable = false)
     private String host;
 
-    @Column(nullable = false)
     private Integer port;
 
-    @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Status status = Status.INACTIVE;
 
-    @Column
     private Date lastSync;
 
     public enum DbType {

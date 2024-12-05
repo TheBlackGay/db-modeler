@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.db.modeler.mapper.TableDesignMapper">
+<mapper namespace="com.db.modeler.repository.TableDesignRepository">
     <resultMap id="TableDesignResultMap" type="com.db.modeler.entity.TableDesign">
         <id property="id" column="id" typeHandler="com.db.modeler.mapper.typehandler.UUIDTypeHandler" />
         <result property="name" column="name" />
@@ -12,7 +12,15 @@
         <result property="createdBy" column="created_by" typeHandler="com.db.modeler.mapper.typehandler.UUIDTypeHandler" />
     </resultMap>
 
-    <insert id="insertTableDesign" parameterType="com.db.modeler.entity.TableDesign">
+    <select id="findById" resultMap="TableDesignResultMap">
+        SELECT * FROM table_designs WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </select>
+
+    <select id="findAll" resultMap="TableDesignResultMap">
+        SELECT * FROM table_designs
+    </select>
+
+    <insert id="save" parameterType="com.db.modeler.entity.TableDesign">
         INSERT INTO table_designs (
             id, name, comment, type, columns, status, metadata, created_by
         ) VALUES (
@@ -27,15 +35,7 @@
         )
     </insert>
 
-    <select id="findTableDesignById" resultMap="TableDesignResultMap">
-        SELECT * FROM table_designs WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
-    </select>
-
-    <select id="findAllTableDesigns" resultMap="TableDesignResultMap">
-        SELECT * FROM table_designs
-    </select>
-
-    <update id="updateTableDesign" parameterType="com.db.modeler.entity.TableDesign">
+    <update id="update" parameterType="com.db.modeler.entity.TableDesign">
         UPDATE table_designs SET
             name = #{name},
             comment = #{comment},
@@ -47,7 +47,7 @@
         WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
     </update>
 
-    <delete id="deleteTableDesign">
+    <delete id="deleteById">
         DELETE FROM table_designs WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
     </delete>
 </mapper>
