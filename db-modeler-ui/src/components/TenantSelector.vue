@@ -31,6 +31,9 @@
         <a-form-item label="租户名称" name="name">
           <a-input v-model:value="formState.name" />
         </a-form-item>
+        <a-form-item label="租户代码" name="code">
+          <a-input v-model:value="formState.code" />
+        </a-form-item>
         <a-form-item label="描述" name="description">
           <a-textarea v-model:value="formState.description" />
         </a-form-item>
@@ -57,11 +60,16 @@ const selectedTenantId = ref<string | null>(globalStore.currentTenant?.id || nul
 const formRef = ref<FormInstance>()
 const formState = ref({
   name: '',
+  code: '',
   description: ''
 })
 
 const rules = {
-  name: [{ required: true, message: '请输入租户名称' }]
+  name: [{ required: true, message: '请输入租户名称' }],
+  code: [
+    { required: true, message: '请输入租户代码' },
+    { pattern: /^[a-z0-9-]+$/, message: '租户代码只能包含小写字母、数字和连字符' }
+  ]
 }
 
 const loadTenants = async () => {
@@ -81,18 +89,28 @@ const loadTenants = async () => {
   }
 }
 
-const handleTenantSelect = async (tenantId: string) => {
-  const tenant = tenants.value.find(t => t.id === tenantId)
-  if (tenant) {
-    globalStore.setCurrentTenant(tenant)
-    selectedTenantId.value = tenantId
-  }
-}
+const debounce = (func, delay) => {
+  let timeout;
+  return function(...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), delay);
+  };
+};
+
+const emit = defineEmits(['tenant-changed']);
+
+const handleTenantSelect = debounce(async (tenantId: string) => {
+  const selectedTenant = tenants.value.find(tenant => tenant.id === tenantId);
+  await globalStore.setCurrentTenant(selectedTenant); // setCurrentTenant 已经包含了加载项目的逻辑
+  selectedTenantId.value = tenantId;
+  emit('tenant-changed', tenantId);
+});
 
 const showCreateModal = () => {
   modalVisible.value = true
   formState.value = {
     name: '',
+    code: '',
     description: ''
   }
 }
@@ -110,7 +128,11 @@ const handleCreateTenant = async () => {
     modalVisible.value = false
     await loadTenants()
     // 自动选择新创建的租户
-    handleTenantSelect(response.data.id)
+    if (response.data.id !== selectedTenantId.value) {
+      selectedTenantId.value = response.data.id
+      globalStore.setCurrentTenant(response.data)
+      await globalStore.loadProjectsForTenant(response.data.id);
+    }
   } catch (error) {
     if (error instanceof Error) {
       message.error(error.message)

@@ -15,6 +15,7 @@
         <template v-if="column.key === 'action'">
           <a-space>
             <a-button type="link" @click="handleEdit(record)">编辑</a-button>
+            <a-button type="link" @click="handleDesign(record)">设计</a-button>
             <a-popconfirm
               title="确定要删除这个项目吗？"
               @confirm="handleDelete(record.id)"
@@ -49,13 +50,18 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { message } from 'ant-design-vue'
+import { useRouter } from 'vue-router'
 import type { Project } from '../api/project'
 import { projectApi } from '../api/project'
 import { useGlobalStore } from '../stores/global'
+import { storeToRefs } from 'pinia'
 
+const router = useRouter()
+console.log('Router:', router)
 const globalStore = useGlobalStore()
+const { projects, currentTenant } = storeToRefs(globalStore)
 
 const columns = [
   {
@@ -79,14 +85,14 @@ const columns = [
   },
 ]
 
-const projects = ref<Project[]>([])
 const loading = ref(false)
 const modalVisible = ref(false)
 const modalMode = ref<'create' | 'edit'>('create')
+const currentProjectId = ref<string>('')
 const formState = ref({
   name: '',
   description: '',
-  tenantId: globalStore.currentTenant?.id
+  tenantId: currentTenant.value?.id
 })
 
 const rules = {
@@ -94,23 +100,23 @@ const rules = {
 }
 
 const loadProjects = async () => {
-  if (!globalStore.currentTenant?.id) {
-    message.error('请先选择租户')
-    return
+  if (!currentTenant.value?.id) {
+    message.error('请先选择租户');
+    return;
   }
-  loading.value = true
+  loading.value = true;
   try {
-    const response = await projectApi.getProjects(globalStore.currentTenant.id)
-    projects.value = response.data
+    await globalStore.loadProjectsForTenant(currentTenant.value.id);
+    console.log('加载的项目:', projects.value);
   } catch (error) {
-    message.error('加载项目列表失败')
+    message.error('加载项目列表失败');
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const showCreateModal = () => {
-  if (!globalStore.currentTenant?.id) {
+  if (!currentTenant.value?.id) {
     message.error('请先选择租户')
     return
   }
@@ -118,13 +124,14 @@ const showCreateModal = () => {
   formState.value = {
     name: '',
     description: '',
-    tenantId: globalStore.currentTenant.id
+    tenantId: currentTenant.value.id
   }
   modalVisible.value = true
 }
 
 const handleEdit = (record: Project) => {
   modalMode.value = 'edit'
+  currentProjectId.value = record.id
   formState.value = {
     name: record.name,
     description: record.description,
@@ -133,29 +140,53 @@ const handleEdit = (record: Project) => {
   modalVisible.value = true
 }
 
+const handleDesign = (record: Project) => {
+  globalStore.$patch((state) => {
+    state.currentProject = record;
+  });
+  router.push({
+    name: 'model',
+    params: { id: record.id }
+  });
+};
+
 const handleDelete = async (id: string) => {
   try {
-    await projectApi.deleteProject(id)
-    message.success('删除成功')
-    loadProjects()
+    await projectApi.deleteProject(id);
+    message.success('删除成功');
+    // 重新加载项目列表
+    await globalStore.loadProjectsForTenant(currentTenant.value?.id || '');
   } catch (error) {
-    message.error('删除失败')
+    message.error('删除失败');
   }
 }
 
 const handleModalOk = async () => {
   try {
     if (modalMode.value === 'create') {
-      await projectApi.createProject(formState.value)
-      message.success('创建成功')
+      // 获取当前租户 ID
+      const tenantId = currentTenant.value?.id;
+      if (!tenantId) {
+        message.error('请先选择租户');
+        return;
+      }
+      // 将租户 ID 添加到 formState
+      const projectData = { ...formState.value, tenantId };
+      await projectApi.createProject(projectData);
+      message.success('创建成功');
     } else {
-      // await projectApi.updateProject(currentId, formState.value)
-      message.success('更新成功')
+      if (!currentProjectId.value) {
+        message.error('项目ID不存在');
+        return;
+      }
+      await projectApi.updateProject(currentProjectId.value, formState.value);
+      message.success('更新成功');
     }
-    modalVisible.value = false
-    loadProjects()
+    modalVisible.value = false;
+    // 重新加载项目列表
+    await globalStore.loadProjectsForTenant(currentTenant.value?.id || '');
   } catch (error) {
-    message.error(modalMode.value === 'create' ? '创建失败' : '更新失败')
+    message.error(modalMode.value === 'create' ? '创建失败' : '更新失败');
   }
 }
 

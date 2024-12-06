@@ -22,6 +22,16 @@ export const projectApi = {
     })
   },
 
+  getProjectsByTenantId(tenantId: string) {
+    return http.get<Project[]>('/api/projects', {
+      params: { tenantId }
+    });
+  },
+
+  getProjectById(id: string) {
+    return http.get<Project>(`/api/projects/${id}`)
+  },
+
   createProject(data: CreateProjectRequest) {
     return http.post<Project>('/api/projects', data)
   },
