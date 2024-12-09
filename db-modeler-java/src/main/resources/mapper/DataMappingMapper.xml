@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.db.modeler.mapper.DataMappingMapper">
+    <!-- Result Map -->
+    <resultMap id="DataMappingResultMap" type="com.db.modeler.entity.DataMapping">
+        <id property="id" column="id" typeHandler="com.db.modeler.mapper.typehandler.UUIDTypeHandler" />
+        <result property="name" column="name" />
+        <result property="description" column="description" />
+        <result property="type" column="type" />
+        <result property="sourceType" column="source_type" />
+        <result property="targetType" column="target_type" />
+        <result property="status" column="status" />
+        <result property="configuration" column="configuration" />
+        <result property="mappingRules" column="mapping_rules" />
+        <result property="schedule" column="schedule" />
+        <result property="lastExecutionTime" column="last_execution_time" />
+        <result property="nextExecutionTime" column="next_execution_time" />
+        <result property="executionCount" column="execution_count" />
+        <result property="successCount" column="success_count" />
+        <result property="failureCount" column="failure_count" />
+        <result property="isActive" column="is_active" />
+    </resultMap>
+
+    <!-- Insert -->
+    <insert id="insertDataMapping" parameterType="com.db.modeler.entity.DataMapping">
+        INSERT INTO data_mappings (
+            id, name, description, type, source_type, target_type, status, configuration, 
+            mapping_rules, schedule, last_execution_time, next_execution_time, 
+            execution_count, success_count, failure_count, is_active
+        ) VALUES (
+            #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler},
+            #{name},
+            #{description},
+            #{type},
+            #{sourceType},
+            #{targetType},
+            #{status},
+            #{configuration},
+            #{mappingRules},
+            #{schedule},
+            #{lastExecutionTime},
+            #{nextExecutionTime},
+            #{executionCount},
+            #{successCount},
+            #{failureCount},
+            #{isActive}
+        )
+    </insert>
+
+    <!-- Select by ID -->
+    <select id="findDataMappingById" resultMap="DataMappingResultMap">
+        SELECT * FROM data_mappings 
+        WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </select>
+
+    <!-- Select All -->
+    <select id="findAllDataMappings" resultMap="DataMappingResultMap">
+        SELECT * FROM data_mappings
+    </select>
+
+    <!-- Update -->
+    <update id="updateDataMapping" parameterType="com.db.modeler.entity.DataMapping">
+        UPDATE data_mappings SET
+            name = #{name},
+            description = #{description},
+            type = #{type},
+            source_type = #{sourceType},
+            target_type = #{targetType},
+            status = #{status},
+            configuration = #{configuration},
+            mapping_rules = #{mappingRules},
+            schedule = #{schedule},
+            last_execution_time = #{lastExecutionTime},
+            next_execution_time = #{nextExecutionTime},
+            execution_count = #{executionCount},
+            success_count = #{successCount},
+            failure_count = #{failureCount},
+            is_active = #{isActive}
+        WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </update>
+
+    <!-- Delete -->
+    <delete id="deleteDataMapping">
+        DELETE FROM data_mappings 
+        WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </delete>
+</mapper>

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -94,5 +95,13 @@ public class UserServiceImpl implements UserService {
             logger.error("Error deleting user with ID {}: {}", userId, e.getMessage(), e);
             throw new RuntimeException("Failed to delete user", e);
         }
+    }
+
+    @Override
+    public List<User> searchUsers(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            return Collections.emptyList();
+        }
+        return userMapper.searchUsers("%" + query.trim() + "%");
     }
 }

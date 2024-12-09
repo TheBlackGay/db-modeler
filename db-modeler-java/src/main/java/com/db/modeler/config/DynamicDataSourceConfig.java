@@ -30,22 +30,13 @@ public class DynamicDataSourceConfig {
         hikariConfig.setMaxLifetime(1200000); // 20 minutes
         
         // Set driver class name based on database type
-        switch (config.getType()) {
-            case MYSQL:
-                hikariConfig.setDriverClassName("com.mysql.cj.jdbc.Driver");
-                break;
-            case POSTGRESQL:
-                hikariConfig.setDriverClassName("org.postgresql.Driver");
-                break;
-            case ORACLE:
-                hikariConfig.setDriverClassName("oracle.jdbc.OracleDriver");
-                break;
-            case SQLSERVER:
-                hikariConfig.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported database type: " + config.getType());
-        }
+        String driverClassName = switch (config.getType()) {
+            case MYSQL -> "com.mysql.cj.jdbc.Driver";
+            case POSTGRESQL -> "org.postgresql.Driver";
+            case ORACLE -> "oracle.jdbc.OracleDriver";
+            case SQLSERVER -> "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+        };
+        hikariConfig.setDriverClassName(driverClassName);
         
         // Create and store the data source
         HikariDataSource dataSource = new HikariDataSource(hikariConfig);
@@ -66,21 +57,15 @@ public class DynamicDataSourceConfig {
     }
 
     private String buildJdbcUrl(DatabaseConfig config) {
-        switch (config.getType()) {
-            case MYSQL:
-                return String.format("jdbc:mysql://%s:%d/%s", 
-                    config.getHost(), config.getPort(), config.getDatabaseName());
-            case POSTGRESQL:
-                return String.format("jdbc:postgresql://%s:%d/%s",
-                    config.getHost(), config.getPort(), config.getDatabaseName());
-            case ORACLE:
-                return String.format("jdbc:oracle:thin:@%s:%d:%s",
-                    config.getHost(), config.getPort(), config.getDatabaseName());
-            case SQLSERVER:
-                return String.format("jdbc:sqlserver://%s:%d;databaseName=%s",
-                    config.getHost(), config.getPort(), config.getDatabaseName());
-            default:
-                throw new IllegalArgumentException("Unsupported database type: " + config.getType());
-        }
+        return switch (config.getType()) {
+            case MYSQL -> String.format("jdbc:mysql://%s:%d/%s", 
+                config.getHost(), config.getPort(), config.getDatabaseName());
+            case POSTGRESQL -> String.format("jdbc:postgresql://%s:%d/%s",
+                config.getHost(), config.getPort(), config.getDatabaseName());
+            case ORACLE -> String.format("jdbc:oracle:thin:@%s:%d:%s",
+                config.getHost(), config.getPort(), config.getDatabaseName());
+            case SQLSERVER -> String.format("jdbc:sqlserver://%s:%d;databaseName=%s",
+                config.getHost(), config.getPort(), config.getDatabaseName());
+        };
     }
 }

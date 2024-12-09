@@ -43,21 +43,22 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import type { FormInstance } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import type { Tenant } from '../api/tenant'
 import { tenantApi } from '../api/tenant'
 import { useGlobalStore } from '../stores/global'
+import { ApiResponseUtil } from '../types/api'
 
 const globalStore = useGlobalStore()
-const tenants = ref<Tenant[]>([])
+const formRef = ref<FormInstance>()
 const loading = ref(false)
 const creating = ref(false)
 const modalVisible = ref(false)
-const selectedTenantId = ref<string | null>(globalStore.currentTenant?.id || null)
+const tenants = ref<Tenant[]>([])
+const selectedTenantId = ref<string>('')
 
-const formRef = ref<FormInstance>()
 const formState = ref({
   name: '',
   code: '',
@@ -65,49 +66,60 @@ const formState = ref({
 })
 
 const rules = {
-  name: [{ required: true, message: '请输入租户名称' }],
-  code: [
-    { required: true, message: '请输入租户代码' },
-    { pattern: /^[a-z0-9-]+$/, message: '租户代码只能包含小写字母、数字和连字符' }
-  ]
+  name: [{ required: true, message: '请输入租户名称', trigger: 'blur' }],
+  code: [{ required: true, message: '请输入租户代码', trigger: 'blur' }]
 }
 
 const loadTenants = async () => {
   loading.value = true
   try {
     const response = await tenantApi.getTenants()
-    tenants.value = response.data
-    // 如果有租户且没有选中的租户，自动选择第一个
-    if (tenants.value.length > 0 && !selectedTenantId.value) {
-      selectedTenantId.value = tenants.value[0].id
-      globalStore.setCurrentTenant(tenants.value[0])
+    console.log('Tenant API response:', response)
+    
+    if (ApiResponseUtil.isSuccess(response)) {
+      const data = ApiResponseUtil.getListData(response)
+      tenants.value = data
+      console.log('Loaded tenants:', tenants.value)
+    } else {
+      console.error('Failed to load tenants:', response.message)
+      message.error('加载租户列表失败：' + ApiResponseUtil.getErrorMsg(response))
+      tenants.value = []
     }
-  } catch (error) {
-    message.error('加载租户列表失败')
+  } catch (error: any) {
+    console.error('Failed to load tenants:', error)
+    message.error('加载租户列表失败：' + (error.message || '未知错误'))
+    tenants.value = []
   } finally {
     loading.value = false
   }
 }
 
-const debounce = (func, delay) => {
-  let timeout;
-  return function(...args) {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(this, args), delay);
-  };
-};
+const emit = defineEmits(['tenant-changed'])
 
-const emit = defineEmits(['tenant-changed']);
-
-const handleTenantSelect = debounce(async (tenantId: string) => {
-  const selectedTenant = tenants.value.find(tenant => tenant.id === tenantId);
-  await globalStore.setCurrentTenant(selectedTenant); // setCurrentTenant 已经包含了加载项目的逻辑
-  selectedTenantId.value = tenantId;
-  emit('tenant-changed', tenantId);
-});
+const handleTenantSelect = async (tenantId: string) => {
+  const selectedTenant = tenants.value.find(tenant => tenant.id === tenantId)
+  if (selectedTenant) {
+    try {
+      await globalStore.setCurrentTenant(selectedTenant)
+      emit('tenant-changed', selectedTenant)
+    } catch (error) {
+      console.error('设置当前租户失败:', error)
+      message.error('设置当前租户失败')
+    }
+  }
+}
 
 const showCreateModal = () => {
+  formState.value = {
+    name: '',
+    code: '',
+    description: ''
+  }
   modalVisible.value = true
+}
+
+const handleCancel = () => {
+  modalVisible.value = false
   formState.value = {
     name: '',
     code: '',
@@ -115,34 +127,50 @@ const showCreateModal = () => {
   }
 }
 
-const handleCancel = () => {
-  modalVisible.value = false
-}
-
 const handleCreateTenant = async () => {
   try {
     await formRef.value?.validate()
     creating.value = true
-    const response = await tenantApi.createTenant(formState.value)
-    message.success('创建成功')
-    modalVisible.value = false
-    await loadTenants()
-    // 自动选择新创建的租户
-    if (response.data.id !== selectedTenantId.value) {
-      selectedTenantId.value = response.data.id
-      globalStore.setCurrentTenant(response.data)
-      await globalStore.loadProjectsForTenant(response.data.id);
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      message.error(error.message)
+    
+    const response = await tenantApi.createTenant({
+      name: formState.value.name,
+      code: formState.value.code,
+      description: formState.value.description
+    })
+
+    if (ApiResponseUtil.isSuccess(response)) {
+      const newTenant = ApiResponseUtil.getDetailData(response)
+      if (newTenant) {
+        message.success('创建租户成功')
+        modalVisible.value = false
+        await loadTenants()
+        
+        // 自动选择新创建的租户
+        selectedTenantId.value = newTenant.id
+        await handleTenantSelect(newTenant.id)
+      }
     } else {
-      message.error('创建失败')
+      throw new Error(ApiResponseUtil.getErrorMsg(response))
     }
+  } catch (error: any) {
+    console.error('Failed to create tenant:', error)
+    message.error(error.message || '创建租户失败')
   } finally {
     creating.value = false
   }
 }
+
+onBeforeUnmount(() => {
+  // 清理组件本地状态
+  tenants.value = []
+  selectedTenantId.value = ''
+  modalVisible.value = false
+  loading.value = false
+  creating.value = false
+  
+  // 清理全局状态
+  globalStore.clearState()
+})
 
 onMounted(() => {
   loadTenants()

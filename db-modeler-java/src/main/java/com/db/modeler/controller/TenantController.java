@@ -1,5 +1,6 @@
 package com.db.modeler.controller;
 
+import com.db.modeler.common.ApiResponse;
 import com.db.modeler.entity.Tenant;
 import com.db.modeler.service.TenantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,40 +21,60 @@ public class TenantController {
     private TenantService tenantService;
 
     @PostMapping
-    public ResponseEntity<Tenant> createTenant(@RequestBody Tenant tenant) {
+    public ApiResponse<Tenant> createTenant(@RequestBody Tenant tenant) {
         if (!isValidTenant(tenant)) {
-            return ResponseEntity.badRequest().build();
+            return ApiResponse.error("Invalid tenant data");
         }
-        Tenant createdTenant = tenantService.createTenant(tenant);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdTenant);
+        try {
+            Tenant createdTenant = tenantService.createTenant(tenant);
+            return ApiResponse.success(createdTenant);
+        } catch (Exception e) {
+            return ApiResponse.error("Failed to create tenant: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Tenant> getTenantById(@PathVariable UUID id) {
-        Tenant tenant = tenantService.getTenantById(id);
-        return ResponseEntity.ok(tenant);
+    public ApiResponse<Tenant> getTenantById(@PathVariable UUID id) {
+        try {
+            Tenant tenant = tenantService.getTenantById(id);
+            return ApiResponse.success(tenant);
+        } catch (Exception e) {
+            return ApiResponse.error("Failed to get tenant: " + e.getMessage());
+        }
     }
 
     @GetMapping
-    public ResponseEntity<List<Tenant>> getAllTenants() {
-        List<Tenant> tenants = tenantService.getAllTenants();
-        return ResponseEntity.ok(tenants);
+    public ApiResponse<List<Tenant>> getAllTenants() {
+        try {
+            List<Tenant> tenants = tenantService.getAllTenants();
+            return ApiResponse.success(tenants);
+        } catch (Exception e) {
+            return ApiResponse.error("Failed to get tenants: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Tenant> updateTenant(@PathVariable UUID id, @RequestBody Tenant tenant) {
+    public ApiResponse<Tenant> updateTenant(@PathVariable UUID id, @RequestBody Tenant tenant) {
         if (!isValidTenant(tenant)) {
-            return ResponseEntity.badRequest().build();
+            return ApiResponse.error("Invalid tenant data");
         }
-        tenant.setId(id);
-        Tenant updatedTenant = tenantService.updateTenant(tenant);
-        return ResponseEntity.ok(updatedTenant);
+        try {
+            tenant.setId(id);
+            Tenant updatedTenant = tenantService.updateTenant(tenant);
+            return ApiResponse.success(updatedTenant);
+        } catch (Exception e) {
+            return ApiResponse.error("Failed to update tenant: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTenant(@PathVariable UUID id) {
-        tenantService.deleteTenant(id);
-        return ResponseEntity.noContent().build();
+    public ApiResponse<Void> deleteTenant(@PathVariable UUID id) {
+        try {
+            tenantService.deleteTenant(id);
+            return ApiResponse.success(null);
+        } catch (Exception e) {
+            return ApiResponse.error("Failed to delete tenant: " + e.getMessage());
+        }
     }
 
     private boolean isValidTenant(Tenant tenant) {

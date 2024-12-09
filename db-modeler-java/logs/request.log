@@ -1,0 +1,716 @@
+2024-12-09 09:22:45.646 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 09:22:45.649 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 09:22:45.673 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 09:22:45.675 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 09:22:45.683 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 09:22:45.685 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 12:25:19.696 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 12:25:19.718 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 12:25:19.767 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 12:25:19.770 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 12:29:31.288 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 12:29:31.292 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 12:29:31.315 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 12:29:31.318 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 12:35:57.772 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 12:35:57.772 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 12:35:57.784 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 12:35:57.784 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 12:36:29.641 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 12:36:29.646 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 12:36:29.656 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 12:36:29.659 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:25:21.222 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:25:21.227 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:25:21.258 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:25:21.261 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:33:12.390 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:33:12.393 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:33:12.426 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:33:12.428 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:33:14.037 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:33:14.046 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:33:14.072 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:33:14.075 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:33:20.037 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:33:20.042 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:33:20.108 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:33:20.111 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:33:23.975 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:33:23.992 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:33:24.005 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:33:24.010 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:33:31.378 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:33:31.382 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:33:31.416 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:33:31.417 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:33:36.971 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:33:36.974 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:33:58.032 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:33:58.036 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:34:04.562 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:34:04.569 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:34:04.613 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:34:04.620 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:36:22.765 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:36:22.772 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:36:22.776 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:36:22.783 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:36:22.786 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:36:22.786 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:36:22.790 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:36:22.791 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:36:22.813 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:36:22.835 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:37:48.334 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:37:48.337 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:37:48.351 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:37:48.354 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 13:37:48.363 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 13:37:48.368 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:03:31.690 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:03:31.695 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:03:32.097 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:03:32.101 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:03:32.103 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:03:32.105 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:03:32.470 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:03:32.473 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:21:42.629 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:21:42.631 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:21:42.641 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:21:42.643 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:21:42.648 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:21:42.650 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:33:16.723 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:33:16.734 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:33:16.747 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:33:16.749 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:33:16.756 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:33:16.758 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:35:21.223 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:35:21.232 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:35:21.270 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:35:21.272 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:35:21.281 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:35:21.283 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:35:28.989 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:35:28.999 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:35:29.012 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:35:29.014 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:35:29.021 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:35:29.023 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:35:30.924 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:35:30.928 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:35:30.944 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:35:30.946 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:35:30.951 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:35:30.953 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:37:51.388 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:37:51.397 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:37:51.402 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:37:51.408 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:37:51.414 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:37:51.416 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:37:54.564 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:37:54.565 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:37:54.581 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:37:54.582 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:37:54.588 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:37:54.591 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:38:05.205 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:38:05.217 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:38:05.225 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:38:05.228 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:38:05.231 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:38:05.235 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:38:05.237 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:38:05.242 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:38:05.243 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:38:05.246 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:38:05.249 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:38:05.253 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:49:18.984 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:49:18.987 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:49:18.997 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:49:19.001 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:49:19.008 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:49:19.010 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:56:01.931 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:56:01.933 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:56:01.940 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:56:01.942 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 14:56:01.948 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 14:56:01.949 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:00:03.641 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to create table design: com.db.modeler.entity.TableDesign@2a2edeb3
+2024-12-09 15:00:03.648 [http-nio-8010-exec-2] ERROR c.d.m.c.TableDesignController - Error creating table design: com.db.modeler.entity.TableDesign@2a2edeb3
+com.db.modeler.exception.ValidationException: Table code is required
+	at com.db.modeler.service.impl.TableDesignServiceImpl.validateTableDesign(TableDesignServiceImpl.java:220)
+	at com.db.modeler.service.impl.TableDesignServiceImpl.createTableDesign(TableDesignServiceImpl.java:37)
+	at com.db.modeler.service.impl.TableDesignServiceImpl$$FastClassBySpringCGLIB$$7263a5e3.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:793)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:388)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:708)
+	at com.db.modeler.service.impl.TableDesignServiceImpl$$EnhancerBySpringCGLIB$$5f016daf.createTableDesign(<generated>)
+	at com.db.modeler.controller.TableDesignController.createTableDesign(TableDesignController.java:28)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:681)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:111)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:327)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:115)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:81)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:122)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:126)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:81)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:109)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:149)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:112)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:82)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:890)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2024-12-09 15:02:45.677 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to create table design: com.db.modeler.entity.TableDesign@1da18089
+2024-12-09 15:02:45.716 [http-nio-8010-exec-4] ERROR c.d.m.c.TableDesignController - Error creating table design: com.db.modeler.entity.TableDesign@1da18089
+org.springframework.dao.DataIntegrityViolationException: 
+### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'project_id' cannot be null
+### The error may exist in file [/Users/zhongjiafeng/Desktop/5000_Project/ai-project/db-modeler/db-modeler-java/target/classes/mapper/TableDesignMapper.xml]
+### The error may involve com.db.modeler.repository.TableDesignRepository.save-Inline
+### The error occurred while setting parameters
+### SQL: INSERT INTO table_designs (             id, project_id, code, display_name, type, domain, comment, created_at, updated_at         ) VALUES (             ?, ?, ?, ?, ?, ?, ?, ?, ?         )
+### Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'project_id' cannot be null
+; Column 'project_id' cannot be null; nested exception is java.sql.SQLIntegrityConstraintViolationException: Column 'project_id' cannot be null
+	at org.springframework.jdbc.support.SQLExceptionSubclassTranslator.doTranslate(SQLExceptionSubclassTranslator.java:87)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:91)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:441)
+	at jdk.proxy2/jdk.proxy2.$Proxy81.insert(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.insert(SqlSessionTemplate.java:272)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:62)
+	at org.apache.ibatis.binding.MapperProxy$PlainMethodInvoker.invoke(MapperProxy.java:145)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:86)
+	at jdk.proxy2/jdk.proxy2.$Proxy96.save(Unknown Source)
+	at com.db.modeler.service.impl.TableDesignServiceImpl.createTableDesign(TableDesignServiceImpl.java:48)
+	at com.db.modeler.service.impl.TableDesignServiceImpl$$FastClassBySpringCGLIB$$7263a5e3.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:793)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:388)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:708)
+	at com.db.modeler.service.impl.TableDesignServiceImpl$$EnhancerBySpringCGLIB$$5f016daf.createTableDesign(<generated>)
+	at com.db.modeler.controller.TableDesignController.createTableDesign(TableDesignController.java:28)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:681)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:111)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:327)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:115)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:81)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:122)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:126)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:81)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:109)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:149)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:112)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:82)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:890)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.sql.SQLIntegrityConstraintViolationException: Column 'project_id' cannot be null
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:117)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:953)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:371)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at jdk.internal.reflect.GeneratedMethodAccessor91.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.apache.ibatis.logging.jdbc.PreparedStatementLogger.invoke(PreparedStatementLogger.java:59)
+	at jdk.proxy3/jdk.proxy3.$Proxy113.execute(Unknown Source)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.update(PreparedStatementHandler.java:47)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.update(RoutingStatementHandler.java:74)
+	at org.apache.ibatis.executor.SimpleExecutor.doUpdate(SimpleExecutor.java:50)
+	at org.apache.ibatis.executor.BaseExecutor.update(BaseExecutor.java:117)
+	at org.apache.ibatis.executor.CachingExecutor.update(CachingExecutor.java:76)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:194)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.insert(DefaultSqlSession.java:181)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:427)
+	... 114 common frames omitted
+2024-12-09 15:03:25.976 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 15:03:25.999 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:03:26.011 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 15:03:26.013 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:03:26.034 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 15:03:26.036 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:03:29.491 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 15:03:29.494 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:03:29.504 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 15:03:29.506 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:03:29.511 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 15:03:29.514 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:05:45.795 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to create table design: com.db.modeler.entity.TableDesign@1230126d
+2024-12-09 15:05:45.812 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully created table design with ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:05:53.057 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 15:05:53.060 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:05:53.090 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 15:05:53.093 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:05:53.107 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 15:05:53.113 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:07:14.221 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 15:07:14.229 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:07:14.242 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 15:07:14.245 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:07:14.247 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 15:07:14.248 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:07:14.251 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 15:07:14.253 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:07:14.255 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 15:07:14.259 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:07:14.262 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get all table designs
+2024-12-09 15:07:14.264 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:08:26.194 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:08:26.197 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:08:26.201 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:08:26.202 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:28:49.296 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:28:49.297 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:28:49.310 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:28:49.310 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:28:49.316 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:28:49.324 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:28:49.340 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:28:49.345 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:32:03.606 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:32:03.606 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:32:03.610 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:32:03.610 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:32:03.646 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:32:03.655 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:32:03.662 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:32:03.664 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:39:50.793 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:39:50.793 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:39:50.797 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:39:50.800 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:39:50.818 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:39:50.820 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:39:50.827 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:39:50.832 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:40:00.246 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:40:00.248 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:40:00.257 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:40:00.262 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:40:00.263 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:40:00.271 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:40:00.286 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:40:00.294 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:40:20.988 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:40:20.993 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:40:21.000 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:40:21.000 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:40:21.019 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:40:21.024 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:40:21.034 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:40:21.043 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:41:13.016 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:41:13.016 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:41:13.019 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:41:13.023 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:41:13.028 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:41:13.034 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:41:13.054 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:41:13.056 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:41:20.042 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:41:20.051 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:41:20.059 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:41:20.059 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:41:20.080 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:41:20.084 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:41:20.092 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:41:20.098 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:42:14.613 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:42:14.622 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:52:22.782 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:52:22.784 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:52:22.791 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:52:22.791 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:52:22.805 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:52:22.810 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:52:22.820 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:52:22.824 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:52:58.853 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:52:58.857 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:52:58.893 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:52:58.897 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:52:58.901 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:52:58.905 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:52:58.907 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:52:58.911 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:52:58.914 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:52:58.915 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:52:58.920 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:52:58.922 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:52:58.924 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:52:58.925 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:53:03.053 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:53:03.066 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:53:03.073 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:53:03.076 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:53:03.085 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:53:03.088 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:55:07.898 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:55:07.909 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:55:07.921 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:55:07.926 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:55:07.935 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:55:07.948 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:56:10.587 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:56:10.588 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:56:10.594 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:56:10.601 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:56:10.604 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:56:10.605 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:56:10.616 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:56:10.616 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:56:10.618 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:56:10.620 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:56:10.622 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:56:10.624 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:56:10.629 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:56:10.631 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:56:10.634 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:56:10.637 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:56:28.965 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:56:28.966 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:56:28.976 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:56:28.979 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:56:28.987 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:56:28.991 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:56:28.999 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:56:29.002 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:56:30.110 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:56:30.120 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:57:05.028 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:05.028 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:57:05.145 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:57:05.263 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:05.278 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:05.303 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:05.313 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:57:05.323 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:57:35.015 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:35.016 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:57:35.027 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 15:57:35.027 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:35.029 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:35.037 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:35.043 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:57:35.047 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:57:38.393 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:38.393 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:57:38.401 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:38.401 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:57:38.404 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:38.408 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:38.415 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:57:38.417 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:57:55.307 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:55.308 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:57:55.332 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:55.332 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:57:55.341 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:55.342 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:57:55.354 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:55.358 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:57:55.358 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:55.367 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:57:55.373 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:55.376 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:55.378 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:57:55.382 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:57:55.387 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 15:57:55.388 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:57:55.396 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 15:57:55.400 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 15:58:49.050 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:58:49.065 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:58:49.070 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 15:58:49.076 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 16:01:11.738 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:01:11.740 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 16:01:11.997 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 16:01:12.013 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:01:12.017 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:01:12.037 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:01:12.046 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 16:01:12.054 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 16:01:15.696 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:01:15.696 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 16:01:15.713 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:01:15.720 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 16:01:15.726 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:01:15.730 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:01:15.739 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 16:01:15.742 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 16:01:30.403 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 16:01:30.406 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:01:30.408 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 16:01:30.409 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:01:30.422 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:01:30.452 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:01:30.461 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 16:01:30.464 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 16:01:47.535 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to create table design: com.db.modeler.entity.TableDesign@74bb0b36
+2024-12-09 16:01:47.553 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully created table design with ID: 50027481-0895-4d19-bc55-ea3ad651d0f0
+2024-12-09 16:01:56.035 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:01:56.044 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 16:01:56.047 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:01:56.047 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 16:01:56.061 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:01:56.063 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:01:56.075 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 16:01:56.081 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 16:03:11.371 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 16:03:11.376 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 16:03:11.443 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:03:11.447 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:03:11.543 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 16:03:11.545 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 16:03:11.565 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:03:11.568 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:03:11.725 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:03:11.728 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:03:11.755 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:03:11.759 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:03:11.859 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 16:03:11.862 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 16:03:11.883 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 16:03:11.885 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 16:03:40.269 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 16:03:40.279 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 77e1514f-8e28-462a-8662-ba1dc4129fdd
+2024-12-09 16:06:03.117 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:06:03.117 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: 50027481-0895-4d19-bc55-ea3ad651d0f0
+2024-12-09 16:06:03.134 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:06:03.141 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: 50027481-0895-4d19-bc55-ea3ad651d0f0
+2024-12-09 16:06:03.142 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:06:03.157 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:06:03.165 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:06:03.172 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:06:03.184 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 16:06:03.190 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 16:07:19.821 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:07:19.832 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:07:19.835 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:07:19.840 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:07:41.223 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 16:07:41.229 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 16:08:14.705 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.714 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.744 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.762 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.782 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.789 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.792 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.799 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.802 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.806 [http-nio-8010-exec-2] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.808 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.810 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.812 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.814 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.815 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.817 [http-nio-8010-exec-3] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.819 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.825 [http-nio-8010-exec-1] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.827 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.831 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.832 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.837 [http-nio-8010-exec-4] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.839 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.841 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 16:08:14.842 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:08:14.843 [http-nio-8010-exec-9] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 16:08:14.856 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 16:08:14.858 [http-nio-8010-exec-8] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs
+2024-12-09 16:17:23.701 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:17:23.701 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get table design by ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 16:17:23.718 [http-nio-8010-exec-10] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:17:23.741 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved table design with ID: d18c5825-dcc3-4006-ae10-f073be57552f
+2024-12-09 16:17:23.743 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:17:23.753 [http-nio-8010-exec-7] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:17:23.759 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:17:23.761 [http-nio-8010-exec-5] INFO  c.d.m.c.TableDesignController - Successfully retrieved table designs for project: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61
+2024-12-09 16:17:23.769 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Received request to get table designs, projectId: null
+2024-12-09 16:17:23.774 [http-nio-8010-exec-6] INFO  c.d.m.c.TableDesignController - Successfully retrieved all table designs

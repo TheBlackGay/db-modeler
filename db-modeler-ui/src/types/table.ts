@@ -1,37 +1,54 @@
-export interface Field {
+export interface TableField {
   id: string
   name: string
   type: string
   length?: number
-  isPrimary: boolean
-  isNull?: boolean
+  scale?: number
+  nullable: boolean
+  primaryKey: boolean
+  autoIncrement: boolean
   defaultValue?: string
   comment?: string
 }
 
 export interface Table {
   id: string
-  name: string
+  code: string
+  displayName: string
   comment?: string
-  projectId: string
-  x?: number
-  y?: number
-  fields: Field[]
-  createdAt?: string
-  updatedAt?: string
+  type: 'TABLE' | 'VIEW'
+  domain: 'BUSINESS' | 'SYSTEM'
+  fields: TableField[]
+  createTime: string
+  updateTime: string
 }
 
-export interface Diagram {
-  id: string
-  name: string
+export interface CreateTableRequest {
+  code: string
+  displayName: string
+  comment?: string
+  type: 'TABLE' | 'VIEW'
+  domain: 'BUSINESS' | 'SYSTEM'
   projectId: string
-  tables: Table[]
-  createdAt?: string
-  updatedAt?: string
 }
 
-export interface TablePosition {
+export interface UpdateTableRequest {
   id: string
-  x: number
-  y: number
+  code?: string
+  displayName?: string
+  comment?: string
+  type?: 'TABLE' | 'VIEW'
+  domain?: 'BUSINESS' | 'SYSTEM'
+  fields?: TableField[]
+}
+
+export interface TableListItem {
+  id: string
+  code: string
+  displayName: string
+  comment?: string
+  type: 'TABLE' | 'VIEW'
+  domain: 'BUSINESS' | 'SYSTEM'
+  fieldCount: number
+  updateTime: string
 }

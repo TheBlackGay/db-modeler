@@ -8,6 +8,8 @@ import com.db.modeler.service.TenantService;
 import com.db.modeler.exception.ResourceNotFoundException;
 import com.db.modeler.exception.ValidationException;
 import com.db.modeler.exception.IllegalOperationException;
+import com.db.modeler.common.PageResult;
+import com.db.modeler.common.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,6 +88,25 @@ public class ProjectServiceImpl implements ProjectService {
     public void deleteProject(UUID id) {
         Project project = getProjectById(id);
         projectRepository.deleteById(id);
+    }
+
+    @Override
+    public PageResult<Project> getProjectsPage(UUID tenantId, int current, int pageSize) {
+        int offset = (current - 1) * pageSize;
+        List<Project> projects = projectRepository.findByTenantIdWithPaging(tenantId, offset, pageSize);
+        long total = projectRepository.countByTenantId(tenantId);
+        
+        PageInfo pageInfo = new PageInfo();
+        pageInfo.setCurrent(current);
+        pageInfo.setPageSize(pageSize);
+        pageInfo.setTotal(total);
+        pageInfo.setTotalPages((int) Math.ceil((double) total / pageSize));
+
+        PageResult<Project> pageResult = new PageResult<>();
+        pageResult.setRecords(projects);
+        pageResult.setPageInfo(pageInfo);
+        
+        return pageResult;
     }
 
     private void validateProject(Project project) {

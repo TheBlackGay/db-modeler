@@ -10,4 +10,10 @@ public interface UserService {
     List<User> getAllUsers();
     User updateUser(User user);
     void deleteUser(UUID userId);
+    /**
+     * 搜索用户
+     * @param query 搜索关键词（用户名或邮箱）
+     * @return 匹配的用户列表
+     */
+    List<User> searchUsers(String query);
 }

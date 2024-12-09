@@ -9,16 +9,16 @@ public class DatabaseConfig {
     private String name;
     private String description;
     private String host;
-    private Integer port;
+    private int port;
     private String databaseName;
     private String username;
     private String password;
-    private DatabaseType type;
+    private Type type;
     private Status status;
     private Date createdAt;
     private Date updatedAt;
 
-    public enum DatabaseType {
+    public enum Type {
         MYSQL,
         POSTGRESQL,
         ORACLE,
@@ -72,11 +72,11 @@ public class DatabaseConfig {
         this.host = host;
     }
 
-    public Integer getPort() {
+    public int getPort() {
         return port;
     }
 
-    public void setPort(Integer port) {
+    public void setPort(int port) {
         this.port = port;
     }
 
@@ -104,11 +104,11 @@ public class DatabaseConfig {
         this.password = password;
     }
 
-    public DatabaseType getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(DatabaseType type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

@@ -17,4 +17,7 @@ public interface ProjectRepository {
     void save(Project project);
     void update(Project project);
     void deleteById(UUID id);
+
+    List<Project> findByTenantIdWithPaging(@Param("tenantId") UUID tenantId, @Param("offset") int offset, @Param("pageSize") int pageSize);
+    long countByTenantId(@Param("tenantId") UUID tenantId);
 }

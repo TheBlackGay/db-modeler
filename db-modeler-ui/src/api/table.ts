@@ -1,5 +1,5 @@
-import http from '../utils/http'
-import type { Table, Field, Diagram } from '@/types/table'
+import { http } from '../utils/http'
+import type { Table, Field, Diagram, CreateTableRequest, UpdateTableRequest, TableListItem } from '@/types/table'
 
 export interface CreateTableRequest {
   name: string
@@ -31,24 +31,24 @@ export interface UpdateDiagramRequest {
 }
 
 // 表格相关接口
-export const getTables = (projectId: string) => {
-  return http.get<Table[]>(`/api/projects/${projectId}/tables`)
+export const getTableList = (projectId: string) => {
+  return http.get<TableListItem[]>(`/api/table-designs?projectId=${projectId}`)
 }
 
-export const getTable = (tableId: string) => {
-  return http.get<Table>(`/api/tables/${tableId}`)
+export const getTableDetail = (projectId: string, tableId: string) => {
+  return http.get<Table>(`/api/table-designs/${tableId}`)
 }
 
 export const createTable = (data: CreateTableRequest) => {
-  return http.post<Table>(`/api/projects/${data.projectId}/tables`, data)
+  return http.post<Table>('/api/table-designs', data)
 }
 
 export const updateTable = (data: UpdateTableRequest) => {
-  return http.put<Table>(`/api/tables/${data.id}`, data)
+  return http.put<Table>(`/api/table-designs/${data.id}`, data)
 }
 
-export const deleteTable = (tableId: string) => {
-  return http.delete(`/api/tables/${tableId}`)
+export const deleteTable = (projectId: string, tableId: string) => {
+  return http.delete(`/api/table-designs/${tableId}`)
 }
 
 // 关系图相关接口

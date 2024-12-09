@@ -92,11 +92,28 @@ public class UserController {
         }
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<?> searchUsers(@RequestParam String query) {
+        try {
+            logger.info("Searching users with query: {}", query);
+            List<User> users = userService.searchUsers(query);
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            logger.error("Error searching users: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError()
+                .body(new ErrorResponse("Failed to search users: " + e.getMessage()));
+        }
+    }
+
     private static class ErrorResponse {
-        private final String message;
+        private String message;
 
         public ErrorResponse(String message) {
             this.message = message;
+        }
+
+        public ErrorResponse() {
+            this.message = null;
         }
 
         public String getMessage() {

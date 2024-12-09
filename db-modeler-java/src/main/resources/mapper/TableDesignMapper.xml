@@ -1,53 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.db.modeler.repository.TableDesignRepository">
-    <resultMap id="TableDesignResultMap" type="com.db.modeler.entity.TableDesign">
-        <id property="id" column="id" typeHandler="com.db.modeler.mapper.typehandler.UUIDTypeHandler" />
-        <result property="name" column="name" />
-        <result property="comment" column="comment" />
-        <result property="type" column="type" />
-        <result property="columns" column="columns" />
-        <result property="status" column="status" />
-        <result property="metadata" column="metadata" />
-        <result property="createdBy" column="created_by" typeHandler="com.db.modeler.mapper.typehandler.UUIDTypeHandler" />
+    <resultMap id="TableDesignMap" type="com.db.modeler.entity.TableDesign">
+        <id property="id" column="id" jdbcType="OTHER" javaType="java.util.UUID"/>
+        <result property="projectId" column="project_id" jdbcType="OTHER" javaType="java.util.UUID"/>
+        <result property="code" column="code"/>
+        <result property="displayName" column="display_name"/>
+        <result property="type" column="type"/>
+        <result property="domain" column="domain"/>
+        <result property="comment" column="comment"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
     </resultMap>
 
-    <select id="findById" resultMap="TableDesignResultMap">
-        SELECT * FROM table_designs WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    <select id="findById" resultMap="TableDesignMap">
+        SELECT * FROM table_designs WHERE id = #{id}
     </select>
 
-    <select id="findAll" resultMap="TableDesignResultMap">
+    <select id="findAll" resultMap="TableDesignMap">
         SELECT * FROM table_designs
+    </select>
+
+    <select id="findByProjectIdAndCode" resultMap="TableDesignMap">
+        SELECT * FROM table_designs
+        WHERE project_id = #{projectId} AND code = #{code}
+    </select>
+
+    <select id="findByProjectId" resultMap="TableDesignMap">
+        SELECT * FROM table_designs
+        WHERE project_id = #{projectId}
     </select>
 
     <insert id="save" parameterType="com.db.modeler.entity.TableDesign">
         INSERT INTO table_designs (
-            id, name, comment, type, columns, status, metadata, created_by
+            id, project_id, code, display_name, type, domain, comment, created_at, updated_at
         ) VALUES (
-            #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler},
-            #{name},
-            #{comment},
-            #{type},
-            #{columns},
-            #{status},
-            #{metadata},
-            #{createdBy,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+            #{id}, #{projectId}, #{code}, #{displayName}, #{type}, #{domain}, #{comment}, #{createdAt}, #{updatedAt}
         )
     </insert>
 
     <update id="update" parameterType="com.db.modeler.entity.TableDesign">
-        UPDATE table_designs SET
-            name = #{name},
-            comment = #{comment},
+        UPDATE table_designs
+        SET
+            code = #{code},
+            display_name = #{displayName},
             type = #{type},
-            columns = #{columns},
-            status = #{status},
-            metadata = #{metadata},
-            created_by = #{createdBy,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
-        WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+            domain = #{domain},
+            comment = #{comment},
+            updated_at = #{updatedAt}
+        WHERE id = #{id}
     </update>
 
     <delete id="deleteById">
-        DELETE FROM table_designs WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+        DELETE FROM table_designs WHERE id = #{id}
     </delete>
 </mapper>

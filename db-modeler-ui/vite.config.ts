@@ -11,6 +11,19 @@ export default defineConfig({
   },
   server: {
     port: 3001,
-    cors: true
+    cors: true,
+    fs: {
+      strict: false
+    },
+    hmr: {
+      overlay: false
+    }
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
+    }
+  }
 })

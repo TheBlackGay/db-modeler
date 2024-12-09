@@ -121,6 +121,54 @@
         </template>
       </a-table>
     </a-card>
+
+    <div class="toolbar" style="margin-top: 24px">
+      <a-space>
+        <a-button type="primary" @click="handleSyncAll" :loading="syncing">
+          同步所有表
+        </a-button>
+        <a-button @click="handlePreviewAll" :loading="previewing">
+          预览所有DDL
+        </a-button>
+      </a-space>
+    </div>
+
+    <a-table
+      :columns="columns"
+      :data-source="tables"
+      :loading="loading"
+      :pagination="false"
+      row-key="id"
+      style="margin-top: 16px"
+    >
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'status'">
+          <a-tag :color="record.synced ? 'green' : 'orange'">
+            {{ record.synced ? '已同步' : '未同步' }}
+          </a-tag>
+        </template>
+        <template v-if="column.key === 'action'">
+          <a-space>
+            <a-button type="link" @click="handlePreviewDDL(record)">
+              预览DDL
+            </a-button>
+            <a-button 
+              type="link" 
+              @click="handleSync(record)"
+              :disabled="record.synced"
+            >
+              同步
+            </a-button>
+          </a-space>
+        </template>
+      </template>
+    </a-table>
+
+    <DDLPreviewDialog
+      v-model:visible="previewVisible"
+      :tableId="selectedTableId"
+      style="margin-top: 16px"
+    />
   </div>
 </template>
 
@@ -130,6 +178,8 @@ import { message } from 'ant-design-vue'
 import type { FormInstance } from 'ant-design-vue'
 import { useGlobalStore } from '../../stores/global'
 import { storeToRefs } from 'pinia'
+import DDLPreviewDialog from '@/components/DDLPreviewDialog.vue'
+import { getTableDesigns, syncTableToDatabase, syncAllTablesToDatabase } from '@/api/tableDesign'
 
 const globalStore = useGlobalStore()
 const { currentProject } = storeToRefs(globalStore)
@@ -137,6 +187,8 @@ const { currentProject } = storeToRefs(globalStore)
 const formRef = ref<FormInstance>()
 const testing = ref(false)
 const saving = ref(false)
+const syncing = ref(false)
+const previewing = ref(false)
 
 interface FormState {
   dbType: string
@@ -187,6 +239,42 @@ const connectionHistory = ref([
   }
 ])
 
+const columns = [
+  {
+    title: '表名',
+    dataIndex: 'code',
+    key: 'code',
+  },
+  {
+    title: '显示名称',
+    dataIndex: 'displayName',
+    key: 'displayName',
+  },
+  {
+    title: '类型',
+    dataIndex: 'type',
+    key: 'type',
+  },
+  {
+    title: '所属域',
+    dataIndex: 'domain',
+    key: 'domain',
+  },
+  {
+    title: '状态',
+    key: 'status',
+  },
+  {
+    title: '操作',
+    key: 'action',
+  },
+]
+
+const tables = ref([])
+const loading = ref(false)
+const previewVisible = ref(false)
+const selectedTableId = ref('')
+
 const testConnection = async () => {
   try {
     await formRef.value?.validate()
@@ -231,9 +319,55 @@ const deleteHistory = (record: any) => {
   message.success('删除成功')
 }
 
+const handleSync = async (table: any) => {
+  try {
+    await syncTableToDatabase(table.id)
+    message.success(`表 ${table.code} 同步成功`)
+    loadTables() // 刷新列表
+  } catch (error: any) {
+    message.error(error.message || `表 ${table.code} 同步失败`)
+  }
+}
+
+const handleSyncAll = async () => {
+  try {
+    syncing.value = true
+    await syncAllTablesToDatabase()
+    message.success('所有表同步成功')
+    loadTables() // 刷新列表
+  } catch (error: any) {
+    message.error(error.message || '同步失败')
+  } finally {
+    syncing.value = false
+  }
+}
+
+const handlePreviewDDL = (table: any) => {
+  selectedTableId.value = table.id
+  previewVisible.value = true
+}
+
+const handlePreviewAll = () => {
+  selectedTableId.value = ''
+  previewVisible.value = true
+}
+
+const loadTables = async () => {
+  loading.value = true
+  try {
+    const response = await getTableDesigns()
+    tables.value = response.data
+  } catch (error: any) {
+    message.error(error.message || '加载表格列表失败')
+  } finally {
+    loading.value = false
+  }
+}
+
 onMounted(() => {
   console.log('DataConfig mounted, current project:', currentProject.value)
   // TODO: 加载已保存的配置
+  loadTables()
 })
 </script>
 
@@ -255,5 +389,11 @@ onMounted(() => {
 
 :deep(.ant-form-item-label) {
   font-weight: 500;
+}
+
+.toolbar {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
