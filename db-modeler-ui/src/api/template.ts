@@ -1,5 +1,5 @@
 import { http } from '@/utils/http';
-import type { ApiResponse } from '@/types/api';
+import type { ListResponse } from '@/types/api';
 
 export interface FieldTemplate {
   id?: string;
@@ -20,39 +20,35 @@ export interface FieldTemplate {
 
 // 获取字段模板列表
 export const getTemplates = () => {
-  return http.get<ApiResponse<FieldTemplate[]>>('/api/field-templates');
+  return http.get<ListResponse<FieldTemplate>>('/api/field-templates');
 };
 
 // 获取字段模板详情
 export const getTemplateById = (id: string) => {
-  return http.get<ApiResponse<FieldTemplate>>(`/api/field-templates/${id}`);
+  return http.get<FieldTemplate>(`/api/field-templates/${id}`);
 };
 
 // 创建字段模板
 export const createTemplate = (template: FieldTemplate) => {
-  return http.post<ApiResponse<FieldTemplate>>('/api/field-templates', template);
+  return http.post<FieldTemplate>('/api/field-templates', template);
 };
 
 // 更新字段模板
 export const updateTemplate = (id: string, template: FieldTemplate) => {
-  return http.put<ApiResponse<FieldTemplate>>(`/api/field-templates/${id}`, template);
+  return http.put<FieldTemplate>(`/api/field-templates/${id}`, template);
 };
 
 // 删除字段模板
 export const deleteTemplate = (id: string) => {
-  return http.delete<ApiResponse<void>>(`/api/field-templates/${id}`);
+  return http.delete<void>(`/api/field-templates/${id}`);
 };
 
+// 根据分类获取模板
 export const getTemplatesByCategory = (categoryId: string) => {
-  return request({
-    url: `/api/field-templates/category/${categoryId}`,
-    method: 'get'
-  });
+  return http.get<ListResponse<FieldTemplate>>(`/api/field-templates/category/${categoryId}`);
 };
 
+// 根据标签获取模板
 export const getTemplatesByTag = (tagId: string) => {
-  return request({
-    url: `/api/field-templates/tag/${tagId}`,
-    method: 'get'
-  });
+  return http.get<ListResponse<FieldTemplate>>(`/api/field-templates/tag/${tagId}`);
 };
