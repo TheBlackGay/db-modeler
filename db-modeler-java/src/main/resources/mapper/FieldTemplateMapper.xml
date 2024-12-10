@@ -14,7 +14,7 @@
         <result property="defaultValue" column="default_value"/>
         <result property="comment" column="comment"/>
         <result property="category" column="category"/>
-        <result property="tags" column="tags" typeHandler="com.db.modeler.typehandler.JsonTypeHandler"/>
+        <result property="tags" column="tags" typeHandler="com.db.modeler.typehandler.ListStringJsonTypeHandler"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
 
@@ -43,7 +43,7 @@
         ) VALUES (
             #{id}, #{name}, #{fieldName}, #{dataType}, #{length}, #{precision},
             #{nullable}, #{primaryKey}, #{autoIncrement}, #{defaultValue},
-            #{comment}, #{category}, #{tags,typeHandler=com.db.modeler.typehandler.JsonTypeHandler}, #{createTime}
+            #{comment}, #{category}, #{tags,typeHandler=com.db.modeler.typehandler.ListStringJsonTypeHandler}, #{createTime}
         )
     </insert>
 
@@ -60,7 +60,7 @@
             default_value = #{defaultValue},
             comment = #{comment},
             category = #{category},
-            tags = #{tags,typeHandler=com.db.modeler.typehandler.JsonTypeHandler}
+            tags = #{tags,typeHandler=com.db.modeler.typehandler.ListStringJsonTypeHandler}
         WHERE id = #{id}
     </update>
 

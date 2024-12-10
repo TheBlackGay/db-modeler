@@ -233,8 +233,9 @@
 import { ref, provide, watch, computed, onMounted, onUnmounted, shallowRef, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
-import { saveTableDesign } from '@/api/project'
-import { getTableDesignById as fetchTableDesign } from '@/api/project'
+import { saveTableDesign, getTableDesignById } from '@/api/project'
+import { useGlobalStore } from '@/stores/global'
+import { getEngineOptions, getCharsetOptions, getCollateOptions } from '@/config/database'
 import { 
   SaveOutlined, 
   SyncOutlined, 
@@ -247,13 +248,11 @@ import {
   PartitionOutlined
 } from '@ant-design/icons-vue'
 import { useDebounceFn } from '@vueuse/core'
-import TableBasicInfo from './components/TableBasicInfo.vue'
 import FieldList from './components/FieldList.vue'
 import IndexList from './components/IndexList.vue'
+import TableBasicForm from './components/TableBasicForm.vue'
 import PartitionSettingsModal from './components/PartitionSettingsModal.vue'
 import TableTemplateModal from './components/TableTemplateModal.vue'
-import { useGlobalStore } from '@/stores/global'
-import { getEngineOptions, getCharsetOptions, getCollateOptions } from '@/config/database'
 
 interface TableInfo {
   id?: string
@@ -680,7 +679,7 @@ const loadTableDesign = async (tableId: string) => {
       return
     }
 
-    const response = await fetchTableDesign(tableId)
+    const response = await getTableDesignById(tableId)
     console.log('Response data:', response?.data)
     
     if (response?.data) {
@@ -810,7 +809,7 @@ onUnmounted(() => {
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .table-design {
   height: 100%;
   display: flex;

@@ -36,7 +36,7 @@ const router = createRouter({
             {
               path: 'tables/:tableId/design',
               name: 'table-design',
-              component: () => import('../views/design/model/TableDesign.vue')
+              component: () => import(/* webpackChunkName: "table-design" */ '../views/design/model/TableDesign.vue')
             },
             {
               path: 'entities',
@@ -87,7 +87,7 @@ const router = createRouter({
         }
       ]
     }
-  ],
+  ]
 })
 
 export default router

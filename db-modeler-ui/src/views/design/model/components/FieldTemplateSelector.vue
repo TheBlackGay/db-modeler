@@ -413,18 +413,12 @@ onMounted(async () => {
 });
 
 // 方法
-const handleTemplateSelect = (template: any) => {
-  if (Array.isArray(template)) {
-    // 处理批量选择
-    template.forEach(t => {
-      const selectedField = createSelectedField(t);
-      selectedPreviewFields.value.push(selectedField);
-    });
-  } else {
-    // 处理单个选择
+const handleTemplateSelect = (templates: FieldTemplate[]) => {
+  // 处理批量选择
+  templates.forEach(template => {
     const selectedField = createSelectedField(template);
     selectedPreviewFields.value.push(selectedField);
-  }
+  });
 };
 
 const handlePreview = async (template: Template) => {
@@ -853,7 +847,7 @@ const handleCopyTemplate = async (template: FieldTemplate) => {
 };
 
 // 抽取字段创建逻辑
-const createSelectedField = (template: any) => {
+const createSelectedField = (template: FieldTemplate) => {
   return {
     name: template.fieldName,
     displayName: template.name,

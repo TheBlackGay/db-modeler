@@ -149,42 +149,71 @@ const loadProjects = async () => {
 
 const handleModalOk = async () => {
   try {
+    // 表单验证
+    await formRef.value?.validate();
+    
     if (modalMode.value === 'create') {
-      const tenantId = currentTenant.value?.id
+      const tenantId = currentTenant.value?.id;
       if (!tenantId) {
-        message.error('请先选择租户')
-        return
+        message.error('请先选择租户');
+        return;
       }
-      const projectData = { ...formState.value, tenantId }
-      const response = await projectApi.createProject(projectData)
+
+      // 验证项目数据
+      if (!formState.value.name?.trim()) {
+        message.error('项目名称不能为空');
+        return;
+      }
+
+      const projectData = {
+        name: formState.value.name.trim(),
+        description: formState.value.description?.trim(),
+        tenantId
+      };
+
+      const response = await projectApi.createProject(projectData);
       
       if (ApiResponseUtil.isSuccess(response)) {
-        message.success('创建成功')
-        modalVisible.value = false
-        await loadProjects()
+        message.success('创建成功');
+        modalVisible.value = false;
+        formState.value = { name: '', description: '' };
+        await loadProjects();
       } else {
-        throw new Error(ApiResponseUtil.getErrorMsg(response))
+        throw new Error(ApiResponseUtil.getErrorMsg(response));
       }
     } else {
       if (!currentProjectId.value) {
-        message.error('项目ID不存在')
-        return
+        message.error('项目ID不存在');
+        return;
       }
-      const response = await projectApi.updateProject(currentProjectId.value, formState.value)
+
+      // 验证更新数据
+      if (!formState.value.name?.trim()) {
+        message.error('项目名称不能为空');
+        return;
+      }
+
+      const updateData = {
+        name: formState.value.name.trim(),
+        description: formState.value.description?.trim()
+      };
+
+      const response = await projectApi.updateProject(currentProjectId.value, updateData);
       
       if (ApiResponseUtil.isSuccess(response)) {
-        message.success('更新成功')
-        modalVisible.value = false
-        await loadProjects()
+        message.success('更新成功');
+        modalVisible.value = false;
+        formState.value = { name: '', description: '' };
+        await loadProjects();
       } else {
-        throw new Error(ApiResponseUtil.getErrorMsg(response))
+        throw new Error(ApiResponseUtil.getErrorMsg(response));
       }
     }
   } catch (error: any) {
-    console.error('Operation failed:', error)
-    message.error(error.message || (modalMode.value === 'create' ? '创建失败' : '更新失败'))
+    console.error('Operation failed:', error);
+    message.error(error.message || (modalMode.value === 'create' ? '创建失败' : '更新失败'));
   }
-}
+};
 
 const handleDelete = async (id: string) => {
   try {
