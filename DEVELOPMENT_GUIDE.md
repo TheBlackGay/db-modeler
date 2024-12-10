@@ -18,6 +18,50 @@
 - [9. 前后端协作开发流程](#9-前后端协作开发流程)
 - [10. 数据库配置模块](#10-数据库配置模块)
 
+## 最新更新
+- 添加了 JSON 类型处理器的使用说明
+- 更新了存储引擎验证规范
+- 完善了错误处理指南
+
+## JSON 数据处理
+### 类型处理器
+项目使用自定义的 `JsonTypeHandler` 处理 JSON 数据：
+
+```java
+@MappedTypes(Object.class)
+public class JsonTypeHandler extends BaseTypeHandler<Object> {
+    // ... 实现细节 ...
+}
+```
+
+### 使用方式
+1. 在实体类中：
+```java
+public class TableDesign {
+    private String columns;     // JSON格式的列定义
+    private String metadata;    // JSON格式的元数据
+    
+    // Getters and Setters
+}
+```
+
+2. 在 MyBatis 映射文件中：
+```xml
+<result property="columns" column="columns" typeHandler="com.db.modeler.typehandler.JsonTypeHandler"/>
+<result property="metadata" column="metadata" typeHandler="com.db.modeler.typehandler.JsonTypeHandler"/>
+```
+
+### 存储引擎验证
+在进行存储引擎验证时，使用不区分大小写的比较：
+```java
+private void validateEngine(String engine) {
+    List<String> validEngines = Arrays.asList("InnoDB", "MyISAM", "Memory", "CSV", "Archive");
+    if (!validEngines.stream().anyMatch(e -> e.equalsIgnoreCase(engine))) {
+        throw new ValidationException("Invalid storage engine: " + engine);
+    }
+}
+```
+
 ## 1. 开发环境配置
 
 ### 必需环境
@@ -679,7 +723,7 @@ Close #123
    - 注意性能优化
 
 3. **协作配合**
-   - 发现问题及时沟通
+   - ���现问题及时沟通
    - 接口变更及时通知
    - 保持文档更新
    - 遵守开发规范

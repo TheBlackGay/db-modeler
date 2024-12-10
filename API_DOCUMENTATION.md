@@ -1,5 +1,43 @@
 # DB Modeler API 接口文档
 
+## 最新更新
+- 添加了 JSON 类型处理支持
+- 优化了存储引擎验证逻辑
+- 完善了错误处理机制
+
+## 数据类型处理
+### JSON 类型
+在数据库设计中，支持 JSON 类型的字段处理。系统会自动处理 JSON 数据的序列化和反序列化。
+
+#### 示例
+```json
+{
+  "columns": {
+    "fields": [
+      {
+        "name": "id",
+        "type": "INT",
+        "primaryKey": true
+      }
+    ],
+    "indexes": [
+      {
+        "name": "idx_name",
+        "columns": ["name"]
+      }
+    ]
+  }
+}
+```
+
+### 存储引擎
+支持以下存储引擎（大小写不敏感）：
+- InnoDB
+- MyISAM
+- Memory
+- CSV
+- Archive
+
 ## 目录
 1. [认证管理](#认证管理)
    - [用户注册](#post-apiauthregister-用户注册)
@@ -342,7 +380,7 @@
 | ├─ tenantId | string | 是 | 租户ID | test_123456 |
 | ├─ status | string | 是 | 状态 | ACTIVE |
 | ├─ createdAt | string | 是 | 创建时间 | 2024-03-15T10:00:00Z |
-| └─ updatedAt | string | 是 | 更新时间 | 2024-03-15T10:00:00Z |
+| └─ updatedAt | string | 是 | 更新��间 | 2024-03-15T10:00:00Z |
 
 ### GET /api/projects 获取项目列表
 #### 请求参数
