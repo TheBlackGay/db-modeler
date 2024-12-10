@@ -23,26 +23,33 @@ public class FieldTemplateService {
         template.setCreateTime(LocalDateTime.now());
         
         // 保存模板
-        return fieldTemplateRepository.save(template);
+        fieldTemplateRepository.insert(template);
+        return template;
     }
 
     @Transactional
     public FieldTemplate updateTemplate(String id, FieldTemplate template) {
         // 检查模板是否存在
-        FieldTemplate existingTemplate = fieldTemplateRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Template not found: " + id));
+        FieldTemplate existingTemplate = getTemplateById(id);
+        if (existingTemplate == null) {
+            throw new RuntimeException("Template not found: " + id);
+        }
 
         // 更新基本信息
         template.setId(id);
         template.setCreateTime(existingTemplate.getCreateTime());
         
         // 保存更新
-        return fieldTemplateRepository.save(template);
+        fieldTemplateRepository.update(template);
+        return template;
     }
 
     public FieldTemplate getTemplateById(String id) {
-        return fieldTemplateRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Template not found: " + id));
+        FieldTemplate template = fieldTemplateRepository.findById(id);
+        if (template == null) {
+            throw new RuntimeException("Template not found: " + id);
+        }
+        return template;
     }
 
     public List<FieldTemplate> getAllTemplates() {

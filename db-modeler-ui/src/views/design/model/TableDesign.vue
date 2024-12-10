@@ -351,16 +351,27 @@ const templateMode = ref<'save' | 'apply'>('apply')
 const showAdvancedSettings = shallowRef(false)
 
 // 数据库引擎选项
-const engineOptions = computed(() => getEngineOptions(tableInfo.value.dbType))
+const engineOptions = computed(() => {
+  const dbType = tableInfo.value?.dbType || 'MYSQL'
+  return getEngineOptions(dbType)
+})
 
 // 字符集选项
-const charsetOptions = computed(() => getCharsetOptions(tableInfo.value.dbType))
+const charsetOptions = computed(() => {
+  const dbType = tableInfo.value?.dbType || 'MYSQL'
+  return getCharsetOptions(dbType)
+})
 
 // 排序规则选项
-const collationOptions = computed(() => getCollateOptions(tableInfo.value.dbType))
+const collationOptions = computed(() => {
+  const dbType = tableInfo.value?.dbType || 'MYSQL'
+  return getCollateOptions(dbType)
+})
 
 // 监听字符集变化
-watch(() => tableInfo.value.charset, (newCharset) => {
+watch(() => tableInfo.value?.charset, (newCharset) => {
+  if (!tableInfo.value) return
+  
   // 根据字符集自动选择对应的排序规则
   if (newCharset === 'utf8mb4') {
     tableInfo.value.collation = 'utf8mb4_general_ci'
@@ -635,9 +646,40 @@ watch(
   }
 )
 
+// 验证 UUID 格式
+const isValidUUID = (uuid: string) => {
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+  return uuidRegex.test(uuid)
+}
+
 // 加载表设计数据
 const loadTableDesign = async (tableId: string) => {
   try {
+    // 验证 tableId 是否为有效的 UUID
+    if (!tableId || tableId === 'new' || !isValidUUID(tableId)) {
+      // 如果是新建表，初始化默认值
+      tableInfo.value = {
+        name: '',
+        displayName: '',
+        dbType: 'MYSQL',
+        engine: 'InnoDB',
+        charset: 'utf8mb4',
+        collation: 'utf8mb4_general_ci',
+        comment: '',
+        tablespace: '',
+        rowFormat: 'DEFAULT',
+        autoIncrement: 1,
+        projectId: globalStore.currentProject?.id || '',
+        type: 'TABLE',
+        domain: 'BUSINESS',
+        status: 'DRAFT',
+        synced: false
+      }
+      fields.value = []
+      indexes.value = []
+      return
+    }
+
     const response = await fetchTableDesign(tableId)
     console.log('Response data:', response?.data)
     

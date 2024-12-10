@@ -204,14 +204,28 @@ export const databaseConfigs: DatabaseConfig[] = [
   }
 ]
 
-export const getDefaultConfig = (dbType: string): DatabaseConfig | undefined => {
-  const normalizedDbType = dbType.toUpperCase()
-  return databaseConfigs.find(config => config.value === normalizedDbType)
+export const getDefaultConfig = (dbType: string) => {
+  if (!dbType) {
+    console.warn('Database type is undefined, using default MySQL config')
+    return databaseConfigs.find(config => config.value === 'MYSQL')
+  }
+  const type = dbType.toUpperCase()
+  return databaseConfigs.find(config => config.value === type)
 }
 
-export const getDataTypes = (dbType: string): DataType[] => {
-  const config = getDefaultConfig(dbType)
-  return config ? config.dataTypes : []
+export const getDataTypes = (dbType: string) => {
+  if (!dbType) {
+    console.warn('Database type is undefined, using default MySQL data types')
+    return databaseConfigs.find(config => config.value === 'MYSQL')?.dataTypes || []
+  }
+  const type = dbType.toUpperCase()
+  switch (type) {
+    case 'MYSQL':
+      return databaseConfigs.find(config => config.value === 'MYSQL')?.dataTypes || []
+    default:
+      console.warn(`Unknown database type: ${type}, using MySQL data types`)
+      return databaseConfigs.find(config => config.value === 'MYSQL')?.dataTypes || []
+  }
 }
 
 export const getEngineOptions = (dbType: string) => {
@@ -229,7 +243,10 @@ export const getCollateOptions = (dbType: string) => {
   return config?.collateOptions || []
 }
 
-export const getDataTypeConfig = (dbType: string, dataType: string): DataType | undefined => {
+export const getDataTypeConfig = (dbType: string, dataType: string) => {
+  if (!dbType || !dataType) {
+    return undefined
+  }
   const types = getDataTypes(dbType)
   return types.find(type => type.value === dataType.toUpperCase())
 }

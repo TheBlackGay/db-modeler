@@ -15,6 +15,11 @@ public class ApiResponse<T> {
         this.data = data;
     }
 
+    // 成功响应 - 无数据
+    public static ApiResponse<Void> success() {
+        return new ApiResponse<>(0, "success", null);
+    }
+
     // 成功响应 - 详情
     public static <T> ApiResponse<T> success(T data) {
         return new ApiResponse<>(0, "success", data);

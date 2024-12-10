@@ -32,9 +32,6 @@
             </a-popconfirm>
           </a-space>
         </template>
-        <template v-else-if="column.key === 'createdAt'">
-          {{ formatDate(record.createdAt) }}
-        </template>
       </template>
     </a-table>
 
@@ -98,35 +95,53 @@ const rules = {
 
 const loadProjects = async () => {
   if (!currentTenant.value?.id) {
-    console.warn('No tenant selected')
+    console.warn('未选择租户')
+    message.warning('请先选择租户')
     return
   }
   loading.value = true
   try {
-    console.log('Loading projects for tenant:', currentTenant.value.id)
+    console.log('正在加载租户的项目列表:', currentTenant.value.id)
     const response = await projectApi.getProjectsPage(
       currentTenant.value.id,
       pageInfo.value.current,
       pageInfo.value.pageSize
     )
-    console.log('Projects API response:', response)
+    console.log('项目 API 响应:', response)
     
     if (ApiResponseUtil.isSuccess(response)) {
       const data = ApiResponseUtil.getPageData(response)
       if (data) {
-        projects.value = data.records
-        pageInfo.value = data.pageInfo
-        console.log('Loaded projects:', projects.value)
+        projects.value = data.records || []
+        pageInfo.value = {
+          current: data.pageInfo.current || 1,
+          pageSize: data.pageInfo.pageSize || 10,
+          total: data.pageInfo.total || 0,
+          totalPages: data.pageInfo.totalPages || 0
+        }
+        // 同步到全局状态
+        globalStore.$patch({ projects: projects.value })
+        console.log('成功加载项目列表:', projects.value)
+        if (projects.value.length === 0) {
+          message.info('暂无项目数据')
+        }
+      } else {
+        console.warn('API 响应数据为空')
+        message.warning('获取项目列表失败：返回数据为空')
+        projects.value = []
+        globalStore.$patch({ projects: [] })
       }
     } else {
-      console.warn('Failed to load projects:', response.message)
+      console.warn('加载项目失败:', response.message)
       message.error('加载项目列表失败：' + ApiResponseUtil.getErrorMsg(response))
       projects.value = []
+      globalStore.$patch({ projects: [] })
     }
   } catch (error: any) {
-    console.error('Failed to load projects:', error)
+    console.error('加载项目列表出错:', error)
     message.error('加载项目列表失败：' + (error.message || '未知错误'))
     projects.value = []
+    globalStore.$patch({ projects: [] })
   } finally {
     loading.value = false
   }
@@ -236,19 +251,17 @@ const handleEdit = (record: Project) => {
   currentProjectId.value = record.id
   formState.value = {
     name: record.name,
-    description: record.description
+    description: record.description || ''
   }
   modalVisible.value = true
 }
 
 const handleDesign = (record: Project) => {
-  globalStore.$patch((state) => {
-    state.currentProject = record;
-  });
+  globalStore.setCurrentProject(record)
   router.push({
     name: 'model',
     params: { id: record.id }
-  });
+  })
 }
 
 const formatDate = (date: string) => {
@@ -260,17 +273,19 @@ const formattedProjects = computed(() => {
   return projects.value.map(project => ({
     ...project,
     key: project.id,
-    createdAt: project.createdAt || '-',
+    createdAt: formatDate(project.createdAt),
     description: project.description || '-'
   }))
 })
 
+// 监听租户变化
 watch(() => currentTenant.value?.id, (newTenantId) => {
-  console.log('Tenant changed in ProjectList:', newTenantId)
+  console.log('租户变更:', newTenantId)
   if (newTenantId) {
     loadProjects()
   } else {
     projects.value = []
+    globalStore.$patch({ projects: [] })
   }
 }, { immediate: true })
 </script>

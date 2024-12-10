@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.db.modeler.repository.FieldTemplateRepository">
+    <resultMap id="FieldTemplateMap" type="com.db.modeler.model.FieldTemplate">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="fieldName" column="field_name"/>
+        <result property="dataType" column="data_type"/>
+        <result property="length" column="length"/>
+        <result property="precision" column="precision"/>
+        <result property="nullable" column="nullable"/>
+        <result property="primaryKey" column="primary_key"/>
+        <result property="autoIncrement" column="auto_increment"/>
+        <result property="defaultValue" column="default_value"/>
+        <result property="comment" column="comment"/>
+        <result property="category" column="category"/>
+        <result property="tags" column="tags" typeHandler="com.db.modeler.typehandler.JsonTypeHandler"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="FieldTemplateMap">
+        SELECT * FROM field_templates
+    </select>
+
+    <select id="findById" resultMap="FieldTemplateMap">
+        SELECT * FROM field_templates WHERE id = #{id}
+    </select>
+
+    <select id="findByCategory" resultMap="FieldTemplateMap">
+        SELECT * FROM field_templates WHERE category = #{category}
+    </select>
+
+    <select id="findByTagsContaining" resultMap="FieldTemplateMap">
+        SELECT * FROM field_templates 
+        WHERE JSON_CONTAINS(tags, CAST(#{tag} AS JSON), '$')
+    </select>
+
+    <insert id="insert">
+        INSERT INTO field_templates (
+            id, name, field_name, data_type, length, `precision`,
+            nullable, primary_key, auto_increment, default_value,
+            comment, category, tags, create_time
+        ) VALUES (
+            #{id}, #{name}, #{fieldName}, #{dataType}, #{length}, #{precision},
+            #{nullable}, #{primaryKey}, #{autoIncrement}, #{defaultValue},
+            #{comment}, #{category}, #{tags,typeHandler=com.db.modeler.typehandler.JsonTypeHandler}, #{createTime}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE field_templates
+        SET name = #{name},
+            field_name = #{fieldName},
+            data_type = #{dataType},
+            length = #{length},
+            `precision` = #{precision},
+            nullable = #{nullable},
+            primary_key = #{primaryKey},
+            auto_increment = #{autoIncrement},
+            default_value = #{defaultValue},
+            comment = #{comment},
+            category = #{category},
+            tags = #{tags,typeHandler=com.db.modeler.typehandler.JsonTypeHandler}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM field_templates WHERE id = #{id}
+    </delete>
+</mapper> 

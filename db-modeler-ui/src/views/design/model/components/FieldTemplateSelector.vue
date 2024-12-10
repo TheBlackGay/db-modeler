@@ -281,13 +281,13 @@ const emit = defineEmits<{
 const templateStore = useTemplateStore();
 const activeTab = ref('select');
 const searchText = ref('');
-const selectedCategory = ref('all');
+const selectedCategory = ref('ALL');
 const showTemplateForm = ref(false);
 const categories = ref([
-  { label: '全部', value: 'all' },
-  { label: '基础字段', value: TemplateCategory.BASIC },
-  { label: '业务字段', value: TemplateCategory.BUSINESS },
-  { label: '系统字段', value: TemplateCategory.SYSTEM }
+  { label: '全部', value: 'ALL' },
+  { label: '基础字段', value: 'BASIC' },
+  { label: '业务字段', value: 'BUSINESS' },
+  { label: '系统字段', value: 'SYSTEM' }
 ]);
 const templateForm = ref({
   name: '',
@@ -373,8 +373,8 @@ const filteredTemplates = computed(() => {
   let templates = templateStore.templates;
   
   // 按分类筛选
-  if (selectedCategory.value !== 'all') {
-    templates = templates.filter(t => t.category?.id === selectedCategory.value);
+  if (selectedCategory.value !== 'ALL') {
+    templates = templates.filter(t => t.category === selectedCategory.value);
   }
   
   // 按搜索文本筛选
@@ -382,8 +382,8 @@ const filteredTemplates = computed(() => {
     const searchLower = searchText.value.toLowerCase();
     templates = templates.filter(t => 
       t.name.toLowerCase().includes(searchLower) ||
-      t.template.fieldName.toLowerCase().includes(searchLower) ||
-      t.description?.toLowerCase().includes(searchLower)
+      t.fieldName.toLowerCase().includes(searchLower) ||
+      t.comment?.toLowerCase().includes(searchLower)
     );
   }
   
@@ -484,38 +484,61 @@ const resetForm = () => {
   };
 };
 
+// 加载模板列表
+const loadTemplates = async () => {
+  try {
+    await templateStore.loadTemplates()
+  } catch (error) {
+    console.error('加载模板失败:', error)
+    message.error('加载模板失败')
+  }
+}
+
+// 处理模板提交
 const handleTemplateSubmit = async () => {
   try {
-    await templateFormRef.value?.validate();
+    await templateFormRef.value?.validate()
     
-    const template: FieldTemplate = {
-      name: templateForm.value.name,
-      fieldName: templateForm.value.fieldName,
-      dataType: templateForm.value.dataType,
-      length: templateForm.value.length,
-      precision: templateForm.value.precision,
-      nullable: templateForm.value.nullable ?? true,
-      primaryKey: templateForm.value.primaryKey ?? false,
-      autoIncrement: templateForm.value.autoIncrement ?? false,
-      defaultValue: templateForm.value.defaultValue,
-      comment: templateForm.value.comment,
-      category: templateForm.value.category,
-      tags: templateForm.value.tags
-    };
-
-    // 调用后端 API 保存模板
-    const response = await createTemplate(template);
+    // 如果选择了"全部"分类，设置为 null
+    const formData = { ...templateForm.value }
+    if (formData.category === 'ALL') {
+      formData.category = null
+    }
     
-    // 更新本地列表
-    fieldTemplates.value = [...fieldTemplates.value, response.data.result];
-    
-    message.success('模板添加成功');
-    handleTemplateCancel();
-  } catch (error) {
-    console.error('Template validation failed:', error);
-    message.error('模板添加失败');
+    const response = await createTemplate(formData)
+    if (response?.data) {
+      message.success('创建成功')
+      showTemplateForm.value = false
+      // 重置表单
+      templateForm.value = {
+        name: '',
+        fieldName: '',
+        dataType: undefined,
+        length: undefined,
+        precision: undefined,
+        nullable: true,
+        primaryKey: false,
+        autoIncrement: false,
+        defaultValue: '',
+        comment: '',
+        category: undefined,
+        tags: []
+      }
+      // 刷新模板列表
+      await templateStore.loadTemplates()
+    } else {
+      throw new Error('创建失败')
+    }
+  } catch (error: any) {
+    console.error('创建模板失败:', error)
+    message.error(error.message || '创建失败')
   }
-};
+}
+
+// 初始化加载
+onMounted(async () => {
+  await loadTemplates()
+})
 
 const handleEdit = async (template: Template) => {
   try {
@@ -560,9 +583,14 @@ const handleBatchDelete = async () => {
   }
 };
 
-const handleCategoryChange = async (value: string) => {
-  selectedCategory.value = value;
-};
+const handleCategoryChange = (value: string) => {
+  selectedCategory.value = value
+  if (value === 'ALL') {
+    // 显示所有模板
+    return
+  }
+  // 按分类筛选模板
+}
 
 const handleSearch = (value: string) => {
   searchText.value = value;
