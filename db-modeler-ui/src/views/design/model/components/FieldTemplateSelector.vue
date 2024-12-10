@@ -73,81 +73,121 @@
     <a-modal
       v-model:visible="showTemplateForm"
       title="新增字段模板"
+      width="600px"
+      :maskClosable="false"
       @ok="handleTemplateSubmit"
-      @cancel="handleCancel"
+      @cancel="handleTemplateCancel"
     >
       <a-form
         ref="templateFormRef"
         :model="templateForm"
         :rules="templateRules"
-        layout="vertical"
+        :label-col="{ span: 6 }"
+        :wrapper-col="{ span: 16 }"
       >
         <a-form-item label="模板名称" name="name">
-          <a-input v-model:value="templateForm.name" placeholder="请输入模板名称" />
+          <a-input 
+            v-model:value="templateForm.name" 
+            placeholder="请输入模板名称"
+            :maxLength="50"
+            show-count
+          />
         </a-form-item>
 
         <a-form-item label="字段名" name="fieldName">
-          <a-input v-model:value="templateForm.fieldName" placeholder="请输入字段名" />
+          <a-input 
+            v-model:value="templateForm.fieldName" 
+            placeholder="请输入字段名，只能包含字母、数字和下划线"
+            :maxLength="64"
+            show-count
+          />
         </a-form-item>
 
-        <a-form-item label="数据类型" name="dataType">
+        <a-form-item 
+          label="数据类型" 
+          name="dataType"
+          :help="dataTypeHint"
+        >
           <a-select
             v-model:value="templateForm.dataType"
-            :options="dataTypeOptions"
             placeholder="请选择数据类型"
             @change="handleTemplateDataTypeChange"
-          >
-            <template #optionLabel="option">
-              <span>{{ option?.label || '' }}</span>
-              <span v-if="option?.value && getDataTypeConfig(option.value)?.hasLength" style="color: #999">
-                ({{ getDataTypeConfig(option.value)?.maxLength || '∞' }})
-              </span>
-            </template>
-          </a-select>
+            :options="dataTypeOptions"
+          />
         </a-form-item>
 
-        <a-form-item v-if="showTemplateLength" label="长度" name="length">
+        <a-form-item 
+          v-if="showTemplateLength" 
+          label="长度" 
+          name="length"
+          :help="templateForm.dataType === 'decimal' ? '整数位数' : '字段长度'"
+        >
           <a-input-number
             v-model:value="templateForm.length"
             :min="1"
             :max="currentTemplateDataType?.maxLength"
             style="width: 100%"
+            placeholder="请输入长度"
           />
+          <template #extra>
+            <span v-if="currentTemplateDataType?.maxLength">
+              最大允许长度: {{ currentTemplateDataType.maxLength }}
+            </span>
+          </template>
         </a-form-item>
 
-        <a-form-item v-if="showTemplatePrecision" label="精度" name="precision">
+        <a-form-item 
+          v-if="showTemplatePrecision" 
+          label="小数位数" 
+          name="precision"
+          help="小数点后的位数，必须小于字段长度"
+        >
           <a-input-number
             v-model:value="templateForm.precision"
-            :min="1"
-            :max="currentTemplateDataType?.maxLength"
-            style="width: 100%"
-          />
-        </a-form-item>
-
-        <a-form-item v-if="showTemplateScale" label="小数位数" name="scale">
-          <a-input-number
-            v-model:value="templateForm.scale"
             :min="0"
-            :max="currentTemplateDataType?.maxLength"
+            :max="templateForm.length ? templateForm.length - 1 : undefined"
             style="width: 100%"
-          />
-        </a-form-item>
-
-        <a-form-item v-if="showTemplateOptions" label="选项" name="options">
-          <a-select
-            v-model:value="templateForm.options"
-            mode="tags"
-            placeholder="请输入选项"
-            :options="[]"
+            placeholder="请输入小数位数"
           />
         </a-form-item>
 
         <a-form-item label="默认值" name="defaultValue">
-          <a-input v-model:value="templateForm.defaultValue" placeholder="请输入默认值" />
+          <a-input 
+            v-model:value="templateForm.defaultValue" 
+            placeholder="请输入默认值"
+          />
+        </a-form-item>
+
+        <a-form-item label="可空" name="nullable">
+          <a-switch v-model:checked="templateForm.nullable" />
+        </a-form-item>
+
+        <a-form-item label="主键" name="primaryKey">
+          <a-switch 
+            v-model:checked="templateForm.primaryKey"
+            @change="handlePrimaryKeyChange"
+          />
+        </a-form-item>
+
+        <a-form-item 
+          v-if="templateForm.primaryKey" 
+          label="自增" 
+          name="autoIncrement"
+        >
+          <a-switch 
+            v-model:checked="templateForm.autoIncrement"
+            :disabled="!['int', 'bigint'].includes(templateForm.dataType)"
+          />
         </a-form-item>
 
         <a-form-item label="备注" name="comment">
-          <a-textarea v-model:value="templateForm.comment" placeholder="请输入备注" />
+          <a-textarea 
+            v-model:value="templateForm.comment" 
+            placeholder="请输入备注信息"
+            :rows="3"
+            :maxLength="200"
+            show-count
+          />
         </a-form-item>
 
         <a-form-item label="分类" name="category">
@@ -155,6 +195,7 @@
             v-model:value="templateForm.category"
             :options="categories"
             placeholder="请选择分类"
+            allow-clear
           />
         </a-form-item>
 
@@ -162,8 +203,10 @@
           <a-select
             v-model:value="templateForm.tags"
             mode="tags"
-            placeholder="请输入标签"
+            placeholder="请输入标签，回车确认"
             :options="[]"
+            :maxTagCount="5"
+            :maxTagTextLength="20"
           />
         </a-form-item>
       </a-form>
@@ -221,6 +264,9 @@ import GroupList from './template-selector/GroupList.vue';
 import TagManageModal from './template-selector/TagManageModal.vue';
 import CategoryManageModal from './template-selector/CategoryManageModal.vue';
 import GroupFormModal from './template-selector/GroupFormModal.vue';
+import { DATABASE_TYPES } from '@/config/database';
+import { createTemplate, getTemplates, deleteTemplate, updateTemplate } from '@/api/template';
+import type { FieldTemplate } from '@/api/template';
 
 const props = defineProps<{
   modelValue: boolean;
@@ -236,18 +282,26 @@ const activeTab = ref('select');
 const searchText = ref('');
 const selectedCategory = ref('all');
 const showTemplateForm = ref(false);
+const categories = ref([
+  { label: '全部', value: 'all' },
+  { label: '基础字段', value: 'basic' },
+  { label: '业务字段', value: 'business' },
+  { label: '系统字段', value: 'system' }
+]);
 const templateForm = ref({
   name: '',
   fieldName: '',
-  dataType: '',
+  dataType: undefined,
   length: undefined,
   precision: undefined,
   scale: undefined,
-  options: [],
+  nullable: true,
+  primaryKey: false,
+  autoIncrement: false,
   defaultValue: '',
   comment: '',
   category: undefined,
-  tags: [],
+  tags: []
 });
 const templateFormRef = ref();
 const showTagManage = ref(false);
@@ -260,10 +314,57 @@ const displayGroups = ref<any[]>([]);
 const selectedTemplates = ref<string[]>([]);
 const selectedPreviewFields = ref<any[]>([]);
 
+const dataTypeOptions = [
+  { label: 'VARCHAR - 可变长度字符串', value: 'varchar', maxLength: 65535 },
+  { label: 'CHAR - 固定长度字符串', value: 'char', maxLength: 255 },
+  { label: 'TEXT - 长文本', value: 'text' },
+  { label: 'INT - 整数', value: 'int', autoIncrement: true },
+  { label: 'BIGINT - 长整数', value: 'bigint', autoIncrement: true },
+  { label: 'DECIMAL - 定点数', value: 'decimal', maxLength: 65, precision: true },
+  { label: 'DATETIME - 日期时间', value: 'datetime' },
+  { label: 'DATE - 日期', value: 'date' },
+  { label: 'TIME - 时间', value: 'time' },
+  { label: 'BOOLEAN - 布尔值', value: 'boolean' }
+];
+
+// 先定义验证函数
+const validateLength = (_rule: any, value: any) => {
+  const config = getDataTypeConfig(templateForm.value.dataType);
+  if (!config?.maxLength) return Promise.resolve();
+  if (!value && value !== 0) return Promise.reject('请输入长度');
+  if (value <= 0) return Promise.reject('长度必须大于0');
+  if (value > config.maxLength) return Promise.reject(`长度不能超过 ${config.maxLength}`);
+  return Promise.resolve();
+};
+
+const validatePrecision = (_rule: any, value: any) => {
+  const config = getDataTypeConfig(templateForm.value.dataType);
+  if (!config?.precision) return Promise.resolve();
+  if (!value && value !== 0) return Promise.reject('请输入精度');
+  if (value < 0) return Promise.reject('精度不能小于0');
+  if (value >= templateForm.value.length) return Promise.reject('精度必须小于长度');
+  return Promise.resolve();
+};
+
+// 然后定义验证规则
 const templateRules = {
-  name: [{ required: true, message: '请输入模板名称', trigger: 'blur' }],
-  fieldName: [{ required: true, message: '请输入字段名', trigger: 'blur' }],
-  dataType: [{ required: true, message: '请选择数据类型', trigger: 'change' }]
+  name: [
+    { required: true, message: '请输入模板名称', trigger: 'blur' },
+    { max: 50, message: '模板名称不能超过50个字符', trigger: 'blur' }
+  ],
+  fieldName: [
+    { required: true, message: '请输入字段名', trigger: 'blur' },
+    { pattern: /^[a-zA-Z_][a-zA-Z0-9_]*$/, message: '字段名只能包含字母、数字和下划线，且必须以字母或下划线开头', trigger: 'blur' }
+  ],
+  dataType: [
+    { required: true, message: '请选择数据类型', trigger: 'change' }
+  ],
+  length: [
+    { validator: validateLength, trigger: 'change' }
+  ],
+  precision: [
+    { validator: validatePrecision, trigger: 'change' }
+  ]
 };
 
 // 计算属性
@@ -288,6 +389,18 @@ const filteredTemplates = computed(() => {
   return templates;
 });
 
+// 添加初始化函数
+const initCategories = async () => {
+  try {
+    // 如果需要从后端获取分类数据，可以在这里添加 API 调用
+    // const response = await api.getCategories()
+    // categories.value = response.data
+  } catch (error) {
+    console.error('Failed to load categories:', error)
+    message.error('加载分类数据失败')
+  }
+}
+
 // 生命周期钩子
 onMounted(async () => {
   try {
@@ -295,19 +408,21 @@ onMounted(async () => {
   } catch (error) {
     message.error('加载模板失败');
   }
+  initCategories()
 });
 
 // 方法
-const handleTemplateSelect = (template: Template) => {
-  const index = selectedTemplates.value.indexOf(template.id);
-  if (index === -1) {
-    selectedTemplates.value.push(template.id);
-    selectedPreviewFields.value.push(template.template);
+const handleTemplateSelect = (template: any) => {
+  if (Array.isArray(template)) {
+    // 处理批量选择
+    template.forEach(t => {
+      const selectedField = createSelectedField(t);
+      selectedPreviewFields.value.push(selectedField);
+    });
   } else {
-    selectedTemplates.value.splice(index, 1);
-    selectedPreviewFields.value = selectedPreviewFields.value.filter(
-      field => field.id !== template.template.id
-    );
+    // 处理单个选择
+    const selectedField = createSelectedField(template);
+    selectedPreviewFields.value.push(selectedField);
   }
 };
 
@@ -318,22 +433,19 @@ const handlePreview = (template: Template) => {
   }
 };
 
-const handleRemoveField = (fieldId: string) => {
-  const template = templateStore.templates.find(t => t.template.id === fieldId);
-  if (template) {
-    const index = selectedTemplates.value.indexOf(template.id);
-    if (index !== -1) {
-      selectedTemplates.value.splice(index, 1);
-      selectedPreviewFields.value = selectedPreviewFields.value.filter(
-        field => field.id !== fieldId
-      );
-    }
-  }
+const handleRemoveField = (index: number) => {
+  selectedPreviewFields.value.splice(index, 1);
 };
 
 const handleConfirm = () => {
+  if (selectedPreviewFields.value.length === 0) {
+    message.warning('请至少选择一个字段模板');
+    return;
+  }
+
   emit('select', selectedPreviewFields.value);
-  handleCancel();
+  emit('update:modelValue', false);
+  selectedPreviewFields.value = [];
 };
 
 const handleCancel = () => {
@@ -352,51 +464,50 @@ const resetForm = () => {
   templateForm.value = {
     name: '',
     fieldName: '',
-    dataType: '',
+    dataType: undefined,
     length: undefined,
     precision: undefined,
     scale: undefined,
-    options: [],
+    nullable: true,
+    primaryKey: false,
+    autoIncrement: false,
     defaultValue: '',
     comment: '',
     category: undefined,
-    tags: [],
+    tags: []
   };
 };
 
 const handleTemplateSubmit = async () => {
   try {
-    await templateFormRef.value.validate();
+    await templateFormRef.value?.validate();
     
-    const newTemplate: Template = {
-      id: uuidv4(),
+    const template: FieldTemplate = {
       name: templateForm.value.name,
-      description: templateForm.value.comment,
-      template: {
-        id: uuidv4(),
-        name: templateForm.value.name,
-        fieldName: templateForm.value.fieldName,
-        dataType: templateForm.value.dataType,
-        length: templateForm.value.length,
-        precision: templateForm.value.precision,
-        scale: templateForm.value.scale,
-        options: templateForm.value.options,
-        defaultValue: templateForm.value.defaultValue,
-        comment: templateForm.value.comment
-      },
-      category: templateForm.value.category ? {
-        id: templateForm.value.category,
-        name: '' // 分类名称会在后端填充
-      } : undefined,
-      tags: [] // 标签会在后端根据 tagIds 填充
+      fieldName: templateForm.value.fieldName,
+      dataType: templateForm.value.dataType,
+      length: templateForm.value.length,
+      precision: templateForm.value.precision,
+      nullable: templateForm.value.nullable ?? true,
+      primaryKey: templateForm.value.primaryKey ?? false,
+      autoIncrement: templateForm.value.autoIncrement ?? false,
+      defaultValue: templateForm.value.defaultValue,
+      comment: templateForm.value.comment,
+      category: templateForm.value.category,
+      tags: templateForm.value.tags
     };
 
-    await templateStore.createTemplate(newTemplate);
-    message.success('创建模板成功');
-    showTemplateForm.value = false;
-    resetForm();
+    // 调用后端 API 保存模板
+    const response = await createTemplate(template);
+    
+    // 更新本地列表
+    fieldTemplates.value = [...fieldTemplates.value, response.data.result];
+    
+    message.success('模板添加成功');
+    handleTemplateCancel();
   } catch (error) {
-    message.error('创建模板失败');
+    console.error('Template validation failed:', error);
+    message.error('模板添加失败');
   }
 };
 
@@ -493,6 +604,224 @@ const handleCopy = async (template: Template) => {
   message.success('模板复制成功');
 };
 
+// 修改数据类型变更处理函数
+const handleTemplateDataTypeChange = (value: string) => {
+  const config = getDataTypeConfig(value);
+  if (!config) return;
+
+  // 重置字段值
+  templateForm.value.length = undefined;
+  templateForm.value.precision = undefined;
+  templateForm.value.autoIncrement = false;
+
+  // 设置默认值
+  if (config.maxLength) {
+    if (value === 'varchar') {
+      templateForm.value.length = 255;
+    } else if (value === 'char') {
+      templateForm.value.length = 1;
+    } else if (value === 'decimal') {
+      templateForm.value.length = 10;
+      templateForm.value.precision = 2;
+    }
+  }
+
+  // 处理自增
+  if (templateForm.value.primaryKey && !config.autoIncrement) {
+    templateForm.value.autoIncrement = false;
+  }
+};
+
+// 修改长度显示控制
+const showTemplateLength = computed(() => {
+  const config = getDataTypeConfig(templateForm.value.dataType);
+  return config?.maxLength !== undefined;
+});
+
+const showTemplatePrecision = computed(() => {
+  const config = getDataTypeConfig(templateForm.value.dataType);
+  return config?.precision === true;
+});
+
+const showTemplateScale = computed(() => {
+  return templateForm.value.dataType === 'decimal';
+});
+
+const showTemplateOptions = computed(() => {
+  return ['enum', 'set'].includes(templateForm.value.dataType);
+});
+
+const currentTemplateDataType = computed(() => {
+  return getDataTypeConfig(templateForm.value.dataType);
+});
+
+// 添加主键变更处理函数
+const handlePrimaryKeyChange = (checked: boolean) => {
+  if (!checked) {
+    templateForm.value.autoIncrement = false;
+  }
+};
+
+// 添加表单取消处理函数
+const handleTemplateCancel = () => {
+  templateFormRef.value?.resetFields();
+  showTemplateForm.value = false;
+};
+
+// 添加数据类型提示计算属性
+const dataTypeHint = computed(() => {
+  const type = templateForm.value.dataType;
+  const option = dataTypeOptions.find(opt => opt.value === type);
+  if (!option) return '';
+
+  let hint = '';
+  if (option.maxLength) {
+    hint += `最大长度: ${option.maxLength}`;
+  }
+  if (option.precision) {
+    hint += hint ? ', ' : '';
+    hint += '支持小数';
+  }
+  if (option.autoIncrement) {
+    hint += hint ? ', ' : '';
+    hint += '支持自增';
+  }
+  return hint;
+});
+
+// 修改表单中的数据类型选择部分
+const templateFormContent = `
+<a-form-item 
+  label="数据类型" 
+  name="dataType"
+  :help="dataTypeHint"
+>
+  <a-select
+    v-model:value="templateForm.dataType"
+    placeholder="请选择数据类型"
+    @change="handleTemplateDataTypeChange"
+    :options="dataTypeOptions"
+  />
+</a-form-item>
+
+<a-form-item 
+  v-if="showTemplateLength" 
+  label="长度" 
+  name="length"
+  :help="templateForm.dataType === 'decimal' ? '整数位数' : '字段长度'"
+>
+  <a-input-number
+    v-model:value="templateForm.length"
+    :min="1"
+    :max="currentTemplateDataType?.maxLength"
+    style="width: 100%"
+    placeholder="请输入长度"
+  />
+  <template #extra>
+    <span v-if="currentTemplateDataType?.maxLength">
+      最大允许长度: {{ currentTemplateDataType.maxLength }}
+    </span>
+  </template>
+</a-form-item>
+
+<a-form-item 
+  v-if="showTemplatePrecision" 
+  label="小数位数" 
+  name="precision"
+  help="小数点后的位数，必须小于字段长度"
+>
+  <a-input-number
+    v-model:value="templateForm.precision"
+    :min="0"
+    :max="templateForm.length ? templateForm.length - 1 : undefined"
+    style="width: 100%"
+    placeholder="请输入小数位数"
+  />
+</a-form-item>
+`;
+
+// 修改数据类型配置获取函数
+const getDataTypeConfig = (type: string) => {
+  return dataTypeOptions.find(option => option.value === type);
+};
+
+// 添加模板列表的响应式引用
+const fieldTemplates = ref<any[]>([]);
+
+// 添加模板列表的初始化
+onMounted(async () => {
+  try {
+    // 从后端加载模板数据
+    const response = await getTemplates();
+    fieldTemplates.value = response.data.result;
+  } catch (error) {
+    console.error('Failed to load templates:', error);
+    message.error('加载模板失败');
+  }
+});
+
+// 添加模板删除处理函数
+const handleDeleteTemplate = async (template: FieldTemplate) => {
+  try {
+    if (!template.id) {
+      throw new Error('Template ID is required');
+    }
+    
+    // 调用后端 API 删除模板
+    await deleteTemplate(template.id);
+    
+    // 更新本地列表
+    fieldTemplates.value = fieldTemplates.value.filter(t => t.id !== template.id);
+    
+    message.success('模板删除成功');
+  } catch (error) {
+    console.error('Failed to delete template:', error);
+    message.error('删除模板失败');
+  }
+};
+
+// 添加模板复制处理函数
+const handleCopyTemplate = async (template: FieldTemplate) => {
+  try {
+    const newTemplate: FieldTemplate = {
+      ...template,
+      name: `${template.name}_复制`,
+      fieldName: `${template.fieldName}_copy`
+    };
+    
+    // 移除 id 字段，让后端生成新的 id
+    delete newTemplate.id;
+    delete newTemplate.createTime;
+    
+    // 调用后端 API 保存复制的模板
+    const response = await createTemplate(newTemplate);
+    
+    // 更新本地列表
+    fieldTemplates.value = [...fieldTemplates.value, response.data.result];
+    
+    message.success('模板复制成功');
+  } catch (error) {
+    console.error('Failed to copy template:', error);
+    message.error('复制模板失败');
+  }
+};
+
+// 抽取字段创建逻辑
+const createSelectedField = (template: any) => {
+  return {
+    name: template.fieldName,
+    displayName: template.name,
+    dataType: template.dataType,
+    length: template.length,
+    precision: template.precision,
+    nullable: template.nullable,
+    primaryKey: template.primaryKey,
+    autoIncrement: template.autoIncrement,
+    defaultValue: template.defaultValue,
+    comment: template.comment
+  };
+};
+
 </script>
 
 <style lang="less" scoped>
@@ -505,5 +834,30 @@ const handleCopy = async (template: Template) => {
       margin-bottom: 16px;
     }
   }
+}
+
+.data-type-option {
+  padding: 4px 0;
+  
+  .data-type-label {
+    font-weight: 500;
+  }
+  
+  .data-type-hint {
+    margin-left: 8px;
+    color: #999;
+    font-size: 12px;
+  }
+  
+  .data-type-description {
+    margin-top: 2px;
+    color: #666;
+    font-size: 12px;
+  }
+}
+
+.ant-form-item-help {
+  font-size: 12px;
+  color: #666;
 }
 </style>

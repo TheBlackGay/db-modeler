@@ -21,7 +21,7 @@ interface DatabaseConfig {
 export const databaseConfigs: DatabaseConfig[] = [
   {
     name: 'MySQL',
-    value: 'MySQL',
+    value: 'MYSQL',
     engineOptions: [
       { label: 'InnoDB', value: 'InnoDB' },
       { label: 'MyISAM', value: 'MyISAM' },
@@ -44,40 +44,40 @@ export const databaseConfigs: DatabaseConfig[] = [
       { label: 'latin1_swedish_ci', value: 'latin1_swedish_ci' }
     ],
     dataTypes: [
-      { label: 'TINYINT', value: 'tinyint', hasLength: true, defaultLength: 4, maxLength: 4, supportAutoIncrement: true },
-      { label: 'SMALLINT', value: 'smallint', hasLength: true, defaultLength: 6, maxLength: 6, supportAutoIncrement: true },
-      { label: 'MEDIUMINT', value: 'mediumint', hasLength: true, defaultLength: 9, maxLength: 9, supportAutoIncrement: true },
-      { label: 'INT', value: 'int', hasLength: true, defaultLength: 11, maxLength: 11, supportAutoIncrement: true },
-      { label: 'BIGINT', value: 'bigint', hasLength: true, defaultLength: 20, maxLength: 20, supportAutoIncrement: true },
-      { label: 'DECIMAL', value: 'decimal', hasLength: true, hasPrecision: true, defaultLength: 10, defaultPrecision: 2 },
-      { label: 'FLOAT', value: 'float', hasLength: true, hasPrecision: true, defaultLength: 10, defaultPrecision: 2 },
-      { label: 'DOUBLE', value: 'double', hasLength: true, hasPrecision: true, defaultLength: 10, defaultPrecision: 2 },
-      { label: 'CHAR', value: 'char', hasLength: true, defaultLength: 1, maxLength: 255 },
-      { label: 'VARCHAR', value: 'varchar', hasLength: true, defaultLength: 255, maxLength: 65535 },
-      { label: 'TINYTEXT', value: 'tinytext', maxLength: 255 },
-      { label: 'TEXT', value: 'text', maxLength: 65535 },
-      { label: 'MEDIUMTEXT', value: 'mediumtext', maxLength: 16777215 },
-      { label: 'LONGTEXT', value: 'longtext', maxLength: 4294967295 },
-      { label: 'BINARY', value: 'binary', hasLength: true, defaultLength: 1 },
-      { label: 'VARBINARY', value: 'varbinary', hasLength: true, defaultLength: 255 },
-      { label: 'TINYBLOB', value: 'tinyblob' },
-      { label: 'BLOB', value: 'blob' },
-      { label: 'MEDIUMBLOB', value: 'mediumblob' },
-      { label: 'LONGBLOB', value: 'longblob' },
-      { label: 'DATE', value: 'date' },
-      { label: 'TIME', value: 'time' },
-      { label: 'DATETIME', value: 'datetime' },
-      { label: 'TIMESTAMP', value: 'timestamp' },
-      { label: 'YEAR', value: 'year' },
-      { label: 'BOOLEAN', value: 'boolean' },
-      { label: 'JSON', value: 'json' },
-      { label: 'ENUM', value: 'enum', hasLength: true },
-      { label: 'SET', value: 'set', hasLength: true }
+      { label: 'TINYINT', value: 'TINYINT', hasLength: true, defaultLength: 4, maxLength: 4, supportAutoIncrement: true },
+      { label: 'SMALLINT', value: 'SMALLINT', hasLength: true, defaultLength: 6, maxLength: 6, supportAutoIncrement: true },
+      { label: 'MEDIUMINT', value: 'MEDIUMINT', hasLength: true, defaultLength: 9, maxLength: 9, supportAutoIncrement: true },
+      { label: 'INT', value: 'INT', hasLength: true, defaultLength: 11, maxLength: 11, supportAutoIncrement: true },
+      { label: 'BIGINT', value: 'BIGINT', hasLength: true, defaultLength: 20, maxLength: 20, supportAutoIncrement: true },
+      { label: 'DECIMAL', value: 'DECIMAL', hasLength: true, hasPrecision: true, defaultLength: 10, defaultPrecision: 2 },
+      { label: 'FLOAT', value: 'FLOAT', hasLength: true, hasPrecision: true, defaultLength: 10, defaultPrecision: 2 },
+      { label: 'DOUBLE', value: 'DOUBLE', hasLength: true, hasPrecision: true, defaultLength: 10, defaultPrecision: 2 },
+      { label: 'CHAR', value: 'CHAR', hasLength: true, defaultLength: 1, maxLength: 255 },
+      { label: 'VARCHAR', value: 'VARCHAR', hasLength: true, defaultLength: 255, maxLength: 65535 },
+      { label: 'TINYTEXT', value: 'TINYTEXT', maxLength: 255 },
+      { label: 'TEXT', value: 'TEXT', maxLength: 65535 },
+      { label: 'MEDIUMTEXT', value: 'MEDIUMTEXT', maxLength: 16777215 },
+      { label: 'LONGTEXT', value: 'LONGTEXT', maxLength: 4294967295 },
+      { label: 'BINARY', value: 'BINARY', hasLength: true, defaultLength: 1 },
+      { label: 'VARBINARY', value: 'VARBINARY', hasLength: true, defaultLength: 255 },
+      { label: 'TINYBLOB', value: 'TINYBLOB' },
+      { label: 'BLOB', value: 'BLOB' },
+      { label: 'MEDIUMBLOB', value: 'MEDIUMBLOB' },
+      { label: 'LONGBLOB', value: 'LONGBLOB' },
+      { label: 'DATE', value: 'DATE' },
+      { label: 'TIME', value: 'TIME' },
+      { label: 'DATETIME', value: 'DATETIME' },
+      { label: 'TIMESTAMP', value: 'TIMESTAMP' },
+      { label: 'YEAR', value: 'YEAR' },
+      { label: 'BOOLEAN', value: 'BOOLEAN' },
+      { label: 'JSON', value: 'JSON' },
+      { label: 'ENUM', value: 'ENUM', hasLength: true },
+      { label: 'SET', value: 'SET', hasLength: true }
     ]
   },
   {
     name: 'PostgreSQL',
-    value: 'PostgreSQL',
+    value: 'POSTGRESQL',
     charsetOptions: [
       { label: 'UTF8', value: 'UTF8' },
       { label: 'LATIN1', value: 'LATIN1' },
@@ -90,38 +90,38 @@ export const databaseConfigs: DatabaseConfig[] = [
       { label: 'POSIX', value: 'POSIX' }
     ],
     dataTypes: [
-      { label: 'SMALLINT', value: 'smallint', supportAutoIncrement: true },
-      { label: 'INTEGER', value: 'integer', supportAutoIncrement: true },
-      { label: 'BIGINT', value: 'bigint', supportAutoIncrement: true },
-      { label: 'DECIMAL', value: 'decimal', hasLength: true, hasPrecision: true, defaultLength: 10, defaultPrecision: 2 },
-      { label: 'NUMERIC', value: 'numeric', hasLength: true, hasPrecision: true, defaultLength: 10, defaultPrecision: 2 },
-      { label: 'REAL', value: 'real' },
-      { label: 'DOUBLE PRECISION', value: 'double precision' },
-      { label: 'MONEY', value: 'money' },
-      { label: 'CHARACTER', value: 'character', hasLength: true, defaultLength: 1 },
-      { label: 'CHARACTER VARYING', value: 'character varying', hasLength: true, defaultLength: 255 },
-      { label: 'TEXT', value: 'text' },
-      { label: 'BYTEA', value: 'bytea' },
-      { label: 'TIMESTAMP', value: 'timestamp' },
-      { label: 'TIMESTAMP WITH TIME ZONE', value: 'timestamp with time zone' },
-      { label: 'DATE', value: 'date' },
-      { label: 'TIME', value: 'time' },
-      { label: 'TIME WITH TIME ZONE', value: 'time with time zone' },
-      { label: 'INTERVAL', value: 'interval' },
-      { label: 'BOOLEAN', value: 'boolean' },
-      { label: 'ENUM', value: 'enum', hasLength: true },
-      { label: 'UUID', value: 'uuid' },
-      { label: 'JSON', value: 'json' },
-      { label: 'JSONB', value: 'jsonb' },
-      { label: 'XML', value: 'xml' },
-      { label: 'CIDR', value: 'cidr' },
-      { label: 'INET', value: 'inet' },
-      { label: 'MACADDR', value: 'macaddr' }
+      { label: 'SMALLINT', value: 'SMALLINT', supportAutoIncrement: true },
+      { label: 'INTEGER', value: 'INTEGER', supportAutoIncrement: true },
+      { label: 'BIGINT', value: 'BIGINT', supportAutoIncrement: true },
+      { label: 'DECIMAL', value: 'DECIMAL', hasLength: true, hasPrecision: true, defaultLength: 10, defaultPrecision: 2 },
+      { label: 'NUMERIC', value: 'NUMERIC', hasLength: true, hasPrecision: true, defaultLength: 10, defaultPrecision: 2 },
+      { label: 'REAL', value: 'REAL' },
+      { label: 'DOUBLE PRECISION', value: 'DOUBLE PRECISION' },
+      { label: 'MONEY', value: 'MONEY' },
+      { label: 'CHARACTER', value: 'CHARACTER', hasLength: true, defaultLength: 1 },
+      { label: 'CHARACTER VARYING', value: 'CHARACTER VARYING', hasLength: true, defaultLength: 255 },
+      { label: 'TEXT', value: 'TEXT' },
+      { label: 'BYTEA', value: 'BYTEA' },
+      { label: 'TIMESTAMP', value: 'TIMESTAMP' },
+      { label: 'TIMESTAMP WITH TIME ZONE', value: 'TIMESTAMP WITH TIME ZONE' },
+      { label: 'DATE', value: 'DATE' },
+      { label: 'TIME', value: 'TIME' },
+      { label: 'TIME WITH TIME ZONE', value: 'TIME WITH TIME ZONE' },
+      { label: 'INTERVAL', value: 'INTERVAL' },
+      { label: 'BOOLEAN', value: 'BOOLEAN' },
+      { label: 'ENUM', value: 'ENUM', hasLength: true },
+      { label: 'UUID', value: 'UUID' },
+      { label: 'JSON', value: 'JSON' },
+      { label: 'JSONB', value: 'JSONB' },
+      { label: 'XML', value: 'XML' },
+      { label: 'CIDR', value: 'CIDR' },
+      { label: 'INET', value: 'INET' },
+      { label: 'MACADDR', value: 'MACADDR' }
     ]
   },
   {
     name: 'Oracle',
-    value: 'Oracle',
+    value: 'ORACLE',
     charsetOptions: [
       { label: 'AL32UTF8', value: 'AL32UTF8' },
       { label: 'UTF8', value: 'UTF8' },
@@ -154,7 +154,7 @@ export const databaseConfigs: DatabaseConfig[] = [
   },
   {
     name: 'SQLite',
-    value: 'SQLite',
+    value: 'SQLITE',
     dataTypes: [
       { label: 'INTEGER', value: 'integer', supportAutoIncrement: true },
       { label: 'REAL', value: 'real' },
@@ -165,7 +165,7 @@ export const databaseConfigs: DatabaseConfig[] = [
   },
   {
     name: 'SQL Server',
-    value: 'SQLServer',
+    value: 'SQLSERVER',
     charsetOptions: [
       { label: 'Latin1_General_CI_AS', value: 'Latin1_General_CI_AS' },
       { label: 'Chinese_PRC_CI_AS', value: 'Chinese_PRC_CI_AS' },
@@ -205,7 +205,8 @@ export const databaseConfigs: DatabaseConfig[] = [
 ]
 
 export const getDefaultConfig = (dbType: string): DatabaseConfig | undefined => {
-  return databaseConfigs.find(config => config.value === dbType)
+  const normalizedDbType = dbType.toUpperCase()
+  return databaseConfigs.find(config => config.value === normalizedDbType)
 }
 
 export const getDataTypes = (dbType: string): DataType[] => {
@@ -230,5 +231,5 @@ export const getCollateOptions = (dbType: string) => {
 
 export const getDataTypeConfig = (dbType: string, dataType: string): DataType | undefined => {
   const types = getDataTypes(dbType)
-  return types.find(type => type.value === dataType)
+  return types.find(type => type.value === dataType.toUpperCase())
 }

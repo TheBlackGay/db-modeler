@@ -195,8 +195,8 @@ public class TableDesignServiceImpl implements TableDesignService {
     }
 
     private void validateDbType(String dbType) {
-        List<String> validDbTypes = Arrays.asList("MySQL", "PostgreSQL", "Oracle", "SQLite", "SQLServer");
-        if (!validDbTypes.contains(dbType)) {
+        List<String> validDbTypes = Arrays.asList("MYSQL", "POSTGRESQL", "ORACLE", "SQLITE", "SQLSERVER");
+        if (!validDbTypes.contains(dbType.toUpperCase())) {
             throw new ValidationException("Invalid database type: " + dbType);
         }
     }

@@ -62,6 +62,7 @@
       :pagination="false"
       size="small"
       bordered
+      :row-key="record => record.id"
       :row-class-name="getRowClassName"
       :scroll="{ y: 'calc(100vh - 300px)' }"
     >
@@ -101,17 +102,49 @@
 
         <template v-else>
           <template v-if="quickEdit && isQuickEditable(column.dataIndex)">
-            <component 
-              :is="getQuickEditComponent(column.dataIndex)"
-              v-model:value="record[column.dataIndex]"
-              :style="{ width: '100%' }"
-              :options="getOptionsForField(column.dataIndex)"
-              @change="(value) => handleQuickEdit(record, column.dataIndex, value)"
-              @blur="handleQuickEditBlur(record)"
-            />
+            <div :key="'edit-' + record.id + '-' + column.dataIndex" class="quick-edit-cell">
+              <template v-if="['nullable', 'primaryKey', 'autoIncrement'].includes(column.dataIndex)">
+                <a-checkbox
+                  :checked="record[column.dataIndex]"
+                  @change="(e) => handleQuickEdit(record.id, column.dataIndex, e.target.checked)"
+                />
+              </template>
+              
+              <template v-else-if="column.dataIndex === 'dataType'">
+                <a-select
+                  :value="record.dataType"
+                  :style="{ width: '100%' }"
+                  @change="(value) => handleQuickEdit(record.id, 'dataType', value)"
+                >
+                  <a-select-option 
+                    v-for="option in getOptionsForField('dataType')" 
+                    :key="option.value"
+                    :value="option.value"
+                  >
+                    {{ option.label }}
+                  </a-select-option>
+                </a-select>
+              </template>
+              
+              <template v-else-if="['length', 'precision'].includes(column.dataIndex)">
+                <a-input-number
+                  :value="record[column.dataIndex]"
+                  :style="{ width: '100%' }"
+                  @change="(value) => handleQuickEdit(record.id, column.dataIndex, value)"
+                />
+              </template>
+              
+              <template v-else>
+                <a-input
+                  :value="record[column.dataIndex]"
+                  :style="{ width: '100%' }"
+                  @change="(e) => handleQuickEdit(record.id, column.dataIndex, e.target.value)"
+                />
+              </template>
+            </div>
           </template>
           <template v-else>
-            <template v-if="column.dataIndex === 'primaryKey' || column.dataIndex === 'nullable' || column.dataIndex === 'autoIncrement'">
+            <template v-if="['primaryKey', 'nullable', 'autoIncrement'].includes(column.dataIndex)">
               <check-outlined v-if="record[column.dataIndex]" class="text-success" />
               <close-outlined v-else class="text-disabled" />
             </template>
@@ -137,7 +170,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onUnmounted } from 'vue'
 import { 
   PlusOutlined, 
   CopyOutlined, 
@@ -154,6 +187,7 @@ import {
 } from '@ant-design/icons-vue'
 import FieldForm from './FieldForm.vue'
 import FieldTemplateSelector from './FieldTemplateSelector.vue'
+import { QuickEditInput } from './quick-edit-components'
 
 interface Field {
   id?: string
@@ -178,7 +212,12 @@ const emit = defineEmits<{
 }>()
 
 const columns = [
-  { title: '排序', dataIndex: 'sort', width: 80, fixed: 'left' },
+  { 
+    title: '排序', 
+    dataIndex: 'sort', 
+    width: 80,
+    fixed: 'left'
+  },
   { title: '字段名', dataIndex: 'name', width: 150 },
   { title: '显示名', dataIndex: 'displayName', width: 150 },
   { title: '数据类型', dataIndex: 'dataType', width: 120 },
@@ -188,7 +227,12 @@ const columns = [
   { title: '自增', dataIndex: 'autoIncrement', width: 80 },
   { title: '默认值', dataIndex: 'defaultValue', width: 120 },
   { title: '备注', dataIndex: 'comment', width: 200 },
-  { title: '操作', dataIndex: 'action', width: 80, fixed: 'right' }
+  { 
+    title: '操作', 
+    dataIndex: 'action', 
+    width: 80,
+    fixed: 'right'
+  }
 ]
 
 const quickEdit = ref(false)
@@ -201,7 +245,10 @@ const showTemplateSelector = ref(false)
 const hasSelection = computed(() => selectedRowKeys.value.length > 0)
 
 const filteredFields = computed(() => {
-  if (!searchText.value) return props.modelValue
+  if (!searchText.value) {
+    return props.modelValue
+  }
+  
   const searchLower = searchText.value.toLowerCase()
   return props.modelValue.filter(field => 
     field.name.toLowerCase().includes(searchLower) ||
@@ -305,7 +352,7 @@ const getQuickEditComponent = (field: string) => {
     case 'nullable':
     case 'primaryKey':
     case 'autoIncrement':
-      return 'a-switch'
+      return 'a-checkbox'
     case 'dataType':
       return 'a-select'
     case 'length':
@@ -341,15 +388,36 @@ const formatFieldValue = (record: Field, field: string) => {
   return record[field as keyof Field]
 }
 
-const handleQuickEdit = (record: Field, field: string, value: any) => {
-  const newFields = props.modelValue.map(f => 
-    f.id === record.id ? { ...f, [field]: value } : f
-  )
-  emit('update:modelValue', newFields)
-}
+const handleQuickEdit = (recordId: string, field: string, value: any) => {
+  const newFields = props.modelValue.map(f => {
+    if (f.id === recordId) {
+      const newField = JSON.parse(JSON.stringify(f))
+      
+      if (['nullable', 'primaryKey', 'autoIncrement'].includes(field)) {
+        newField[field] = !!value
+      } else if (['length', 'precision'].includes(field)) {
+        newField[field] = Number(value) || 0
+      } else {
+        newField[field] = value
+      }
 
-const handleQuickEditBlur = (record: Field) => {
-  // 在这里可以添加字段验证逻辑
+      if (field === 'dataType') {
+        const upperValue = String(value).toUpperCase()
+        if (['VARCHAR', 'CHAR'].includes(upperValue)) {
+          newField.length = 255
+          newField.precision = 0
+        } else if (['INT', 'BIGINT'].includes(upperValue)) {
+          newField.length = 0
+          newField.precision = 0
+        }
+      }
+
+      return newField
+    }
+    return f
+  })
+
+  emit('update:modelValue', newFields)
 }
 
 const handleSearch = () => {
@@ -359,14 +427,11 @@ const handleSearch = () => {
 const handleTemplateSelect = (templates: any[]) => {
   const newFields = [...props.modelValue]
   
-  // 生成新的字段ID
   const generateId = () => {
     return `field_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
   }
   
-  // 添加模板字段
   templates.forEach(template => {
-    // 检查字段名是否已存在
     let fieldName = template.name
     let counter = 1
     while (newFields.some(f => f.name === fieldName)) {
@@ -390,6 +455,14 @@ const getRowClassName = (record: Field, index: number) => {
   }
   return ''
 }
+
+// 添加编辑状态管理
+const editingField = ref<{ id: string; field: string } | null>(null)
+
+// 清理函数
+onUnmounted(() => {
+  editingField.value = null
+})
 </script>
 
 <style lang="less" scoped>

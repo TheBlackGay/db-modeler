@@ -150,7 +150,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, inject, provide } from 'vue'
+import { ref, computed, watch, inject, unref, type Ref } from 'vue'
 import type { FormInstance } from 'ant-design-vue'
 import { 
   getDataTypes, 
@@ -182,14 +182,16 @@ const emit = defineEmits<{
   (e: 'save', field: Field): void
 }>()
 
-const dbType = inject('dbType', 'MySQL')
-provide('dbType', dbType)
+const dbType = inject<Ref<string>>('dbType', ref('MySQL'))
+const currentDbType = computed(() => unref(dbType))
+
+console.log('Injected dbType:', currentDbType.value)
 
 const formRef = ref<FormInstance>()
 const formState = ref<Field>({
   name: '',
   displayName: '',
-  dataType: 'varchar',
+  dataType: 'VARCHAR',
   length: 255,
   precision: 0,
   nullable: true,
@@ -236,14 +238,22 @@ const rules = {
 }
 
 const dataTypeOptions = computed(() => {
-  return getDataTypes(dbType).map(type => ({
+  console.log('Computing dataTypeOptions with dbType:', currentDbType.value)
+  const types = getDataTypes(currentDbType.value)
+  console.log('Available data types:', types)
+  const options = types.map(type => ({
     label: type.label,
-    value: type.value
+    value: type.value.toUpperCase()
   }))
+  console.log('Data type options:', options)
+  return options
 })
 
 const currentDataType = computed(() => {
-  return getDataTypeConfig(dbType, formState.value.dataType)
+  console.log('Getting data type config for:', formState.value.dataType)
+  const config = getDataTypeConfig(currentDbType.value, formState.value.dataType)
+  console.log('Current data type config:', config)
+  return config
 })
 
 const showLength = computed(() => {
@@ -255,17 +265,20 @@ const showPrecision = computed(() => {
 })
 
 const canAutoIncrement = computed(() => {
-  return formState.value.primaryKey && currentDataType.value?.supportAutoIncrement
+  return currentDataType.value?.supportAutoIncrement || false
 })
 
-watch(() => props.field, (newField) => {
-  if (newField) {
-    formState.value = { ...newField }
+watch(() => props.field, (field) => {
+  if (field) {
+    formState.value = { 
+      ...field,
+      dataType: field.dataType.toUpperCase()
+    }
   } else {
     formState.value = {
       name: '',
       displayName: '',
-      dataType: 'varchar',
+      dataType: 'VARCHAR',
       length: 255,
       precision: 0,
       nullable: true,
@@ -278,7 +291,7 @@ watch(() => props.field, (newField) => {
 }, { immediate: true })
 
 const handleDataTypeChange = (value: string) => {
-  const typeConfig = getDataTypeConfig(dbType, value)
+  const typeConfig = getDataTypeConfig(currentDbType.value, value)
   if (typeConfig) {
     if (typeConfig.hasLength) {
       formState.value.length = typeConfig.defaultLength || 0
@@ -329,6 +342,22 @@ const handleOk = () => {
 const handleCancel = () => {
   emit('update:visible', false)
 }
+
+// 监听 dbType 的变化
+watch(currentDbType, (newDbType) => {
+  console.log('dbType changed:', newDbType)
+  // 当数据库类型改变时，重新验证当前数据类型是否有效
+  const types = getDataTypes(newDbType)
+  if (!types.find(t => t.value.toUpperCase() === formState.value.dataType.toUpperCase())) {
+    // 如果当前数据类型在新的数据库类型中不存在，则重置为默认值
+    const defaultType = types[0]
+    if (defaultType) {
+      formState.value.dataType = defaultType.value.toUpperCase()
+      formState.value.length = defaultType.defaultLength || 0
+      formState.value.precision = defaultType.defaultPrecision || 0
+    }
+  }
+}, { immediate: true })
 </script>
 
 <style scoped>

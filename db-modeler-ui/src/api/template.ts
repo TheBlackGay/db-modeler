@@ -1,41 +1,46 @@
-import request from '@/utils/request';
-import type { FieldTemplate } from '@/views/design/model/components/types';
+import { http } from '@/utils/http';
+import type { ApiResponse } from '@/types/api';
 
+export interface FieldTemplate {
+  id?: string;
+  name: string;
+  fieldName: string;
+  dataType: string;
+  length?: number;
+  precision?: number;
+  nullable: boolean;
+  primaryKey: boolean;
+  autoIncrement: boolean;
+  defaultValue?: string;
+  comment?: string;
+  category?: string;
+  tags?: string[];
+  createTime?: string;
+}
+
+// 获取字段模板列表
 export const getTemplates = () => {
-  return request({
-    url: '/api/field-templates',
-    method: 'get'
-  });
+  return http.get<ApiResponse<FieldTemplate[]>>('/api/field-templates');
 };
 
-export const getTemplate = (id: string) => {
-  return request({
-    url: `/api/field-templates/${id}`,
-    method: 'get'
-  });
+// 获取字段模板详情
+export const getTemplateById = (id: string) => {
+  return http.get<ApiResponse<FieldTemplate>>(`/api/field-templates/${id}`);
 };
 
-export const createTemplate = (template: Partial<FieldTemplate>) => {
-  return request({
-    url: '/api/field-templates',
-    method: 'post',
-    data: template
-  });
+// 创建字段模板
+export const createTemplate = (template: FieldTemplate) => {
+  return http.post<ApiResponse<FieldTemplate>>('/api/field-templates', template);
 };
 
-export const updateTemplate = (id: string, template: Partial<FieldTemplate>) => {
-  return request({
-    url: `/api/field-templates/${id}`,
-    method: 'put',
-    data: template
-  });
+// 更新字段模板
+export const updateTemplate = (id: string, template: FieldTemplate) => {
+  return http.put<ApiResponse<FieldTemplate>>(`/api/field-templates/${id}`, template);
 };
 
+// 删除字段模板
 export const deleteTemplate = (id: string) => {
-  return request({
-    url: `/api/field-templates/${id}`,
-    method: 'delete'
-  });
+  return http.delete<ApiResponse<void>>(`/api/field-templates/${id}`);
 };
 
 export const getTemplatesByCategory = (categoryId: string) => {

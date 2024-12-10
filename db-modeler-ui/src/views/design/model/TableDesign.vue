@@ -19,11 +19,6 @@
           <template #icon><import-outlined /></template>
           导入字段
         </a-button>
-        <a-divider type="vertical" />
-        <a-button @click="handleBack">
-          <template #icon><arrow-left-outlined /></template>
-          返回
-        </a-button>
       </a-space>
     </div>
 
@@ -243,7 +238,6 @@ import { getTableDesignById as fetchTableDesign } from '@/api/project'
 import { 
   SaveOutlined, 
   SyncOutlined, 
-  ArrowLeftOutlined,
   ExportOutlined,
   ImportOutlined,
   RightOutlined,
@@ -300,20 +294,54 @@ const activeTab = ref('fields')
 const fields = ref<Field[]>([])
 const indexes = ref<any[]>([])
 const tableInfo = ref<TableInfo>({
+  id: '',
   name: '',
   displayName: '',
-  dbType: 'MySQL',
+  dbType: 'MYSQL',
   engine: 'InnoDB',
   charset: 'utf8mb4',
   collation: 'utf8mb4_general_ci',
-  tablespace: '',
   comment: '',
+  tablespace: '',
   rowFormat: 'DEFAULT',
-  projectId: route.params.id as string // 从路由参数中获取项目 ID
+  autoIncrement: 1,
+  projectId: '',
+  type: 'TABLE',
+  domain: 'BUSINESS',
+  status: 'DRAFT',
+  synced: false
 })
 
-const currentDbType = ref('MySQL')
+const dbTypeRef = ref<string>('MYSQL')
+
+// 计算属性，用于处理数据库类型
+const currentDbType = computed({
+  get: () => dbTypeRef.value,
+  set: (value) => {
+    if (!value) return
+    console.log('Setting dbType to:', value)
+    const newValue = value.toUpperCase()
+    console.log('Normalized dbType:', newValue)
+    dbTypeRef.value = newValue
+    tableInfo.value.dbType = newValue
+  }
+})
 provide('dbType', currentDbType)
+
+// 监听 tableInfo.dbType 的变化并更新 dbTypeRef
+watch(() => tableInfo.value.dbType, (newDbType) => {
+  console.log('dbType changed in tableInfo:', newDbType)
+  if (!newDbType) {
+    console.log('dbType is undefined or null')
+    return
+  }
+  const normalizedDbType = newDbType.toUpperCase()
+  console.log('Normalized dbType:', normalizedDbType)
+  if (normalizedDbType !== dbTypeRef.value) {
+    console.log('Updating dbTypeRef to:', normalizedDbType)
+    dbTypeRef.value = normalizedDbType
+  }
+}, { immediate: true })
 
 const moreSettingsVisible = shallowRef(false)
 const showPartitionSettings = shallowRef(false)
@@ -376,11 +404,11 @@ const formatPartitionType = (type: string) => {
 const debouncedTableInfoChange = useDebounceFn((value: any) => {
   // 当数据库类型改变时，更新 provide 的值
   if (typeof value === 'string') {
-    currentDbType.value = value
+    tableInfo.value.dbType = value
   } else {
     Object.assign(tableInfo.value, value)
-    if (value.dbType !== currentDbType.value) {
-      currentDbType.value = value.dbType
+    if (value.dbType !== tableInfo.value.dbType) {
+      tableInfo.value.dbType = value.dbType
     }
   }
 }, 300)
@@ -514,10 +542,6 @@ const handleImportFields = () => {
   message.info('导入字段功能开发中...')
 }
 
-const handleBack = () => {
-  router.back()
-}
-
 const handlePartitionSave = (config: any) => {
   tableInfo.value.partitionConfig = config
 }
@@ -622,7 +646,7 @@ const loadTableDesign = async (tableId: string) => {
       console.log('Raw metadata:', data.metadata)
       
       let metadata = {
-        dbType: 'MySQL',
+        dbType: 'MYSQL',
         engine: 'InnoDB',
         charset: 'utf8mb4',
         collate: 'utf8mb4_general_ci',
@@ -636,7 +660,10 @@ const loadTableDesign = async (tableId: string) => {
         try {
           // 如果metadata已经是对象，直接使用
           if (typeof data.metadata === 'object' && data.metadata !== null) {
-            metadata = data.metadata
+            metadata = {
+              ...data.metadata,
+              dbType: data.metadata.dbType.toUpperCase()
+            }
           } else if (typeof data.metadata === 'string') {
             // 解码HTML实体并解析JSON
             const decodedMetadata = data.metadata
@@ -645,34 +672,29 @@ const loadTableDesign = async (tableId: string) => {
               .replace(/&#39;/g, "'")
               .replace(/&apos;/g, "'")
               .replace(/&amp;/g, '&')
-            metadata = JSON.parse(decodedMetadata)
+            const parsedMetadata = JSON.parse(decodedMetadata)
+            metadata = {
+              ...parsedMetadata,
+              dbType: parsedMetadata.dbType.toUpperCase()
+            }
           }
         } catch (e) {
           console.error('Failed to parse metadata:', e)
-          message.warning('元数据解析失败，将使用默认值')
         }
       }
-
-      // 更新表单数据
+      
+      // 更新表信息
       tableInfo.value = {
-        id: data.id,
+        ...tableInfo.value,
+        ...metadata,
         name: data.code || '',
         displayName: data.displayName || '',
         comment: data.comment || '',
-        dbType: metadata.dbType || 'MySQL',
-        engine: metadata.engine || 'InnoDB',
-        charset: metadata.charset || 'utf8mb4',
-        collation: metadata.collate || 'utf8mb4_general_ci',
-        tablespace: metadata.tablespace || '',
-        rowFormat: metadata.rowFormat || 'DEFAULT',
-        autoIncrement: metadata.autoIncrement || 1,
+        id: data.id,
         projectId: data.projectId,
-        type: data.type || 'TABLE',
-        domain: data.domain || 'BUSINESS',
-        status: data.status || 'DRAFT',
         synced: data.synced || false
       }
-
+      
       // 解析columns数据
       let columnsData = {
         fields: [],
