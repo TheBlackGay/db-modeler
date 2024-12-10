@@ -1,9 +1,9 @@
 package com.db.modeler.controller;
 
+import com.db.modeler.common.ApiResponse;
 import com.db.modeler.model.FieldTemplate;
 import com.db.modeler.service.FieldTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,36 +16,41 @@ public class FieldTemplateController {
     private FieldTemplateService fieldTemplateService;
 
     @GetMapping
-    public ResponseEntity<List<FieldTemplate>> getAllTemplates() {
-        return ResponseEntity.ok(fieldTemplateService.getAllTemplates());
+    public ApiResponse<List<FieldTemplate>> getAllTemplates() {
+        return ApiResponse.success(fieldTemplateService.getAllTemplates());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FieldTemplate> getTemplateById(@PathVariable String id) {
-        return fieldTemplateService.getTemplateById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ApiResponse<FieldTemplate> getTemplateById(@PathVariable String id) {
+        return ApiResponse.success(fieldTemplateService.getTemplateById(id));
     }
 
     @PostMapping
-    public ResponseEntity<FieldTemplate> createTemplate(@RequestBody FieldTemplate template) {
-        return ResponseEntity.ok(fieldTemplateService.createTemplate(template));
+    public ApiResponse<FieldTemplate> createTemplate(@RequestBody FieldTemplate template) {
+        return ApiResponse.success(fieldTemplateService.createTemplate(template));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FieldTemplate> updateTemplate(@PathVariable String id, @RequestBody FieldTemplate template) {
-        return ResponseEntity.ok(fieldTemplateService.updateTemplate(id, template));
+    public ApiResponse<FieldTemplate> updateTemplate(
+            @PathVariable String id,
+            @RequestBody FieldTemplate template) {
+        return ApiResponse.success(fieldTemplateService.updateTemplate(id, template));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTemplate(@PathVariable String id) {
+    public ApiResponse<Void> deleteTemplate(@PathVariable String id) {
         fieldTemplateService.deleteTemplate(id);
-        return ResponseEntity.ok().build();
+        return ApiResponse.success();
     }
 
-    @PostMapping("/batch-delete")
-    public ResponseEntity<Void> batchDeleteTemplates(@RequestBody List<String> ids) {
-        fieldTemplateService.batchDeleteTemplates(ids);
-        return ResponseEntity.ok().build();
+    @GetMapping("/category/{category}")
+    public ApiResponse<List<FieldTemplate>> getTemplatesByCategory(
+            @PathVariable FieldTemplate.Category category) {
+        return ApiResponse.success(fieldTemplateService.getTemplatesByCategory(category));
+    }
+
+    @GetMapping("/tag/{tag}")
+    public ApiResponse<List<FieldTemplate>> getTemplatesByTag(@PathVariable String tag) {
+        return ApiResponse.success(fieldTemplateService.getTemplatesByTag(tag));
     }
 }

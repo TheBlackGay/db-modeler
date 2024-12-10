@@ -1,48 +1,64 @@
 package com.db.modeler.service;
 
 import com.db.modeler.model.FieldTemplate;
+import com.db.modeler.repository.FieldTemplateRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class FieldTemplateService {
 
-    private final Map<String, FieldTemplate> templates = new HashMap<>();
+    @Autowired
+    private FieldTemplateRepository fieldTemplateRepository;
+
+    @Transactional
+    public FieldTemplate createTemplate(FieldTemplate template) {
+        // 设置ID和时间
+        template.setId(UUID.randomUUID().toString());
+        template.setCreateTime(LocalDateTime.now());
+        
+        // 保存模板
+        return fieldTemplateRepository.save(template);
+    }
+
+    @Transactional
+    public FieldTemplate updateTemplate(String id, FieldTemplate template) {
+        // 检查模板是否存在
+        FieldTemplate existingTemplate = fieldTemplateRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Template not found: " + id));
+
+        // 更新基本信息
+        template.setId(id);
+        template.setCreateTime(existingTemplate.getCreateTime());
+        
+        // 保存更新
+        return fieldTemplateRepository.save(template);
+    }
+
+    public FieldTemplate getTemplateById(String id) {
+        return fieldTemplateRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Template not found: " + id));
+    }
 
     public List<FieldTemplate> getAllTemplates() {
-        return new ArrayList<>(templates.values());
+        return fieldTemplateRepository.findAll();
     }
 
-    public Optional<FieldTemplate> getTemplateById(String id) {
-        return Optional.ofNullable(templates.get(id));
-    }
-
-    public FieldTemplate createTemplate(FieldTemplate template) {
-        if (template.getId() == null) {
-            template.setId(UUID.randomUUID().toString());
-        }
-        template.setCreatedAt(System.currentTimeMillis());
-        template.setUpdatedAt(System.currentTimeMillis());
-        templates.put(template.getId(), template);
-        return template;
-    }
-
-    public FieldTemplate updateTemplate(String id, FieldTemplate template) {
-        if (!templates.containsKey(id)) {
-            throw new RuntimeException("Template not found: " + id);
-        }
-        template.setId(id);
-        template.setUpdatedAt(System.currentTimeMillis());
-        templates.put(id, template);
-        return template;
-    }
-
+    @Transactional
     public void deleteTemplate(String id) {
-        templates.remove(id);
+        fieldTemplateRepository.deleteById(id);
     }
 
-    public void batchDeleteTemplates(List<String> ids) {
-        ids.forEach(templates::remove);
+    public List<FieldTemplate> getTemplatesByCategory(FieldTemplate.Category category) {
+        return fieldTemplateRepository.findByCategory(category);
+    }
+
+    public List<FieldTemplate> getTemplatesByTag(String tag) {
+        return fieldTemplateRepository.findByTagsContaining(tag);
     }
 }
