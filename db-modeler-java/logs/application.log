@@ -20042,3 +20042,60 @@ Caused by: java.lang.IllegalArgumentException: Invalid UUID string: undefined
 2024-12-10 21:42:29.326 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findById - ==>  Preparing: SELECT * FROM table_designs WHERE id = ?
 2024-12-10 21:42:29.327 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findById - ==> Parameters: 959a3090-7ce9-4cbd-9914-5910f7f8d181(String)
 2024-12-10 21:42:29.328 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findById - <==      Total: 1
+2024-12-10 21:44:17.792 [http-nio-8010-exec-2] DEBUG c.d.m.r.T.findById - ==>  Preparing: SELECT * FROM table_designs WHERE id = ?
+2024-12-10 21:44:17.792 [http-nio-8010-exec-2] DEBUG c.d.m.r.T.findById - ==> Parameters: 959a3090-7ce9-4cbd-9914-5910f7f8d181(String)
+2024-12-10 21:44:17.793 [http-nio-8010-exec-2] DEBUG c.d.m.r.T.findById - <==      Total: 1
+2024-12-10 21:44:26.409 [http-nio-8010-exec-5] DEBUG c.d.m.r.T.findById - ==>  Preparing: SELECT * FROM table_designs WHERE id = ?
+2024-12-10 21:44:26.409 [http-nio-8010-exec-5] DEBUG c.d.m.r.T.findById - ==> Parameters: 959a3090-7ce9-4cbd-9914-5910f7f8d181(String)
+2024-12-10 21:44:26.413 [http-nio-8010-exec-5] DEBUG c.d.m.r.T.findById - <==      Total: 1
+2024-12-10 21:44:26.413 [http-nio-8010-exec-5] DEBUG c.d.m.r.TableDesignRepository.update - ==>  Preparing: UPDATE table_designs SET code = ?, display_name = ?, type = ?, domain = ?, comment = ?, columns = ?, status = ?, metadata = ?, synced = ?, updated_at = ? WHERE id = ?
+2024-12-10 21:44:26.414 [http-nio-8010-exec-5] DEBUG c.d.m.r.TableDesignRepository.update - ==> Parameters: t1(String), t1(String), TABLE(String), BUSINESS(String), (String), "{\"fields\":[{\"name\":\"a\",\"displayName\":\"a\",\"dataType\":\"VARCHAR\",\"length\":255,\"precision\":0,\"nullable\":true,\"primaryKey\":false,\"autoIncrement\":false,\"defaultValue\":\"\",\"comment\":\"\"},{\"name\":\"b\",\"displayName\":\"b\",\"dataType\":\"VARCHAR\",\"length\":255,\"precision\":0,\"nullable\":true,\"primaryKey\":false,\"autoIncrement\":false,\"defaultValue\":\"\",\"comment\":\"\"},{\"id\":\"field_1733836615261_462wfu5za\",\"name\":\"id\",\"displayName\":\"id\",\"dataType\":\"bigint\",\"length\":null,\"precision\":null,\"nullable\":false,\"primaryKey\":true,\"autoIncrement\":true,\"defaultValue\":\"id\",\"comment\":\"\"},{\"name\":\"c\",\"displayName\":\"c\",\"dataType\":\"VARCHAR\",\"length\":255,\"precision\":0,\"nullable\":true,\"primaryKey\":false,\"autoIncrement\":false,\"defaultValue\":\"\",\"comment\":\"\"},{\"name\":\"d\",\"displayName\":\"d\",\"dataType\":\"VARCHAR\",\"length\":255,\"precision\":0,\"nullable\":true,\"primaryKey\":false,\"autoIncrement\":false,\"defaultValue\":\"\",\"comment\":\"\"}],\"indexes\":[]}"(String), DRAFT(String), "{\"dbType\":\"MYSQL\",\"engine\":\"InnoDB\",\"charset\":\"utf8mb4\",\"collate\":\"utf8mb4_general_ci\",\"tablespace\":\"\",\"rowFormat\":\"DEFAULT\",\"autoIncrement\":1}"(String), false(Boolean), 2024-12-10T21:44:26.413637(LocalDateTime), 959a3090-7ce9-4cbd-9914-5910f7f8d181(String)
+2024-12-10 21:44:26.425 [http-nio-8010-exec-5] DEBUG c.d.m.r.TableDesignRepository.update - <==    Updates: 1
+2024-12-10 21:44:26.454 [http-nio-8010-exec-7] DEBUG c.d.m.r.T.findById - ==>  Preparing: SELECT * FROM table_designs WHERE id = ?
+2024-12-10 21:44:26.455 [http-nio-8010-exec-7] DEBUG c.d.m.r.T.findById - ==> Parameters: 959a3090-7ce9-4cbd-9914-5910f7f8d181(String)
+2024-12-10 21:44:26.459 [http-nio-8010-exec-7] DEBUG c.d.m.r.T.findById - <==      Total: 1
+2024-12-10 21:44:36.981 [http-nio-8010-exec-6] DEBUG c.d.m.r.T.findById - ==>  Preparing: SELECT * FROM table_designs WHERE id = ?
+2024-12-10 21:44:36.981 [http-nio-8010-exec-6] DEBUG c.d.m.r.T.findById - ==> Parameters: 959a3090-7ce9-4cbd-9914-5910f7f8d181(String)
+2024-12-10 21:44:36.984 [http-nio-8010-exec-6] DEBUG c.d.m.r.T.findById - <==      Total: 1
+2024-12-10 21:44:36.984 [http-nio-8010-exec-6] DEBUG c.d.m.r.TableDesignRepository.update - ==>  Preparing: UPDATE table_designs SET code = ?, display_name = ?, type = ?, domain = ?, comment = ?, columns = ?, status = ?, metadata = ?, synced = ?, updated_at = ? WHERE id = ?
+2024-12-10 21:44:36.985 [http-nio-8010-exec-6] DEBUG c.d.m.r.TableDesignRepository.update - ==> Parameters: t12(String), t12(String), TABLE(String), BUSINESS(String), (String), "{\"fields\":[{\"name\":\"a\",\"displayName\":\"a\",\"dataType\":\"VARCHAR\",\"length\":255,\"precision\":0,\"nullable\":true,\"primaryKey\":false,\"autoIncrement\":false,\"defaultValue\":\"\",\"comment\":\"\"},{\"name\":\"b\",\"displayName\":\"b\",\"dataType\":\"VARCHAR\",\"length\":255,\"precision\":0,\"nullable\":true,\"primaryKey\":false,\"autoIncrement\":false,\"defaultValue\":\"\",\"comment\":\"\"},{\"id\":\"field_1733836615261_462wfu5za\",\"name\":\"id\",\"displayName\":\"id\",\"dataType\":\"bigint\",\"length\":null,\"precision\":null,\"nullable\":false,\"primaryKey\":true,\"autoIncrement\":true,\"defaultValue\":\"id\",\"comment\":\"\"},{\"name\":\"c\",\"displayName\":\"c\",\"dataType\":\"VARCHAR\",\"length\":255,\"precision\":0,\"nullable\":true,\"primaryKey\":false,\"autoIncrement\":false,\"defaultValue\":\"\",\"comment\":\"\"},{\"name\":\"d\",\"displayName\":\"d\",\"dataType\":\"VARCHAR\",\"length\":255,\"precision\":0,\"nullable\":true,\"primaryKey\":false,\"autoIncrement\":false,\"defaultValue\":\"\",\"comment\":\"\"}],\"indexes\":[]}"(String), DRAFT(String), "{\"dbType\":\"MySQL\",\"engine\":\"InnoDB\",\"charset\":\"utf8mb4\",\"collate\":\"utf8mb4_general_ci\",\"tablespace\":\"\",\"rowFormat\":\"DEFAULT\",\"autoIncrement\":1}"(String), false(Boolean), 2024-12-10T21:44:36.984782(LocalDateTime), 959a3090-7ce9-4cbd-9914-5910f7f8d181(String)
+2024-12-10 21:44:36.987 [http-nio-8010-exec-6] DEBUG c.d.m.r.TableDesignRepository.update - <==    Updates: 1
+2024-12-10 21:44:37.000 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findById - ==>  Preparing: SELECT * FROM table_designs WHERE id = ?
+2024-12-10 21:44:37.000 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findById - ==> Parameters: 959a3090-7ce9-4cbd-9914-5910f7f8d181(String)
+2024-12-10 21:44:37.001 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findById - <==      Total: 1
+2024-12-10 21:44:38.084 [http-nio-8010-exec-8] DEBUG c.d.m.r.T.findById - ==>  Preparing: SELECT * FROM table_designs WHERE id = ?
+2024-12-10 21:44:38.084 [http-nio-8010-exec-8] DEBUG c.d.m.r.T.findById - ==> Parameters: 9c7fbf60-c8fa-47f2-b36a-bfaa59b29274(String)
+2024-12-10 21:44:38.086 [http-nio-8010-exec-8] DEBUG c.d.m.r.T.findById - <==      Total: 1
+2024-12-10 21:44:38.632 [http-nio-8010-exec-3] DEBUG c.d.m.r.T.findById - ==>  Preparing: SELECT * FROM table_designs WHERE id = ?
+2024-12-10 21:44:38.633 [http-nio-8010-exec-3] DEBUG c.d.m.r.T.findById - ==> Parameters: 959a3090-7ce9-4cbd-9914-5910f7f8d181(String)
+2024-12-10 21:44:38.636 [http-nio-8010-exec-3] DEBUG c.d.m.r.T.findById - <==      Total: 1
+2024-12-10 21:44:46.518 [http-nio-8010-exec-1] DEBUG c.d.m.r.T.findById - ==>  Preparing: SELECT * FROM table_designs WHERE id = ?
+2024-12-10 21:44:46.518 [http-nio-8010-exec-1] DEBUG c.d.m.r.T.findById - ==> Parameters: 959a3090-7ce9-4cbd-9914-5910f7f8d181(String)
+2024-12-10 21:44:46.520 [http-nio-8010-exec-1] DEBUG c.d.m.r.T.findById - <==      Total: 1
+2024-12-10 21:44:50.278 [http-nio-8010-exec-9] DEBUG c.d.m.m.P.findProjectsByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-10 21:44:50.278 [http-nio-8010-exec-9] DEBUG c.d.m.m.P.findProjectsByTenantId - ==> Parameters: e92c7017-5fb3-41d5-aeb6-a7bb89b6ad81(String)
+2024-12-10 21:44:50.279 [http-nio-8010-exec-9] DEBUG c.d.m.m.P.findProjectsByTenantId - <==      Total: 1
+2024-12-10 21:44:50.837 [http-nio-8010-exec-4] DEBUG c.d.m.m.P.findProjectById - ==>  Preparing: SELECT * FROM projects WHERE id = ?
+2024-12-10 21:44:50.837 [http-nio-8010-exec-5] DEBUG c.d.m.r.T.findById - ==>  Preparing: SELECT * FROM table_designs WHERE id = ?
+2024-12-10 21:44:50.843 [http-nio-8010-exec-4] DEBUG c.d.m.m.P.findProjectById - ==> Parameters: e3115125-13d9-49e7-85b1-f65f3ef36251(String)
+2024-12-10 21:44:50.844 [http-nio-8010-exec-5] DEBUG c.d.m.r.T.findById - ==> Parameters: 959a3090-7ce9-4cbd-9914-5910f7f8d181(String)
+2024-12-10 21:44:50.845 [http-nio-8010-exec-2] DEBUG c.d.m.r.T.findByProjectId - ==>  Preparing: SELECT * FROM table_designs WHERE project_id = ?
+2024-12-10 21:44:50.845 [http-nio-8010-exec-2] DEBUG c.d.m.r.T.findByProjectId - ==> Parameters: e3115125-13d9-49e7-85b1-f65f3ef36251(String)
+2024-12-10 21:44:50.870 [http-nio-8010-exec-2] DEBUG c.d.m.r.T.findByProjectId - <==      Total: 2
+2024-12-10 21:44:50.870 [http-nio-8010-exec-4] DEBUG c.d.m.m.P.findProjectById - <==      Total: 1
+2024-12-10 21:44:50.871 [http-nio-8010-exec-5] DEBUG c.d.m.r.T.findById - <==      Total: 1
+2024-12-10 21:44:50.957 [http-nio-8010-exec-7] DEBUG c.d.m.r.T.findByProjectId - ==>  Preparing: SELECT * FROM table_designs WHERE project_id = ?
+2024-12-10 21:44:50.967 [http-nio-8010-exec-7] DEBUG c.d.m.r.T.findByProjectId - ==> Parameters: e3115125-13d9-49e7-85b1-f65f3ef36251(String)
+2024-12-10 21:44:50.979 [http-nio-8010-exec-7] DEBUG c.d.m.r.T.findByProjectId - <==      Total: 2
+2024-12-10 21:44:51.012 [http-nio-8010-exec-6] DEBUG c.d.m.r.T.findByProjectId - ==>  Preparing: SELECT * FROM table_designs WHERE project_id = ?
+2024-12-10 21:44:51.013 [http-nio-8010-exec-6] DEBUG c.d.m.r.T.findByProjectId - ==> Parameters: e3115125-13d9-49e7-85b1-f65f3ef36251(String)
+2024-12-10 21:44:51.031 [http-nio-8010-exec-6] DEBUG c.d.m.r.T.findByProjectId - <==      Total: 2
+2024-12-10 21:44:51.045 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findByProjectId - ==>  Preparing: SELECT * FROM table_designs WHERE project_id = ?
+2024-12-10 21:44:51.046 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findByProjectId - ==> Parameters: e3115125-13d9-49e7-85b1-f65f3ef36251(String)
+2024-12-10 21:44:51.062 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findByProjectId - <==      Total: 2
+2024-12-10 21:44:51.083 [http-nio-8010-exec-8] DEBUG c.d.m.r.T.findByProjectId - ==>  Preparing: SELECT * FROM table_designs WHERE project_id = ?
+2024-12-10 21:44:51.083 [http-nio-8010-exec-8] DEBUG c.d.m.r.T.findByProjectId - ==> Parameters: e3115125-13d9-49e7-85b1-f65f3ef36251(String)
+2024-12-10 21:44:51.090 [http-nio-8010-exec-8] DEBUG c.d.m.r.T.findByProjectId - <==      Total: 2
+2024-12-10 21:44:51.107 [http-nio-8010-exec-3] DEBUG c.d.m.r.T.findAll - ==>  Preparing: SELECT * FROM table_designs
+2024-12-10 21:44:51.108 [http-nio-8010-exec-3] DEBUG c.d.m.r.T.findAll - ==> Parameters: 
+2024-12-10 21:44:51.120 [http-nio-8010-exec-3] DEBUG c.d.m.r.T.findAll - <==      Total: 2

@@ -184,6 +184,11 @@
           <FieldList
             v-model="fields"
             @update:model-value="handleFieldsChange"
+            @add="handleAddField"
+            @edit="handleEditField"
+            @delete="handleDeleteField"
+            @batch-edit="handleBatchEdit"
+            @use-template="handleUseTemplate"
           />
         </a-tab-pane>
         <a-tab-pane key="indexes" tab="索引">
@@ -194,6 +199,14 @@
           />
         </a-tab-pane>
       </a-tabs>
+
+      <FieldForm
+        v-model:visible="showFieldForm"
+        :field="editingField"
+        :db-type="tableInfo.dbType"
+        @submit="handleFieldFormSubmit"
+        @cancel="handleFieldFormCancel"
+      />
     </div>
 
     <partition-settings-modal
@@ -253,6 +266,7 @@ import IndexList from './components/IndexList.vue'
 import TableBasicForm from './components/TableBasicForm.vue'
 import PartitionSettingsModal from './components/PartitionSettingsModal.vue'
 import TableTemplateModal from './components/TableTemplateModal.vue'
+import FieldForm from './components/FieldForm.vue'
 
 interface TableInfo {
   id?: string
@@ -807,6 +821,45 @@ window.addEventListener('keydown', handleKeyDown)
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeyDown)
 })
+
+const showFieldForm = ref(false)
+const editingField = shallowRef<any>(null)
+
+const handleAddField = () => {
+  editingField.value = {
+    id: Date.now().toString(),
+    name: '',
+    displayName: '',
+    dataType: 'varchar',
+    length: 255,
+    nullable: true,
+    primaryKey: false,
+    autoIncrement: false,
+    defaultValue: '',
+    comment: ''
+  }
+  showFieldForm.value = true
+}
+
+const handleFieldFormSubmit = (field: any) => {
+  if (editingField.value.id) {
+    // 编辑现有字段
+    const index = fields.value.findIndex(f => f.id === field.id)
+    if (index > -1) {
+      fields.value[index] = { ...field }
+    }
+  } else {
+    // 添加新字段
+    fields.value.push({ ...field })
+  }
+  showFieldForm.value = false
+  editingField.value = null
+}
+
+const handleFieldFormCancel = () => {
+  showFieldForm.value = false
+  editingField.value = null
+}
 </script>
 
 <style lang="less" scoped>
