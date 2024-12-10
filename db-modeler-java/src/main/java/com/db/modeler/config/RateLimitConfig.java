@@ -30,10 +30,10 @@ public class RateLimitConfig implements WebMvcConfigurer {
 
     private Bucket newBucket(String key) {
         // 基本限制：每分钟20个请求
-        Bandwidth limit = Bandwidth.classic(200, Refill.intervally(20, Duration.ofMinutes(1)));
+        Bandwidth limit = Bandwidth.classic(20000000, Refill.intervally(20, Duration.ofMinutes(1)));
         
         // 突发限制：每秒最多5个请求
-        Bandwidth burstLimit = Bandwidth.classic(50, Refill.intervally(5, Duration.ofSeconds(1)));
+        Bandwidth burstLimit = Bandwidth.classic(50000000, Refill.intervally(5, Duration.ofSeconds(1)));
 
         return Bucket4j.builder()
                 .addLimit(limit)

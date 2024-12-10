@@ -92,9 +92,9 @@ export const useGlobalStore = defineStore('global', {
       try {
         const response = await projectApi.getProjectTables(projectId)
         console.log('Received project tables response:', response)
-        if (response?.data?.code === 0) {
+        if (response.code === 0 && Array.isArray(response.data)) {
           this.$patch((state) => {
-            state.projectTables = response.data.data
+            state.projectTables = response.data
           })
         } else {
           console.warn('获取表列表返回格式不正确:', response)
@@ -144,6 +144,16 @@ export const useGlobalStore = defineStore('global', {
           this.clearState();
         }
       }
+    },
+
+    // 设置项目的数据表列表
+    setProjectTables(tables: any) {
+      if (!tables) {
+        console.warn('setProjectTables: 数据为空')
+        this.projectTables = []
+        return
+      }
+      this.projectTables = Array.isArray(tables) ? tables : []
     }
   },
 

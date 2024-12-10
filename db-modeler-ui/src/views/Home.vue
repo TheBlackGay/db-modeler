@@ -25,7 +25,7 @@
         <a-layout-content class="content">
           <div class="content-wrapper">
             <template v-if="globalStore.currentTenant">
-              <ProjectList :projects="projects" v-if="selectedKeys[0] === 'projects'" />
+              <ProjectList v-if="selectedKeys[0] === 'projects'" />
             </template>
             <template v-else>
               <div class="placeholder">
@@ -40,43 +40,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { DatabaseOutlined } from '@ant-design/icons-vue'
 import TenantSelector from '@/components/TenantSelector.vue'
 import ProjectList from '@/components/ProjectList.vue'
 import { useGlobalStore } from '@/stores/global'
-import { projectApi } from '@/api/project'
 
 const globalStore = useGlobalStore()
 const selectedKeys = ref<string[]>(['projects'])
-const projects = ref([])
-
-const loadProjects = async () => {
-  if (!globalStore.currentTenant?.id) {
-    return
-  }
-
-  // 清理原有项目数据
-  projects.value = []
-  
-  try {
-    const response = await projectApi.getProjects(globalStore.currentTenant.id)
-    projects.value = response.data
-    console.log('加载的项目:', response.data)
-  } catch (error) {
-    console.error('加载项目失败:', error)
-  }
-}
 
 // 处理租户切换事件
 const onTenantChanged = () => {
-  loadProjects()
+  // 租户切换的逻辑已经在 globalStore 中处理
+  console.log('租户已切换')
 }
-
-// 组件挂载时加载项目
-onMounted(() => {
-  loadProjects()
-})
 </script>
 
 <style scoped>

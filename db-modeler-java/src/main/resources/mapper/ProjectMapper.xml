@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.db.modeler.repository.ProjectRepository">
+<mapper namespace="com.db.modeler.mapper.ProjectMapper">
     <resultMap id="ProjectResultMap" type="com.db.modeler.entity.Project">
         <id property="id" column="id" typeHandler="com.db.modeler.mapper.typehandler.UUIDTypeHandler" />
         <result property="tenantId" column="tenant_id" typeHandler="com.db.modeler.mapper.typehandler.UUIDTypeHandler" />
@@ -11,23 +11,29 @@
         <result property="updatedAt" column="updated_at" />
     </resultMap>
 
-    <select id="findById" resultMap="ProjectResultMap">
+    <select id="findProjectById" resultMap="ProjectResultMap">
         SELECT * FROM projects 
         WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
     </select>
 
-    <select id="findByTenantId" resultMap="ProjectResultMap">
+    <select id="findProjectsByTenantId" resultMap="ProjectResultMap">
         SELECT * FROM projects 
         WHERE tenant_id = #{tenantId,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
     </select>
 
-    <select id="findByTenantIdAndStatus" resultMap="ProjectResultMap">
+    <select id="findProjectsByTenantIdWithPaging" resultMap="ProjectResultMap">
         SELECT * FROM projects 
         WHERE tenant_id = #{tenantId,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
-        AND status = #{status}
+        ORDER BY created_at DESC
+        LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
-    <insert id="save" parameterType="com.db.modeler.entity.Project">
+    <select id="countProjectsByTenantId" resultType="long">
+        SELECT COUNT(*) FROM projects 
+        WHERE tenant_id = #{tenantId,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
+    </select>
+
+    <insert id="insertProject" parameterType="com.db.modeler.entity.Project">
         INSERT INTO projects (
             id, tenant_id, name, description, status, created_at, updated_at
         ) VALUES (
@@ -41,7 +47,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.db.modeler.entity.Project">
+    <update id="updateProject" parameterType="com.db.modeler.entity.Project">
         UPDATE projects SET
             name = #{name},
             description = #{description},
@@ -50,7 +56,7 @@
         WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
     </update>
 
-    <delete id="deleteById">
+    <delete id="deleteProject">
         DELETE FROM projects 
         WHERE id = #{id,typeHandler=com.db.modeler.mapper.typehandler.UUIDTypeHandler}
     </delete>

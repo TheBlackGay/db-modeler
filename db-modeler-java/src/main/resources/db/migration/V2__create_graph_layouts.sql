@@ -1,11 +1,12 @@
 -- 创建图布局表
 CREATE TABLE graph_layouts (
-    id VARCHAR(36) PRIMARY KEY,
-    project_id VARCHAR(36) NOT NULL,
-    layout_data TEXT NOT NULL,
-    created_at BIGINT NOT NULL,
-    updated_at BIGINT NOT NULL
+    id SERIAL PRIMARY KEY,
+    graph_id INTEGER NOT NULL,
+    layout_data JSONB NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (graph_id) REFERENCES graphs(id)
 );
 
 -- 创建索引
-CREATE INDEX idx_graph_layouts_project_id ON graph_layouts(project_id);
+CREATE INDEX idx_graph_layouts_graph_id ON graph_layouts(graph_id);

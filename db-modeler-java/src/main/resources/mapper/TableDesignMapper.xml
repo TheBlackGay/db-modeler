@@ -9,6 +9,11 @@
         <result property="type" column="type"/>
         <result property="domain" column="domain"/>
         <result property="comment" column="comment"/>
+        <result property="columns" column="columns" typeHandler="com.db.modeler.typehandler.JsonTypeHandler"/>
+        <result property="status" column="status"/>
+        <result property="metadata" column="metadata" typeHandler="com.db.modeler.typehandler.JsonTypeHandler"/>
+        <result property="createdBy" column="created_by" jdbcType="OTHER" javaType="java.util.UUID"/>
+        <result property="synced" column="synced"/>
         <result property="createdAt" column="created_at"/>
         <result property="updatedAt" column="updated_at"/>
     </resultMap>
@@ -33,9 +38,16 @@
 
     <insert id="save" parameterType="com.db.modeler.entity.TableDesign">
         INSERT INTO table_designs (
-            id, project_id, code, display_name, type, domain, comment, created_at, updated_at
+            id, project_id, code, display_name, type, domain, comment, 
+            columns, status, metadata, created_by, synced, 
+            created_at, updated_at
         ) VALUES (
-            #{id}, #{projectId}, #{code}, #{displayName}, #{type}, #{domain}, #{comment}, #{createdAt}, #{updatedAt}
+            #{id}, #{projectId}, #{code}, #{displayName}, #{type}, #{domain}, #{comment},
+            #{columns,typeHandler=com.db.modeler.typehandler.JsonTypeHandler}, 
+            #{status}, 
+            #{metadata,typeHandler=com.db.modeler.typehandler.JsonTypeHandler}, 
+            #{createdBy}, #{synced},
+            #{createdAt}, #{updatedAt}
         )
     </insert>
 
@@ -47,6 +59,10 @@
             type = #{type},
             domain = #{domain},
             comment = #{comment},
+            columns = #{columns,typeHandler=com.db.modeler.typehandler.JsonTypeHandler},
+            status = #{status},
+            metadata = #{metadata,typeHandler=com.db.modeler.typehandler.JsonTypeHandler},
+            synced = #{synced},
             updated_at = #{updatedAt}
         WHERE id = #{id}
     </update>

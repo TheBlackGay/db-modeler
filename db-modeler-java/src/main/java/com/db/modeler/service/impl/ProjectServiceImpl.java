@@ -2,7 +2,7 @@ package com.db.modeler.service.impl;
 
 import com.db.modeler.entity.Project;
 import com.db.modeler.entity.Tenant;
-import com.db.modeler.repository.ProjectRepository;
+import com.db.modeler.mapper.ProjectMapper;
 import com.db.modeler.service.ProjectService;
 import com.db.modeler.service.TenantService;
 import com.db.modeler.exception.ResourceNotFoundException;
@@ -23,7 +23,7 @@ import java.util.UUID;
 public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
-    private ProjectRepository projectRepository;
+    private ProjectMapper projectMapper;
 
     @Autowired
     private TenantService tenantService;
@@ -43,13 +43,13 @@ public class ProjectServiceImpl implements ProjectService {
         project.setStatus(Project.Status.ACTIVE);
         project.setCreatedAt(new Date());
         project.setUpdatedAt(new Date());
-        projectRepository.save(project);
+        projectMapper.insertProject(project);
         return project;
     }
 
     @Override
     public Project getProjectById(UUID id) {
-        Project project = projectRepository.findById(id);
+        Project project = projectMapper.findProjectById(id);
         if (project == null) {
             throw new ResourceNotFoundException("Project not found with id: " + id);
         }
@@ -58,12 +58,12 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Project> getAllProjects() {
-        return projectRepository.findByTenantId(null);
+        return projectMapper.findAllProjects();
     }
 
     @Override
     public List<Project> getProjectsByTenantId(UUID tenantId) {
-        return projectRepository.findByTenantId(tenantId);
+        return projectMapper.findProjectsByTenantId(tenantId);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class ProjectServiceImpl implements ProjectService {
         existingProject.setStatus(project.getStatus());
         existingProject.setUpdatedAt(new Date());
         
-        projectRepository.update(existingProject);
+        projectMapper.updateProject(existingProject);
         return existingProject;
     }
 
@@ -87,14 +87,14 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional
     public void deleteProject(UUID id) {
         Project project = getProjectById(id);
-        projectRepository.deleteById(id);
+        projectMapper.deleteProject(id);
     }
 
     @Override
     public PageResult<Project> getProjectsPage(UUID tenantId, int current, int pageSize) {
         int offset = (current - 1) * pageSize;
-        List<Project> projects = projectRepository.findByTenantIdWithPaging(tenantId, offset, pageSize);
-        long total = projectRepository.countByTenantId(tenantId);
+        List<Project> projects = projectMapper.findProjectsByTenantIdWithPaging(tenantId, offset, pageSize);
+        long total = projectMapper.countProjectsByTenantId(tenantId);
         
         PageInfo pageInfo = new PageInfo();
         pageInfo.setCurrent(current);

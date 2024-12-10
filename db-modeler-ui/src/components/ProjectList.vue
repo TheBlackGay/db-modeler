@@ -64,12 +64,16 @@
 import { projectApi } from '@/api/project'
 import { useGlobalStore } from '@/stores/global'
 import { message } from 'ant-design-vue'
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
 import type { Project } from '@/api/project'
 import { ApiResponseUtil, type PageInfo } from '@/types/api'
 import type { FormInstance } from 'ant-design-vue'
 
+const router = useRouter()
 const globalStore = useGlobalStore()
+const { currentTenant } = storeToRefs(globalStore)
 const formRef = ref<FormInstance>()
 const loading = ref(false)
 const modalVisible = ref(false)
@@ -91,8 +95,6 @@ const formState = ref({
 const rules = {
   name: [{ required: true, message: '请输入项目名称', trigger: 'blur' }]
 }
-
-const { currentTenant } = globalStore
 
 const loadProjects = async () => {
   if (!currentTenant.value?.id) {
@@ -243,11 +245,11 @@ const handleDesign = (record: Project) => {
   globalStore.$patch((state) => {
     state.currentProject = record;
   });
-  // router.push({
-  //   name: 'model',
-  //   params: { id: record.id }
-  // });
-};
+  router.push({
+    name: 'model',
+    params: { id: record.id }
+  });
+}
 
 const formatDate = (date: string) => {
   if (!date) return '-'
@@ -271,10 +273,6 @@ watch(() => currentTenant.value?.id, (newTenantId) => {
     projects.value = []
   }
 }, { immediate: true })
-
-onMounted(() => {
-  loadProjects()
-})
 </script>
 
 <style scoped>

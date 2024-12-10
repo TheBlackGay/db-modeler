@@ -75,7 +75,9 @@ export const projectApi = {
 
   // 获取项目的数据表列表
   getProjectTables(projectId: string) {
-    return http.get<ListResponse<Table>>(`/api/projects/${projectId}/tables`)
+    return http.get<ListResponse<Table>>(`/api/table-designs`, {
+      params: { projectId }
+    })
   },
 
   // 获取数据表详情
@@ -85,7 +87,7 @@ export const projectApi = {
 
   // 获取表设计详情
   getTableDesignById(id: string) {
-    return http.get<DetailResponse<Table>>(`/api/table-designs/${id}`)
+    return http.get<DetailResponse<Table>>(`/api/table-designs/detail/${id}`)
   },
 
   // 保存表设计

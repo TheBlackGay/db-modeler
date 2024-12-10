@@ -45,9 +45,9 @@
           <!-- 表名列 -->
           <template v-if="column.key === 'code'">
             <div class="table-name-cell">
-              <router-link :to="getTableLink(record)" class="table-link">
+              <a class="table-link" @click="handleTableClick(record)">
                 {{ record.code }}
-              </router-link>
+              </a>
             </div>
           </template>
 
@@ -352,6 +352,17 @@ const handleModalCancel = () => {
 // 获取表格详情页链接
 const getTableLink = (record: TableListItem) => {
   return `/project/${projectId}/model/tables/${record.id}`
+}
+
+// 处理表格点击
+const handleTableClick = (record: TableListItem) => {
+  router.push({
+    name: 'table-design',
+    params: {
+      id: projectId,
+      tableId: record.id
+    }
+  })
 }
 
 // 组件挂载时获取表格列表

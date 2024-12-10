@@ -5,13 +5,15 @@
         <div class="title">
           <a class="app-name link" @click="handleBreadcrumbClick('home')">DB Modeler</a>
           <span class="divider">/</span>
-          <a class="project-name link" @click="handleBreadcrumbClick('project')">{{ globalStore.currentProject?.name }}</a>
+          <a class="project-name link" @click="handleBreadcrumbClick('project')">项目列表</a>
           <span class="divider">/</span>
-          <a-breadcrumb>
+          <a class="project-name link">{{ globalStore.currentProject?.name }}</a>
+          <span class="divider">/</span>
+          <a-breadcrumb separator="/">
             <a-breadcrumb-item>
               <span>{{ getMenuTitle(currentMenu) }}</span>
             </a-breadcrumb-item>
-            <a-breadcrumb-item v-if="route.name && route.name !== 'model-home'">
+            <a-breadcrumb-item v-if="route.name && route.name !== 'model-home' && route.name !== 'model'">
               <span>{{ getSubMenuTitle(route.name as string) }}</span>
             </a-breadcrumb-item>
           </a-breadcrumb>
@@ -356,18 +358,24 @@ const loadProjectInfo = async () => {
     // 加载项目信息
     const project = await projectApi.getProjectById(projectId)
     console.log('获取到的项目信息:', project)
-    if (!project) {
+    if (!project || !project.data) {
       console.error('找不到项目信息')
       return
     }
 
+    const projectData = project.data
+    if (!projectData.tenantId) {
+      console.error('项目缺少租户ID')
+      return
+    }
+
     // 如果没有租户或租户不匹配，加载并设置租户
-    if (!globalStore.currentTenant || globalStore.currentTenant.id !== project.tenantId) {
+    if (!globalStore.currentTenant || globalStore.currentTenant.id !== projectData.tenantId) {
       try {
-        const tenant = await tenantApi.getTenantById(project.tenantId)
+        const tenant = await tenantApi.getTenantById(projectData.tenantId)
         console.log('获取到的租户信息:', tenant)
-        if (tenant) {
-          await globalStore.setCurrentTenant(tenant)
+        if (tenant && tenant.data) {
+          await globalStore.setCurrentTenant(tenant.data)
           console.log('已设置当前租户:', globalStore.currentTenant)
         } else {
           console.error('找不到项目对应的租户')
@@ -380,19 +388,19 @@ const loadProjectInfo = async () => {
     }
 
     // 设置当前项目
-    globalStore.setCurrentProject(project)
+    globalStore.setCurrentProject(projectData)
     console.log('已设置当前项目:', globalStore.currentProject)
 
     // 加载项目的数据表列表
     try {
       console.log('开始加载项目数据表，projectId:', projectId)
-      const tables = await projectApi.getProjectTables(projectId)
-      console.log('获取到的数据表列表:', tables)
-      if (tables && Array.isArray(tables)) {
-        globalStore.setProjectTables(tables)
+      const response = await projectApi.getProjectTables(projectId)
+      console.log('获取到的数据表列表:', response)
+      if (response?.data) {
+        globalStore.setProjectTables(response.data)
         console.log('已设置数据表到全局状态，当前数据表列表:', globalStore.projectTables)
       } else {
-        console.warn('获取到的数据表不是数组:', tables)
+        console.warn('获取到的数据表响应无效:', response)
       }
     } catch (error) {
       console.error('加载数据表列表失败:', error)

@@ -22,4 +22,8 @@ public interface ProjectMapper {
     void deleteProject(@Param("id") UUID id);
     
     void deleteProjectsByTenantId(@Param("tenantId") UUID tenantId);
+    
+    List<Project> findProjectsByTenantIdWithPaging(@Param("tenantId") UUID tenantId, @Param("offset") int offset, @Param("pageSize") int pageSize);
+    
+    long countProjectsByTenantId(@Param("tenantId") UUID tenantId);
 }
