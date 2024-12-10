@@ -3891,3 +3891,132 @@ Caused by: java.sql.SQLIntegrityConstraintViolationException: Column 'project_id
 2024-12-09 17:19:28.262 [http-nio-8010-exec-9] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
 2024-12-09 17:19:28.263 [http-nio-8010-exec-9] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 7c15afdb-b432-11ef-9700-0242ac110003(String)
 2024-12-09 17:19:28.266 [http-nio-8010-exec-9] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:27:36.234 [http-nio-8010-exec-2] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:27:36.236 [http-nio-8010-exec-2] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 7c15afdb-b432-11ef-9700-0242ac110003(String)
+2024-12-09 17:27:36.247 [http-nio-8010-exec-2] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:27:36.381 [http-nio-8010-exec-3] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==>  Preparing: SELECT * FROM tenants
+2024-12-09 17:27:36.381 [http-nio-8010-exec-3] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==> Parameters: 
+2024-12-09 17:27:36.383 [http-nio-8010-exec-5] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:27:36.383 [http-nio-8010-exec-5] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 7c15afdb-b432-11ef-9700-0242ac110003(String)
+2024-12-09 17:27:36.383 [http-nio-8010-exec-3] DEBUG c.d.m.m.TenantMapper.findAllTenants - <==      Total: 2
+2024-12-09 17:27:36.384 [http-nio-8010-exec-5] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:27:38.707 [http-nio-8010-exec-4] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:27:38.707 [http-nio-8010-exec-4] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 7c15afdb-b432-11ef-9700-0242ac110003(String)
+2024-12-09 17:27:38.709 [http-nio-8010-exec-4] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:27:38.722 [http-nio-8010-exec-6] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:27:38.723 [http-nio-8010-exec-6] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 7c15afdb-b432-11ef-9700-0242ac110003(String)
+2024-12-09 17:27:38.727 [http-nio-8010-exec-6] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:08.308 [http-nio-8010-exec-9] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:08.308 [http-nio-8010-exec-9] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 7c15afdb-b432-11ef-9700-0242ac110003(String)
+2024-12-09 17:29:08.310 [http-nio-8010-exec-9] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:08.511 [http-nio-8010-exec-1] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:08.511 [http-nio-8010-exec-1] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 7c15afdb-b432-11ef-9700-0242ac110003(String)
+2024-12-09 17:29:08.513 [http-nio-8010-exec-10] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==>  Preparing: SELECT * FROM tenants
+2024-12-09 17:29:08.513 [http-nio-8010-exec-10] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==> Parameters: 
+2024-12-09 17:29:08.513 [http-nio-8010-exec-1] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:08.514 [http-nio-8010-exec-10] DEBUG c.d.m.m.TenantMapper.findAllTenants - <==      Total: 2
+2024-12-09 17:29:10.578 [http-nio-8010-exec-2] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:10.578 [http-nio-8010-exec-2] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:29:10.580 [http-nio-8010-exec-2] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:10.590 [http-nio-8010-exec-3] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:10.591 [http-nio-8010-exec-3] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:29:10.594 [http-nio-8010-exec-3] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:14.421 [http-nio-8010-exec-5] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:14.421 [http-nio-8010-exec-5] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:29:14.423 [http-nio-8010-exec-5] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:14.510 [http-nio-8010-exec-6] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==>  Preparing: SELECT * FROM tenants
+2024-12-09 17:29:14.510 [http-nio-8010-exec-4] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:14.510 [http-nio-8010-exec-6] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==> Parameters: 
+2024-12-09 17:29:14.510 [http-nio-8010-exec-4] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:29:14.513 [http-nio-8010-exec-4] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:14.513 [http-nio-8010-exec-6] DEBUG c.d.m.m.TenantMapper.findAllTenants - <==      Total: 2
+2024-12-09 17:29:16.864 [http-nio-8010-exec-7] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:16.865 [http-nio-8010-exec-7] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:29:16.874 [http-nio-8010-exec-7] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:17.035 [http-nio-8010-exec-8] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:17.035 [http-nio-8010-exec-8] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:29:17.038 [http-nio-8010-exec-9] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==>  Preparing: SELECT * FROM tenants
+2024-12-09 17:29:17.038 [http-nio-8010-exec-9] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==> Parameters: 
+2024-12-09 17:29:17.039 [http-nio-8010-exec-8] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:17.040 [http-nio-8010-exec-9] DEBUG c.d.m.m.TenantMapper.findAllTenants - <==      Total: 2
+2024-12-09 17:29:18.720 [http-nio-8010-exec-1] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:18.721 [http-nio-8010-exec-1] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 7c15afdb-b432-11ef-9700-0242ac110003(String)
+2024-12-09 17:29:18.728 [http-nio-8010-exec-1] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:18.742 [http-nio-8010-exec-10] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:18.743 [http-nio-8010-exec-10] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 7c15afdb-b432-11ef-9700-0242ac110003(String)
+2024-12-09 17:29:18.745 [http-nio-8010-exec-10] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:22.540 [http-nio-8010-exec-2] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:22.540 [http-nio-8010-exec-2] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 7c15afdb-b432-11ef-9700-0242ac110003(String)
+2024-12-09 17:29:22.546 [http-nio-8010-exec-2] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:22.667 [http-nio-8010-exec-3] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==>  Preparing: SELECT * FROM tenants
+2024-12-09 17:29:22.667 [http-nio-8010-exec-5] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:22.667 [http-nio-8010-exec-5] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 7c15afdb-b432-11ef-9700-0242ac110003(String)
+2024-12-09 17:29:22.668 [http-nio-8010-exec-3] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==> Parameters: 
+2024-12-09 17:29:22.669 [http-nio-8010-exec-5] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:22.669 [http-nio-8010-exec-3] DEBUG c.d.m.m.TenantMapper.findAllTenants - <==      Total: 2
+2024-12-09 17:29:23.632 [http-nio-8010-exec-4] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:23.632 [http-nio-8010-exec-4] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 7c15afdb-b432-11ef-9700-0242ac110003(String)
+2024-12-09 17:29:23.634 [http-nio-8010-exec-4] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:23.649 [http-nio-8010-exec-6] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:23.650 [http-nio-8010-exec-6] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 7c15afdb-b432-11ef-9700-0242ac110003(String)
+2024-12-09 17:29:23.654 [http-nio-8010-exec-6] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:27.002 [http-nio-8010-exec-7] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:27.002 [http-nio-8010-exec-7] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:29:27.004 [http-nio-8010-exec-7] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:27.015 [http-nio-8010-exec-8] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:27.015 [http-nio-8010-exec-8] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:29:27.018 [http-nio-8010-exec-8] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:52.503 [http-nio-8010-exec-9] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:52.504 [http-nio-8010-exec-9] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:29:52.509 [http-nio-8010-exec-9] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:52.622 [http-nio-8010-exec-1] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==>  Preparing: SELECT * FROM tenants
+2024-12-09 17:29:52.622 [http-nio-8010-exec-10] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:52.622 [http-nio-8010-exec-1] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==> Parameters: 
+2024-12-09 17:29:52.622 [http-nio-8010-exec-10] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:29:52.624 [http-nio-8010-exec-10] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:52.624 [http-nio-8010-exec-1] DEBUG c.d.m.m.TenantMapper.findAllTenants - <==      Total: 2
+2024-12-09 17:29:54.936 [http-nio-8010-exec-2] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:54.938 [http-nio-8010-exec-2] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:29:54.943 [http-nio-8010-exec-2] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:29:55.054 [http-nio-8010-exec-3] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==>  Preparing: SELECT * FROM tenants
+2024-12-09 17:29:55.054 [http-nio-8010-exec-3] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==> Parameters: 
+2024-12-09 17:29:55.055 [http-nio-8010-exec-5] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:29:55.055 [http-nio-8010-exec-5] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:29:55.056 [http-nio-8010-exec-3] DEBUG c.d.m.m.TenantMapper.findAllTenants - <==      Total: 2
+2024-12-09 17:29:55.057 [http-nio-8010-exec-5] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:30:16.451 [http-nio-8010-exec-4] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:30:16.452 [http-nio-8010-exec-4] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:30:16.500 [http-nio-8010-exec-4] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:30:16.583 [http-nio-8010-exec-7] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:30:16.583 [http-nio-8010-exec-7] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:30:16.584 [http-nio-8010-exec-6] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==>  Preparing: SELECT * FROM tenants
+2024-12-09 17:30:16.584 [http-nio-8010-exec-6] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==> Parameters: 
+2024-12-09 17:30:16.584 [http-nio-8010-exec-7] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:30:16.585 [http-nio-8010-exec-6] DEBUG c.d.m.m.TenantMapper.findAllTenants - <==      Total: 2
+2024-12-09 17:30:17.541 [http-nio-8010-exec-8] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:30:17.541 [http-nio-8010-exec-8] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:30:17.543 [http-nio-8010-exec-8] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:30:17.649 [http-nio-8010-exec-10] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:30:17.649 [http-nio-8010-exec-10] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:30:17.650 [http-nio-8010-exec-9] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==>  Preparing: SELECT * FROM tenants
+2024-12-09 17:30:17.650 [http-nio-8010-exec-9] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==> Parameters: 
+2024-12-09 17:30:17.650 [http-nio-8010-exec-10] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:30:17.650 [http-nio-8010-exec-9] DEBUG c.d.m.m.TenantMapper.findAllTenants - <==      Total: 2
+2024-12-09 17:30:18.258 [http-nio-8010-exec-1] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:30:18.259 [http-nio-8010-exec-1] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:30:18.260 [http-nio-8010-exec-1] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:30:18.381 [http-nio-8010-exec-3] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==>  Preparing: SELECT * FROM tenants
+2024-12-09 17:30:18.381 [http-nio-8010-exec-3] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==> Parameters: 
+2024-12-09 17:30:18.385 [http-nio-8010-exec-3] DEBUG c.d.m.m.TenantMapper.findAllTenants - <==      Total: 2
+2024-12-09 17:30:18.385 [http-nio-8010-exec-2] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:30:18.386 [http-nio-8010-exec-2] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:30:18.388 [http-nio-8010-exec-2] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:30:18.466 [http-nio-8010-exec-5] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:30:18.466 [http-nio-8010-exec-5] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:30:18.470 [http-nio-8010-exec-5] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:30:18.539 [http-nio-8010-exec-7] DEBUG c.d.m.r.P.findByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-09 17:30:18.539 [http-nio-8010-exec-4] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==>  Preparing: SELECT * FROM tenants
+2024-12-09 17:30:18.539 [http-nio-8010-exec-4] DEBUG c.d.m.m.TenantMapper.findAllTenants - ==> Parameters: 
+2024-12-09 17:30:18.540 [http-nio-8010-exec-7] DEBUG c.d.m.r.P.findByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-09 17:30:18.545 [http-nio-8010-exec-7] DEBUG c.d.m.r.P.findByTenantId - <==      Total: 1
+2024-12-09 17:30:18.545 [http-nio-8010-exec-4] DEBUG c.d.m.m.TenantMapper.findAllTenants - <==      Total: 2

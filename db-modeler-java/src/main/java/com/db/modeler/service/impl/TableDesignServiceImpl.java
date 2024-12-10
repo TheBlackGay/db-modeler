@@ -7,6 +7,9 @@ import com.db.modeler.service.DDLGeneratorService;
 import com.db.modeler.exception.ResourceNotFoundException;
 import com.db.modeler.exception.ValidationException;
 import com.db.modeler.exception.DDLExecutionException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +22,8 @@ import java.util.UUID;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.time.LocalDateTime;
 
 @Service
 public class TableDesignServiceImpl implements TableDesignService {
@@ -42,9 +47,16 @@ public class TableDesignServiceImpl implements TableDesignService {
             throw new ValidationException("Table with code '" + tableDesign.getCode() + "' already exists in this project");
         }
         
+        // 设置初始值
         tableDesign.setId(UUID.randomUUID());
         tableDesign.setStatus(TableDesign.Status.DRAFT);
         tableDesign.setSynced(false);
+        
+        // 设置时间戳
+        LocalDateTime now = LocalDateTime.now();
+        tableDesign.setCreatedAt(now);
+        tableDesign.setUpdatedAt(now);
+        
         tableDesignRepository.save(tableDesign);
         
         return tableDesign;
@@ -92,6 +104,9 @@ public class TableDesignServiceImpl implements TableDesignService {
             existingTableDesign.setSynced(false);
         }
         
+        // 更新时间戳
+        existingTableDesign.setUpdatedAt(LocalDateTime.now());
+        
         tableDesignRepository.update(existingTableDesign);
         return existingTableDesign;
     }
@@ -101,6 +116,185 @@ public class TableDesignServiceImpl implements TableDesignService {
     public void deleteTableDesign(UUID tableDesignId) {
         getTableDesignById(tableDesignId); // Check if exists
         tableDesignRepository.deleteById(tableDesignId);
+    }
+
+    private void validateTableDesign(TableDesign tableDesign) {
+        if (tableDesign == null) {
+            throw new ValidationException("Table design cannot be null");
+        }
+        
+        if (!StringUtils.hasText(tableDesign.getCode())) {
+            throw new ValidationException("Table code is required");
+        }
+        
+        if (!StringUtils.hasText(tableDesign.getDisplayName())) {
+            throw new ValidationException("Table display name is required");
+        }
+        
+        // 验证元数据格式
+        if (StringUtils.hasText(tableDesign.getMetadata())) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode metadata = mapper.readTree(tableDesign.getMetadata());
+                
+                // 验证必需的元数据字段
+                validateMetadataField(metadata, "dbType", "Database type");
+                validateMetadataField(metadata, "engine", "Storage engine");
+                validateMetadataField(metadata, "charset", "Character set");
+                validateMetadataField(metadata, "collate", "Collation");
+                
+                // 验证字段值的有效性
+                validateDbType(metadata.get("dbType").asText());
+                validateEngine(metadata.get("engine").asText());
+                validateCharset(metadata.get("charset").asText());
+                validateCollation(metadata.get("collate").asText());
+                
+            } catch (JsonProcessingException e) {
+                throw new ValidationException("Invalid metadata format: " + e.getMessage());
+            }
+        }
+        
+        // 验证列定义格式
+        if (StringUtils.hasText(tableDesign.getColumns())) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode columns = mapper.readTree(tableDesign.getColumns());
+                
+                // 验证字段数组
+                if (!columns.has("fields") || !columns.get("fields").isArray()) {
+                    throw new ValidationException("Fields must be an array");
+                }
+                
+                // 验证索引数组
+                if (!columns.has("indexes") || !columns.get("indexes").isArray()) {
+                    throw new ValidationException("Indexes must be an array");
+                }
+                
+                // 验证每个字段的必需属性
+                JsonNode fields = columns.get("fields");
+                for (JsonNode field : fields) {
+                    validateFieldDefinition(field);
+                }
+                
+                // 验证每个索引的必需属性
+                JsonNode indexes = columns.get("indexes");
+                for (JsonNode index : indexes) {
+                    validateIndexDefinition(index);
+                }
+                
+            } catch (JsonProcessingException e) {
+                throw new ValidationException("Invalid columns format: " + e.getMessage());
+            }
+        }
+    }
+
+    private void validateMetadataField(JsonNode metadata, String fieldName, String displayName) {
+        if (!metadata.has(fieldName) || !metadata.get(fieldName).isTextual()) {
+            throw new ValidationException(displayName + " is required in metadata");
+        }
+    }
+
+    private void validateDbType(String dbType) {
+        List<String> validDbTypes = Arrays.asList("MySQL", "PostgreSQL", "Oracle", "SQLite", "SQLServer");
+        if (!validDbTypes.contains(dbType)) {
+            throw new ValidationException("Invalid database type: " + dbType);
+        }
+    }
+
+    private void validateEngine(String engine) {
+        List<String> validEngines = Arrays.asList("InnoDB", "MyISAM", "Memory", "CSV", "Archive");
+        if (!validEngines.stream().anyMatch(e -> e.equalsIgnoreCase(engine))) {
+            throw new ValidationException("Invalid storage engine: " + engine);
+        }
+    }
+
+    private void validateCharset(String charset) {
+        List<String> validCharsets = Arrays.asList("utf8mb4", "utf8", "latin1", "gbk");
+        if (!validCharsets.contains(charset)) {
+            throw new ValidationException("Invalid character set: " + charset);
+        }
+    }
+
+    private void validateCollation(String collation) {
+        List<String> validCollations = Arrays.asList(
+            "utf8mb4_general_ci", "utf8mb4_unicode_ci",
+            "utf8_general_ci", "latin1_swedish_ci"
+        );
+        if (!validCollations.contains(collation)) {
+            throw new ValidationException("Invalid collation: " + collation);
+        }
+    }
+
+    private void validateFieldDefinition(JsonNode field) {
+        // 验证字段必需属性
+        validateRequiredField(field, "name", "Field name");
+        validateRequiredField(field, "displayName", "Field display name");
+        validateRequiredField(field, "dataType", "Data type");
+        
+        // 验证数据类型
+        String dataType = field.get("dataType").asText();
+        validateDataType(dataType);
+        
+        // 验证长度和精度
+        if (needsLength(dataType)) {
+            if (!field.has("length") || field.get("length").asInt() <= 0) {
+                throw new ValidationException("Length is required for data type: " + dataType);
+            }
+        }
+        
+        if (needsPrecision(dataType)) {
+            if (!field.has("precision") || field.get("precision").asInt() <= 0) {
+                throw new ValidationException("Precision is required for data type: " + dataType);
+            }
+        }
+    }
+
+    private void validateIndexDefinition(JsonNode index) {
+        // 验证索引必需属性
+        validateRequiredField(index, "name", "Index name");
+        validateRequiredField(index, "type", "Index type");
+        
+        // 验证索引类型
+        String indexType = index.get("type").asText();
+        List<String> validIndexTypes = Arrays.asList("PRIMARY", "UNIQUE", "INDEX", "FULLTEXT");
+        if (!validIndexTypes.contains(indexType)) {
+            throw new ValidationException("Invalid index type: " + indexType);
+        }
+        
+        // 验证索引列
+        if (!index.has("columns") || !index.get("columns").isArray() || index.get("columns").size() == 0) {
+            throw new ValidationException("Index must have at least one column");
+        }
+    }
+
+    private void validateRequiredField(JsonNode node, String fieldName, String displayName) {
+        if (!node.has(fieldName) || node.get(fieldName).isNull() || 
+            (node.get(fieldName).isTextual() && node.get(fieldName).asText().trim().isEmpty())) {
+            throw new ValidationException(displayName + " is required");
+        }
+    }
+
+    private boolean needsLength(String dataType) {
+        return Arrays.asList("VARCHAR", "CHAR", "BINARY", "VARBINARY").contains(dataType.toUpperCase());
+    }
+
+    private boolean needsPrecision(String dataType) {
+        return Arrays.asList("DECIMAL", "NUMERIC").contains(dataType.toUpperCase());
+    }
+
+    private void validateDataType(String dataType) {
+        List<String> validDataTypes = Arrays.asList(
+            "INT", "BIGINT", "SMALLINT", "TINYINT",
+            "VARCHAR", "CHAR", "TEXT", "LONGTEXT",
+            "DECIMAL", "NUMERIC", "FLOAT", "DOUBLE",
+            "DATE", "DATETIME", "TIMESTAMP",
+            "BINARY", "VARBINARY", "BLOB", "LONGBLOB",
+            "BOOLEAN", "ENUM", "SET"
+        );
+        
+        if (!validDataTypes.contains(dataType.toUpperCase())) {
+            throw new ValidationException("Invalid data type: " + dataType);
+        }
     }
 
     @Override
@@ -216,24 +410,6 @@ public class TableDesignServiceImpl implements TableDesignService {
         
         return result;
     }
-    
-    private void validateTableDesign(TableDesign tableDesign) {
-        if (tableDesign == null) {
-            throw new ValidationException("Table design cannot be null");
-        }
-        if (!StringUtils.hasText(tableDesign.getCode())) {
-            throw new ValidationException("Table code is required");
-        }
-        if (!StringUtils.hasText(tableDesign.getDisplayName())) {
-            throw new ValidationException("Table display name is required");
-        }
-        if (tableDesign.getType() == null) {
-            throw new ValidationException("Table type is required");
-        }
-        if (tableDesign.getDomain() == null) {
-            throw new ValidationException("Table domain is required");
-        }
-    }
 
     private void validateTableForSync(TableDesign tableDesign) {
         if (tableDesign.isSynced()) {
@@ -243,7 +419,7 @@ public class TableDesignServiceImpl implements TableDesignService {
         if (!StringUtils.hasText(tableDesign.getColumns())) {
             throw new ValidationException("Table columns are required for database synchronization");
         }
-        
+
         try {
             // 尝试生成DDL来验证列定义的格式
             ddlGeneratorService.generateCreateTableDDL(tableDesign);

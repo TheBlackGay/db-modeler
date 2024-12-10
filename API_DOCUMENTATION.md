@@ -35,8 +35,109 @@
 | POST | `/projects` | 创建项目 | ✅ | |
 | GET | `/projects` | 获取所有项目 | ✅ | |
 | GET | `/projects/{id}` | 获取指定项目 | ✅ | |
-| PUT | `/projects/{id}` | 更新项目 | ✅ | |
+| PUT | `/projects/{id}` | 更新项目信息 | ✅ | |
 | DELETE | `/projects/{id}` | 删除项目 | ✅ | |
+| GET | `/projects/{id}/members` | 获取项目成员 | ✅ | |
+| POST | `/projects/{id}/members` | 添加项目成员 | ✅ | |
+| DELETE | `/projects/{id}/members/{memberId}` | 删除项目成员 | ✅ | |
+
+## 项目 API
+
+### 创建项目
+- **请求方法**: `POST /api/projects`
+- **请求体**:
+  ```json
+  {
+      "name": "项目名称",
+      "description": "项目描述",
+      "tenantId": "租户ID"
+  }
+  ```
+- **响应**:
+  ```json
+  {
+      "code": 0,
+      "message": "success",
+      "data": {
+          "id": "项目ID",
+          "name": "项目名称",
+          "description": "项目描述"
+      }
+  }
+  ```
+
+### 获取项目
+- **请求方法**: `GET /api/projects/{id}`
+- **响应**:
+  ```json
+  {
+      "code": 0,
+      "message": "success",
+      "data": {
+          "id": "项目ID",
+          "name": "项目名称",
+          "description": "项目描述"
+      }
+  }
+  ```
+
+### 获取所有项目
+- **请求方法**: `GET /api/projects`
+- **请求参数**: `tenantId` (可选)
+- **响应**:
+  ```json
+  {
+      "code": 0,
+      "message": "success",
+      "data": [
+          {
+              "id": "项目ID",
+              "name": "项目名称",
+              "description": "项目描述"
+          }
+      ]
+  }
+  ```
+
+## 租户 API
+
+### 选择租户
+- **请求方法**: `GET /api/tenants`
+- **响应**:
+  ```json
+  {
+      "code": 0,
+      "message": "success",
+      "data": [
+          {
+              "id": "租户ID",
+              "name": "租户名称"
+          }
+      ]
+  }
+  ```
+
+### 创建租户
+- **请求方法**: `POST /api/tenants`
+- **请求体**:
+  ```json
+  {
+      "name": "租户名称",
+      "code": "租户代码",
+      "description": "描述"
+  }
+  ```
+- **响应**:
+  ```json
+  {
+      "code": 0,
+      "message": "success",
+      "data": {
+          "id": "租户ID",
+          "name": "租户名称"
+      }
+  }
+  ```
 
 ## 数据库设计接口
 ### 表设计控制器 (`/api/table-design`)

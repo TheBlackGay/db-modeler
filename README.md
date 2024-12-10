@@ -12,6 +12,38 @@ DB-Modeler 是一个用于管理和操作数据库的工具，提供了用户管
 - **数据映射模块**：提供数据映射的创建和管理功能。
 - **表比较模块**：支持数据库表结构的比较和差异分析。
 - **逆向工程模块**：从现有数据库中提取表结构。
+- **API 接口**: 提供 RESTful 风格的 API 接口，支持项目和数据库的管理。
+
+### API 使用示例
+
+1. **创建项目**:
+   ```bash
+   curl -X POST http://localhost:8080/api/projects \
+   -H 'Content-Type: application/json' \
+   -d '{"name": "新项目", "description": "项目描述", "tenantId": "租户ID"}'
+   ```
+
+2. **获取项目**:
+   ```bash
+   curl -X GET http://localhost:8080/api/projects/{id}
+   ```
+
+3. **获取所有项目**:
+   ```bash
+   curl -X GET http://localhost:8080/api/projects
+   ```
+
+4. **创建租户**:
+   ```bash
+   curl -X POST http://localhost:8080/api/tenants \
+   -H 'Content-Type: application/json' \
+   -d '{"name": "新租户", "code": "租户代码", "description": "描述"}'
+   ```
+
+5. **选择租户**:
+   ```bash
+   curl -X GET http://localhost:8080/api/tenants
+   ```
 
 ## 当前进度
 

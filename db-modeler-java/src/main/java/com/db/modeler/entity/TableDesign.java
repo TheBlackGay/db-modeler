@@ -1,9 +1,13 @@
 package com.db.modeler.entity;
 
+import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class TableDesign {
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private UUID id;
     private String code;        // 表代码
@@ -11,9 +15,13 @@ public class TableDesign {
     private String comment;     // 注释
     private Type type = Type.TABLE;
     private Domain domain = Domain.BUSINESS; // 所属域
+    
     private String columns;     // 列定义（JSON格式）
+    
     private Status status = Status.DRAFT;    // 表状态
+    
     private String metadata;    // 其他元数据（JSON格式）
+    
     private UUID createdBy;
     private boolean synced = false; // 是否已同步到数据库
     private UUID projectId;     // 所属项目ID
@@ -57,6 +65,7 @@ public class TableDesign {
         return domain;
     }
 
+    @JsonRawValue
     public String getColumns() {
         return columns;
     }
@@ -65,6 +74,7 @@ public class TableDesign {
         return status;
     }
 
+    @JsonRawValue
     public String getMetadata() {
         return metadata;
     }
@@ -114,16 +124,24 @@ public class TableDesign {
         this.domain = domain;
     }
 
-    public void setColumns(String columns) {
-        this.columns = columns;
+    public void setColumns(Object columns) {
+        try {
+            this.columns = columns instanceof String ? (String) columns : objectMapper.writeValueAsString(columns);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error converting columns to JSON string", e);
+        }
     }
 
     public void setStatus(Status status) {
         this.status = status;
     }
 
-    public void setMetadata(String metadata) {
-        this.metadata = metadata;
+    public void setMetadata(Object metadata) {
+        try {
+            this.metadata = metadata instanceof String ? (String) metadata : objectMapper.writeValueAsString(metadata);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error converting metadata to JSON string", e);
+        }
     }
 
     public void setCreatedBy(UUID createdBy) {

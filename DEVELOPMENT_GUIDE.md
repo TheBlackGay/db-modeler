@@ -806,3 +806,14 @@ export function testDatabaseConnection(projectId: string, data: DatabaseConfig):
    - 缓存频繁访问的配置
    - 分页加载大量配置
    - 异步处理耗时操作
+
+### API 设计规范
+- 所有 API 接口应遵循 RESTful 风格。
+- 使用 HTTP 状态码表示请求结果。
+- 请求和响应应使用 JSON 格式。
+- API 文档应保持更新，确保与代码一致。
+
+### API 调用规范
+- 使用 Axios 进行 API 请求。
+- 所有 API 调用应集中管理，避免在组件中直接调用。
+- 确保处理 API 错误并提供用户友好的提示。

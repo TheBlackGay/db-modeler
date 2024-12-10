@@ -235,7 +235,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, provide, watch, computed, onMounted, onUnmounted, shallowRef } from 'vue'
+import { ref, provide, watch, computed, onMounted, onUnmounted, shallowRef, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { saveTableDesign } from '@/api/project'
@@ -259,6 +259,7 @@ import IndexList from './components/IndexList.vue'
 import PartitionSettingsModal from './components/PartitionSettingsModal.vue'
 import TableTemplateModal from './components/TableTemplateModal.vue'
 import { useGlobalStore } from '@/stores/global'
+import { getEngineOptions, getCharsetOptions, getCollateOptions } from '@/config/database'
 
 interface TableInfo {
   id?: string
@@ -294,7 +295,10 @@ interface Field {
 const router = useRouter()
 const route = useRoute()
 const globalStore = useGlobalStore()
-
+const formRef = ref()
+const activeTab = ref('fields')
+const fields = ref<Field[]>([])
+const indexes = ref<any[]>([])
 const tableInfo = ref<TableInfo>({
   name: '',
   displayName: '',
@@ -308,10 +312,6 @@ const tableInfo = ref<TableInfo>({
   projectId: route.params.id as string // 从路由参数中获取项目 ID
 })
 
-const fields = ref<Field[]>([])
-const indexes = ref<any[]>([])
-const activeTab = ref('fields')
-
 const currentDbType = ref('MySQL')
 provide('dbType', currentDbType)
 
@@ -323,49 +323,24 @@ const templateMode = ref<'save' | 'apply'>('apply')
 const showAdvancedSettings = shallowRef(false)
 
 // 数据库引擎选项
-const engineOptions = [
-  { label: 'InnoDB', value: 'InnoDB' },
-  { label: 'MyISAM', value: 'MyISAM' },
-  { label: 'MEMORY', value: 'MEMORY' },
-  { label: 'CSV', value: 'CSV' },
-  { label: 'ARCHIVE', value: 'ARCHIVE' }
-]
+const engineOptions = computed(() => getEngineOptions(tableInfo.value.dbType))
 
 // 字符集选项
-const charsetOptions = [
-  { label: 'utf8mb4', value: 'utf8mb4' },
-  { label: 'utf8', value: 'utf8' },
-  { label: 'latin1', value: 'latin1' },
-  { label: 'gbk', value: 'gbk' },
-  { label: 'gb2312', value: 'gb2312' }
-]
+const charsetOptions = computed(() => getCharsetOptions(tableInfo.value.dbType))
 
 // 排序规则选项
-const collationOptions = computed(() => {
-  const collations: Record<string, string[]> = {
-    utf8mb4: ['utf8mb4_general_ci', 'utf8mb4_unicode_ci', 'utf8mb4_bin'],
-    utf8: ['utf8_general_ci', 'utf8_unicode_ci', 'utf8_bin'],
-    latin1: ['latin1_swedish_ci', 'latin1_general_ci', 'latin1_bin'],
-    gbk: ['gbk_chinese_ci', 'gbk_bin'],
-    gb2312: ['gb2312_chinese_ci', 'gb2312_bin']
-  }
-  
-  return (collations[tableInfo.value.charset] || []).map(value => ({
-    label: value,
-    value
-  }))
-})
+const collationOptions = computed(() => getCollateOptions(tableInfo.value.dbType))
 
-// 监听字符集变化，自动选择默认排序规则
-watch(() => tableInfo.value.charset, (charset) => {
-  const defaultCollations: Record<string, string> = {
-    utf8mb4: 'utf8mb4_general_ci',
-    utf8: 'utf8_general_ci',
-    latin1: 'latin1_swedish_ci',
-    gbk: 'gbk_chinese_ci',
-    gb2312: 'gb2312_chinese_ci'
+// 监听字符集变化
+watch(() => tableInfo.value.charset, (newCharset) => {
+  // 根据字符集自动选择对应的排序规则
+  if (newCharset === 'utf8mb4') {
+    tableInfo.value.collation = 'utf8mb4_general_ci'
+  } else if (newCharset === 'utf8') {
+    tableInfo.value.collation = 'utf8_general_ci'
+  } else if (newCharset === 'latin1') {
+    tableInfo.value.collation = 'latin1_swedish_ci'
   }
-  tableInfo.value.collation = defaultCollations[charset] || ''
 })
 
 // 表单验证规则
@@ -429,22 +404,94 @@ const handleSave = async () => {
       return
     }
 
+    // 验证必需字段
+    if (!tableInfo.value.name) {
+      message.error('表名不能为空')
+      return
+    }
+    if (!tableInfo.value.displayName) {
+      message.error('显示名不能为空')
+      return
+    }
+    if (!tableInfo.value.dbType) {
+      message.error('数据库类型不能为空')
+      return
+    }
+    if (!tableInfo.value.engine) {
+      message.error('存储引擎不能为空')
+      return
+    }
+    if (!tableInfo.value.charset) {
+      message.error('字符集不能为空')
+      return
+    }
+    if (!tableInfo.value.collation) {
+      message.error('排序规则不能为空')
+      return
+    }
+
+    // 构建metadata
+    const metadata = {
+      dbType: tableInfo.value.dbType || 'MySQL',
+      engine: tableInfo.value.engine || 'InnoDB',
+      charset: tableInfo.value.charset || 'utf8mb4',
+      collate: tableInfo.value.collation || 'utf8mb4_general_ci',
+      tablespace: tableInfo.value.tablespace || '',
+      rowFormat: tableInfo.value.rowFormat || 'DEFAULT',
+      autoIncrement: tableInfo.value.autoIncrement || 1
+    }
+
+    // 验证metadata必需字段
+    if (!metadata.dbType || !metadata.engine || !metadata.charset || !metadata.collate) {
+      message.error('数据库配置信息不完整')
+      return
+    }
+
+    // 构建columns数据
+    const columns = {
+      fields: fields.value || [],
+      indexes: indexes.value || []
+    }
+
+    // 构建请求数据
     const tableData = {
-      ...tableInfo.value,
-      code: tableInfo.value.name, // 使用 name 作为 code
-      projectId: tableInfo.value.projectId
+      id: tableInfo.value.id,
+      code: tableInfo.value.name,
+      displayName: tableInfo.value.displayName,
+      comment: tableInfo.value.comment || '',
+      type: 'TABLE',
+      domain: 'BUSINESS',
+      columns: JSON.stringify(columns),
+      metadata: JSON.stringify(metadata),
+      projectId: tableInfo.value.projectId,
+      status: 'DRAFT',
+      synced: false
     }
-    console.log('Saving table data:', tableData) // 添加日志
-    const result = await saveTableDesign(tableData)
-    message.success('保存成功')
-    if (!tableInfo.value.id) {
-      // 如果是新建，保存成功后更新 ID
-      tableInfo.value.id = result.id
-      tableInfo.value.code = result.code
+
+    console.log('Saving table data:', tableData)
+    const response = await saveTableDesign(tableData)
+    
+    if (response?.data) {
+      message.success('保存成功')
+      // 更新表单数据
+      if (!tableInfo.value.id) {
+        // 如果是新建，保存成功后更新ID
+        tableInfo.value.id = response.data.id
+      }
+      // 重新加载表数据
+      await loadTableDesign(tableData.id)
+    } else {
+      throw new Error('保存失败：未收到有效的响应数据')
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error('保存失败:', error)
-    message.error('保存失败: ' + (error.response?.data?.message || error.message))
+    if (error.response?.data?.message) {
+      message.error('保存失败: ' + error.response.data.message)
+    } else if (error.message) {
+      message.error(error.message)
+    } else {
+      message.error('保存失败，请检查输入是否完整')
+    }
   }
 }
 
@@ -554,171 +601,123 @@ const handleAdvancedSettingsSave = () => {
   message.success('高级设置保存成功')
 }
 
+// 监听路由参数变化
+watch(
+  () => route.params.tableId,
+  async (newTableId) => {
+    if (newTableId) {
+      await loadTableDesign(newTableId as string)
+    }
+  }
+)
+
+// 加载表设计数据
+const loadTableDesign = async (tableId: string) => {
+  try {
+    const response = await fetchTableDesign(tableId)
+    console.log('Response data:', response?.data)
+    
+    if (response?.data) {
+      const data = response.data
+      console.log('Raw metadata:', data.metadata)
+      
+      let metadata = {
+        dbType: 'MySQL',
+        engine: 'InnoDB',
+        charset: 'utf8mb4',
+        collate: 'utf8mb4_general_ci',
+        tablespace: '',
+        rowFormat: 'DEFAULT',
+        autoIncrement: 1
+      }
+      
+      // 解析metadata
+      if (data.metadata) {
+        try {
+          // 如果metadata已经是对象，直接使用
+          if (typeof data.metadata === 'object' && data.metadata !== null) {
+            metadata = data.metadata
+          } else if (typeof data.metadata === 'string') {
+            // 解码HTML实体并解析JSON
+            const decodedMetadata = data.metadata
+              .replace(/&#34;/g, '"')
+              .replace(/&quot;/g, '"')
+              .replace(/&#39;/g, "'")
+              .replace(/&apos;/g, "'")
+              .replace(/&amp;/g, '&')
+            metadata = JSON.parse(decodedMetadata)
+          }
+        } catch (e) {
+          console.error('Failed to parse metadata:', e)
+          message.warning('元数据解析失败，将使用默认值')
+        }
+      }
+
+      // 更新表单数据
+      tableInfo.value = {
+        id: data.id,
+        name: data.code || '',
+        displayName: data.displayName || '',
+        comment: data.comment || '',
+        dbType: metadata.dbType || 'MySQL',
+        engine: metadata.engine || 'InnoDB',
+        charset: metadata.charset || 'utf8mb4',
+        collation: metadata.collate || 'utf8mb4_general_ci',
+        tablespace: metadata.tablespace || '',
+        rowFormat: metadata.rowFormat || 'DEFAULT',
+        autoIncrement: metadata.autoIncrement || 1,
+        projectId: data.projectId,
+        type: data.type || 'TABLE',
+        domain: data.domain || 'BUSINESS',
+        status: data.status || 'DRAFT',
+        synced: data.synced || false
+      }
+
+      // 解析columns数据
+      let columnsData = {
+        fields: [],
+        indexes: []
+      }
+      
+      if (data.columns) {
+        try {
+          if (typeof data.columns === 'object' && data.columns !== null) {
+            columnsData = data.columns
+          } else if (typeof data.columns === 'string') {
+            // 解码HTML实体并解析JSON
+            const decodedColumns = data.columns
+              .replace(/&#34;/g, '"')
+              .replace(/&quot;/g, '"')
+              .replace(/&#39;/g, "'")
+              .replace(/&apos;/g, "'")
+              .replace(/&amp;/g, '&')
+            columnsData = JSON.parse(decodedColumns)
+          }
+        } catch (e) {
+          console.error('Failed to parse columns:', e)
+          message.warning('字段数据解析失败，将使用默认值')
+        }
+      }
+
+      fields.value = columnsData.fields || []
+      indexes.value = columnsData.indexes || []
+
+      // 重置表单状态
+      nextTick(() => {
+        if (formRef.value) {
+          formRef.value.clearValidate()
+        }
+      })
+    }
+  } catch (error: any) {
+    console.error('加载表设计失败:', error)
+    message.error(error.message || '加载表设计失败')
+  }
+}
+
 onMounted(async () => {
-  // 初始化表信息
-  const tableId = route.params.tableId as string
-  const projectId = route.params.id as string
-  console.log('TableDesign mounted, params:', {
-    tableId,
-    projectId,
-    allParams: route.params
-  })
-
-  if (tableId === 'new') {
-    console.log('Creating new table')
-    // 如果是新建表，初始化默认值
-    tableInfo.value = {
-      name: '',
-      displayName: '',
-      dbType: 'MySQL',
-      engine: 'InnoDB',
-      charset: 'utf8mb4',
-      collation: 'utf8mb4_general_ci',
-      tablespace: '',
-      comment: '',
-      rowFormat: 'DEFAULT',
-      projectId
-    }
-    fields.value = []
-    indexes.value = []
-  } else {
-    console.log('Fetching table design for id:', tableId)
-    try {
-      // 首先尝试从 store 中获取表数据
-      const storedTable = globalStore.projectTables.find(table => table.id === tableId)
-      console.log('Found table in store:', storedTable)
-
-      if (!storedTable) {
-        // 如果 store 中没有数据，从后端获取
-        console.log('Table not found in store, fetching from backend')
-        const response = await fetchTableDesign(tableId)
-        console.log('Received table design response:', response)
-        
-        if (!response?.data) {
-          console.error('No data received from server')
-          message.error('未获取到表数据')
-          return
-        }
-        
-        const data = response.data
-        console.log('Processing table data:', data)
-        
-        // 初始化表信息
-        tableInfo.value = {
-          id: data.id,
-          name: data.code || '',
-          displayName: data.displayName || '',
-          dbType: 'MySQL',
-          engine: 'InnoDB',
-          charset: 'utf8mb4',
-          collation: 'utf8mb4_general_ci',
-          tablespace: '',
-          comment: data.comment || '',
-          rowFormat: 'DEFAULT',
-          projectId
-        }
-
-        // 如果有 metadata，解析并应用
-        if (data.metadata) {
-          console.log('Processing metadata:', data.metadata)
-          try {
-            const metadata = JSON.parse(data.metadata)
-            if (metadata.dbType) tableInfo.value.dbType = metadata.dbType
-            if (metadata.engine) tableInfo.value.engine = metadata.engine
-            if (metadata.charset) tableInfo.value.charset = metadata.charset
-            if (metadata.collation) tableInfo.value.collation = metadata.collation
-            if (metadata.tablespace) tableInfo.value.tablespace = metadata.tablespace
-            if (metadata.rowFormat) tableInfo.value.rowFormat = metadata.rowFormat
-          } catch (e) {
-            console.warn('Failed to parse metadata:', e)
-          }
-        }
-
-        // 解析 columns 字段
-        console.log('Processing columns:', data.columns)
-        if (data.columns) {
-          try {
-            const columnsData = JSON.parse(data.columns)
-            console.log('Parsed columns data:', columnsData)
-            fields.value = columnsData.fields || []
-            indexes.value = columnsData.indexes || []
-          } catch (e) {
-            console.error('Failed to parse columns:', e)
-            fields.value = []
-            indexes.value = []
-          }
-        } else {
-          console.log('No columns data found')
-          fields.value = []
-          indexes.value = []
-        }
-      } else {
-        // 使用 store 中的数据
-        console.log('Using table data from store')
-        tableInfo.value = {
-          id: storedTable.id,
-          name: storedTable.code || '',
-          displayName: storedTable.displayName || '',
-          dbType: 'MySQL',
-          engine: 'InnoDB',
-          charset: 'utf8mb4',
-          collation: 'utf8mb4_general_ci',
-          tablespace: '',
-          comment: storedTable.comment || '',
-          rowFormat: 'DEFAULT',
-          projectId
-        }
-
-        // 如果有 metadata，解析并应用
-        if (storedTable.metadata) {
-          try {
-            const metadata = typeof storedTable.metadata === 'string' 
-              ? JSON.parse(storedTable.metadata)
-              : storedTable.metadata
-            if (metadata.dbType) tableInfo.value.dbType = metadata.dbType
-            if (metadata.engine) tableInfo.value.engine = metadata.engine
-            if (metadata.charset) tableInfo.value.charset = metadata.charset
-            if (metadata.collation) tableInfo.value.collation = metadata.collation
-            if (metadata.tablespace) tableInfo.value.tablespace = metadata.tablespace
-            if (metadata.rowFormat) tableInfo.value.rowFormat = metadata.rowFormat
-          } catch (e) {
-            console.warn('Failed to parse metadata:', e)
-          }
-        }
-
-        // 解析 columns 字段
-        if (storedTable.columns) {
-          try {
-            const columnsData = typeof storedTable.columns === 'string'
-              ? JSON.parse(storedTable.columns)
-              : storedTable.columns
-            fields.value = columnsData.fields || []
-            indexes.value = columnsData.indexes || []
-          } catch (e) {
-            console.error('Failed to parse columns:', e)
-            fields.value = []
-            indexes.value = []
-          }
-        } else {
-          fields.value = []
-          indexes.value = []
-        }
-      }
-    } catch (error) {
-      console.error('Error processing table design:', error)
-      if (error.response) {
-        console.error('Error response:', {
-          status: error.response.status,
-          data: error.response.data,
-          headers: error.response.headers
-        })
-      }
-      if (error.response?.status === 404) {
-        message.error('表不存在')
-      } else {
-        message.error('获取表信息失败：' + (error.response?.data?.message || error.message || '未知错误'))
-      }
-    }
+  if (route.params.tableId) {
+    await loadTableDesign(route.params.tableId as string)
   }
 })
 
