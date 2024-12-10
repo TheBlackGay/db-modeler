@@ -28,6 +28,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { Template } from '../types';
+import { message } from 'ant-design-vue';
 
 const props = defineProps<{
   templates: Template[];
@@ -67,6 +68,7 @@ const columns = [
   {
     title: '操作',
     key: 'action',
+    width: 280,
   },
 ];
 
@@ -78,19 +80,39 @@ const rowSelection = computed(() => ({
 }));
 
 const handlePreview = (template: Template) => {
-  emit('preview', template);
+  try {
+    emit('preview', template);
+  } catch (error) {
+    console.error('预览模板失败:', error);
+    message.error('预览模板失败');
+  }
 };
 
 const handleEdit = (template: Template) => {
-  emit('edit', template);
+  try {
+    emit('edit', template);
+  } catch (error) {
+    console.error('编辑模板失败:', error);
+    message.error('编辑模板失败');
+  }
 };
 
 const handleCopy = (template: Template) => {
-  emit('copy', template);
+  try {
+    emit('copy', template);
+  } catch (error) {
+    console.error('复制模板失败:', error);
+    message.error('复制模板失败');
+  }
 };
 
 const handleDelete = (template: Template) => {
-  emit('delete', template);
+  try {
+    emit('delete', template);
+  } catch (error) {
+    console.error('删除模板失败:', error);
+    message.error('删除模板失败');
+  }
 };
 </script>
 

@@ -267,6 +267,7 @@ import GroupFormModal from './template-selector/GroupFormModal.vue';
 import { DATABASE_TYPES } from '@/config/database';
 import { createTemplate, getTemplates, deleteTemplate, updateTemplate } from '@/api/template';
 import type { FieldTemplate } from '@/api/template';
+import { TemplateCategory } from '@/api/template';
 
 const props = defineProps<{
   modelValue: boolean;
@@ -284,9 +285,9 @@ const selectedCategory = ref('all');
 const showTemplateForm = ref(false);
 const categories = ref([
   { label: '全部', value: 'all' },
-  { label: '基础字段', value: 'basic' },
-  { label: '业务字段', value: 'business' },
-  { label: '系统字段', value: 'system' }
+  { label: '基础字段', value: TemplateCategory.BASIC },
+  { label: '业务字段', value: TemplateCategory.BUSINESS },
+  { label: '系统字段', value: TemplateCategory.SYSTEM }
 ]);
 const templateForm = ref({
   name: '',
@@ -426,10 +427,15 @@ const handleTemplateSelect = (template: any) => {
   }
 };
 
-const handlePreview = (template: Template) => {
-  activeTab.value = 'preview';
-  if (!selectedTemplates.value.includes(template.id)) {
-    handleTemplateSelect(template);
+const handlePreview = async (template: Template) => {
+  try {
+    activeTab.value = 'preview';
+    if (!selectedTemplates.value.includes(template.id)) {
+      handleTemplateSelect(template);
+    }
+  } catch (error) {
+    console.error('预览模板失败:', error);
+    message.error('预览模板失败');
   }
 };
 
@@ -513,27 +519,25 @@ const handleTemplateSubmit = async () => {
 
 const handleEdit = async (template: Template) => {
   try {
-    const updatedTemplate = await templateStore.updateTemplate(template);
-    message.success('更新模板成功');
-    // 如果模板在预览列表中，更新预览
-    const previewIndex = selectedPreviewFields.value.findIndex(
-      field => field.id === template.template.id
-    );
-    if (previewIndex !== -1) {
-      selectedPreviewFields.value[previewIndex] = updatedTemplate.template;
-    }
+    templateForm.value = {
+      ...template,
+      ...template.template,
+      category: template.category?.id
+    };
+    showTemplateForm.value = true;
   } catch (error) {
-    message.error('更新模板失败');
+    console.error('编辑模板失败:', error);
+    message.error('编辑模板失败');
   }
 };
 
 const handleDelete = async (template: Template) => {
   try {
-    await templateStore.deleteTemplate(template.id);
-    message.success('删除模板成功');
-    // 如果模板在预览列表中，移除它
-    handleRemoveField(template.template.id);
+    await deleteTemplate(template.id);
+    await templateStore.loadTemplates();
+    message.success('删除成功');
   } catch (error) {
+    console.error('删除模板失败:', error);
     message.error('删除模板失败');
   }
 };
@@ -600,8 +604,22 @@ const handleDeleteGroup = async (groupId: string) => {
 };
 
 const handleCopy = async (template: Template) => {
-  // TODO: 复制模板
-  message.success('模板复制成功');
+  try {
+    const newTemplate = {
+      ...template,
+      name: `${template.name}_复制`,
+      fieldName: `${template.fieldName}_copy`
+    };
+    delete newTemplate.id;
+    delete newTemplate.createTime;
+    
+    await createTemplate(newTemplate);
+    await templateStore.loadTemplates();
+    message.success('复制成功');
+  } catch (error) {
+    console.error('复制模板失败:', error);
+    message.error('复制模板失败');
+  }
 };
 
 // 修改数据类型变更处理函数

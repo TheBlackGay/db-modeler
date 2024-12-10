@@ -1,54 +1,56 @@
 package com.db.modeler.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 public class FieldTemplate {
     private String id;
     private String name;
-    private String description;
-    private Field template;
+    private String fieldName;
+    private String dataType;
+    private Integer length;
+    private Integer precision;
+    private Boolean nullable;
+    private Boolean primaryKey;
+    private Boolean autoIncrement;
+    private String defaultValue;
+    private String comment;
     private Category category;
-    private List<Tag> tags;
-    private Long createdAt;
-    private Long updatedAt;
+    private List<String> tags;
+    private LocalDateTime createTime;
 
-    @Data
-    public static class Field {
-        private String name;
-        private String type;
-        private String dataType;
-        private Integer length;
-        private Integer precision;
-        private Integer scale;
-        private List<String> options;
-        private String defaultValue;
-        private String comment;
-    }
+    public enum Category {
+        BASIC("BASIC"),
+        BUSINESS("BUSINESS"),
+        SYSTEM("SYSTEM");
 
-    @Data
-    public static class Category {
-        private String id;
-        private String name;
-        private String description;
-        private String icon;
-        private Integer order;
-        private String parentId;
-        private Boolean isSystem;
-        private Long createdAt;
-        private Long updatedAt;
-    }
+        private final String value;
 
-    @Data
-    public static class Tag {
-        private String id;
-        private String name;
-        private String color;
-        private String icon;
-        private String description;
-        private Long createdAt;
-        private Long updatedAt;
+        Category(String value) {
+            this.value = value;
+        }
+
+        @JsonValue
+        public String getValue() {
+            return value;
+        }
+
+        @JsonCreator
+        public static Category fromValue(String value) {
+            if (value == null) {
+                return null;
+            }
+            for (Category category : Category.values()) {
+                if (category.value.equalsIgnoreCase(value)) {
+                    return category;
+                }
+            }
+            throw new IllegalArgumentException("Invalid category: " + value);
+        }
     }
 }

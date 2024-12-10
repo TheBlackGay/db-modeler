@@ -13650,3 +13650,179 @@ Caused by: java.lang.IllegalArgumentException: java.lang.ClassCastException@1474
 2024-12-10 18:19:14.513 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findAll - ==>  Preparing: SELECT * FROM table_designs
 2024-12-10 18:19:14.513 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findAll - ==> Parameters: 
 2024-12-10 18:19:14.522 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findAll - <==      Total: 3
+2024-12-10 18:22:38.570 [http-nio-8010-exec-6] DEBUG c.d.m.m.P.findProjectsByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-10 18:22:38.578 [http-nio-8010-exec-6] DEBUG c.d.m.m.P.findProjectsByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-10 18:22:38.606 [http-nio-8010-exec-6] DEBUG c.d.m.m.P.findProjectsByTenantId - <==      Total: 1
+2024-12-10 18:22:39.035 [http-nio-8010-exec-3] DEBUG c.d.m.m.P.findProjectById - ==>  Preparing: SELECT * FROM projects WHERE id = ?
+2024-12-10 18:22:39.064 [http-nio-8010-exec-3] DEBUG c.d.m.m.P.findProjectById - ==> Parameters: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61(String)
+2024-12-10 18:22:39.065 [http-nio-8010-exec-8] DEBUG c.d.m.r.T.findByProjectId - ==>  Preparing: SELECT * FROM table_designs WHERE project_id = ?
+2024-12-10 18:22:39.066 [http-nio-8010-exec-5] DEBUG c.d.m.r.T.findById - ==>  Preparing: SELECT * FROM table_designs WHERE id = ?
+2024-12-10 18:22:39.066 [http-nio-8010-exec-5] DEBUG c.d.m.r.T.findById - ==> Parameters: d18c5825-dcc3-4006-ae10-f073be57552f(String)
+2024-12-10 18:22:39.066 [http-nio-8010-exec-8] DEBUG c.d.m.r.T.findByProjectId - ==> Parameters: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61(String)
+2024-12-10 18:22:39.100 [http-nio-8010-exec-5] DEBUG c.d.m.r.T.findById - <==      Total: 1
+2024-12-10 18:22:39.102 [http-nio-8010-exec-3] DEBUG c.d.m.m.P.findProjectById - <==      Total: 1
+2024-12-10 18:22:39.115 [http-nio-8010-exec-8] DEBUG c.d.m.r.T.findByProjectId - <==      Total: 3
+2024-12-10 18:22:39.120 [http-nio-8010-exec-9] DEBUG c.d.m.r.T.findByProjectId - ==>  Preparing: SELECT * FROM table_designs WHERE project_id = ?
+2024-12-10 18:22:39.120 [http-nio-8010-exec-9] DEBUG c.d.m.r.T.findByProjectId - ==> Parameters: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61(String)
+2024-12-10 18:22:39.121 [http-nio-8010-exec-9] DEBUG c.d.m.r.T.findByProjectId - <==      Total: 3
+2024-12-10 18:22:39.123 [http-nio-8010-exec-2] DEBUG c.d.m.r.T.findByProjectId - ==>  Preparing: SELECT * FROM table_designs WHERE project_id = ?
+2024-12-10 18:22:39.123 [http-nio-8010-exec-2] DEBUG c.d.m.r.T.findByProjectId - ==> Parameters: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61(String)
+2024-12-10 18:22:39.124 [http-nio-8010-exec-2] DEBUG c.d.m.r.T.findByProjectId - <==      Total: 3
+2024-12-10 18:22:39.131 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findByProjectId - ==>  Preparing: SELECT * FROM table_designs WHERE project_id = ?
+2024-12-10 18:22:39.131 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findByProjectId - ==> Parameters: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61(String)
+2024-12-10 18:22:39.138 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findByProjectId - <==      Total: 3
+2024-12-10 18:22:39.140 [http-nio-8010-exec-1] DEBUG c.d.m.r.T.findByProjectId - ==>  Preparing: SELECT * FROM table_designs WHERE project_id = ?
+2024-12-10 18:22:39.140 [http-nio-8010-exec-1] DEBUG c.d.m.r.T.findByProjectId - ==> Parameters: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61(String)
+2024-12-10 18:22:39.142 [http-nio-8010-exec-1] DEBUG c.d.m.r.T.findByProjectId - <==      Total: 3
+2024-12-10 18:22:39.149 [http-nio-8010-exec-6] DEBUG c.d.m.r.T.findAll - ==>  Preparing: SELECT * FROM table_designs
+2024-12-10 18:22:39.149 [http-nio-8010-exec-6] DEBUG c.d.m.r.T.findAll - ==> Parameters: 
+2024-12-10 18:22:39.151 [http-nio-8010-exec-6] DEBUG c.d.m.r.T.findAll - <==      Total: 3
+2024-12-10 18:22:56.158 [http-nio-8010-exec-4] ERROR c.d.m.e.GlobalExceptionHandler - Unexpected error occurred
+org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot construct instance of `com.db.modeler.model.FieldTemplate$Category` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('system'); nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot construct instance of `com.db.modeler.model.FieldTemplate$Category` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('system')
+ at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 180] (through reference chain: com.db.modeler.model.FieldTemplate["category"])
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.readJavaType(AbstractJackson2HttpMessageConverter.java:391)
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.read(AbstractJackson2HttpMessageConverter.java:343)
+	at org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodArgumentResolver.readWithMessageConverters(AbstractMessageConverterMethodArgumentResolver.java:185)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.readWithMessageConverters(RequestResponseBodyMethodProcessor.java:160)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.resolveArgument(RequestResponseBodyMethodProcessor.java:133)
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:122)
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:179)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:146)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:681)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:111)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:327)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:115)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:81)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:122)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:126)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:81)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:109)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:149)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:112)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:82)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:890)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot construct instance of `com.db.modeler.model.FieldTemplate$Category` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('system')
+ at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 180] (through reference chain: com.db.modeler.model.FieldTemplate["category"])
+	at com.fasterxml.jackson.databind.exc.MismatchedInputException.from(MismatchedInputException.java:63)
+	at com.fasterxml.jackson.databind.DeserializationContext.reportInputMismatch(DeserializationContext.java:1728)
+	at com.fasterxml.jackson.databind.DeserializationContext.handleMissingInstantiator(DeserializationContext.java:1353)
+	at com.fasterxml.jackson.databind.deser.std.StdDeserializer._deserializeFromString(StdDeserializer.java:311)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.deserializeFromString(BeanDeserializerBase.java:1495)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer._deserializeOther(BeanDeserializer.java:196)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:186)
+	at com.fasterxml.jackson.databind.deser.impl.MethodProperty.deserializeAndSet(MethodProperty.java:129)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserializeFromObject(BeanDeserializer.java:391)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:184)
+	at com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:323)
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:4674)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3682)
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.readJavaType(AbstractJackson2HttpMessageConverter.java:380)
+	... 95 common frames omitted
+2024-12-10 18:23:30.931 [http-nio-8010-exec-7] DEBUG c.d.m.m.P.findProjectsByTenantId - ==>  Preparing: SELECT * FROM projects WHERE tenant_id = ?
+2024-12-10 18:23:30.931 [http-nio-8010-exec-7] DEBUG c.d.m.m.P.findProjectsByTenantId - ==> Parameters: 4917cc0d-92ff-4c04-9bd0-5d487c6fa2bf(String)
+2024-12-10 18:23:30.934 [http-nio-8010-exec-7] DEBUG c.d.m.m.P.findProjectsByTenantId - <==      Total: 1
+2024-12-10 18:23:31.247 [http-nio-8010-exec-9] DEBUG c.d.m.m.P.findProjectById - ==>  Preparing: SELECT * FROM projects WHERE id = ?
+2024-12-10 18:23:31.248 [http-nio-8010-exec-5] DEBUG c.d.m.r.T.findByProjectId - ==>  Preparing: SELECT * FROM table_designs WHERE project_id = ?
+2024-12-10 18:23:31.248 [http-nio-8010-exec-9] DEBUG c.d.m.m.P.findProjectById - ==> Parameters: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61(String)
+2024-12-10 18:23:31.248 [http-nio-8010-exec-5] DEBUG c.d.m.r.T.findByProjectId - ==> Parameters: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61(String)
+2024-12-10 18:23:31.250 [http-nio-8010-exec-8] DEBUG c.d.m.r.T.findById - ==>  Preparing: SELECT * FROM table_designs WHERE id = ?
+2024-12-10 18:23:31.250 [http-nio-8010-exec-8] DEBUG c.d.m.r.T.findById - ==> Parameters: d18c5825-dcc3-4006-ae10-f073be57552f(String)
+2024-12-10 18:23:31.250 [http-nio-8010-exec-9] DEBUG c.d.m.m.P.findProjectById - <==      Total: 1
+2024-12-10 18:23:31.250 [http-nio-8010-exec-5] DEBUG c.d.m.r.T.findByProjectId - <==      Total: 3
+2024-12-10 18:23:31.252 [http-nio-8010-exec-8] DEBUG c.d.m.r.T.findById - <==      Total: 1
+2024-12-10 18:23:31.253 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findByProjectId - ==>  Preparing: SELECT * FROM table_designs WHERE project_id = ?
+2024-12-10 18:23:31.253 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findByProjectId - ==> Parameters: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61(String)
+2024-12-10 18:23:31.254 [http-nio-8010-exec-10] DEBUG c.d.m.r.T.findByProjectId - <==      Total: 3
+2024-12-10 18:23:31.255 [http-nio-8010-exec-1] DEBUG c.d.m.r.T.findByProjectId - ==>  Preparing: SELECT * FROM table_designs WHERE project_id = ?
+2024-12-10 18:23:31.255 [http-nio-8010-exec-1] DEBUG c.d.m.r.T.findByProjectId - ==> Parameters: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61(String)
+2024-12-10 18:23:31.257 [http-nio-8010-exec-1] DEBUG c.d.m.r.T.findByProjectId - <==      Total: 3
+2024-12-10 18:23:31.261 [http-nio-8010-exec-6] DEBUG c.d.m.r.T.findByProjectId - ==>  Preparing: SELECT * FROM table_designs WHERE project_id = ?
+2024-12-10 18:23:31.263 [http-nio-8010-exec-6] DEBUG c.d.m.r.T.findByProjectId - ==> Parameters: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61(String)
+2024-12-10 18:23:31.265 [http-nio-8010-exec-6] DEBUG c.d.m.r.T.findByProjectId - <==      Total: 3
+2024-12-10 18:23:31.266 [http-nio-8010-exec-4] DEBUG c.d.m.r.T.findByProjectId - ==>  Preparing: SELECT * FROM table_designs WHERE project_id = ?
+2024-12-10 18:23:31.267 [http-nio-8010-exec-4] DEBUG c.d.m.r.T.findByProjectId - ==> Parameters: 9f9f78cf-1c1f-4044-a53b-0f7b61f5db61(String)
+2024-12-10 18:23:31.269 [http-nio-8010-exec-4] DEBUG c.d.m.r.T.findByProjectId - <==      Total: 3
+2024-12-10 18:23:31.304 [http-nio-8010-exec-7] DEBUG c.d.m.r.T.findAll - ==>  Preparing: SELECT * FROM table_designs
+2024-12-10 18:23:31.305 [http-nio-8010-exec-7] DEBUG c.d.m.r.T.findAll - ==> Parameters: 
+2024-12-10 18:23:31.310 [http-nio-8010-exec-7] DEBUG c.d.m.r.T.findAll - <==      Total: 3
+2024-12-10 18:24:10.253 [http-nio-8010-exec-1] DEBUG c.d.m.r.T.findById - ==>  Preparing: SELECT * FROM table_designs WHERE id = ?
+2024-12-10 18:24:10.253 [http-nio-8010-exec-1] DEBUG c.d.m.r.T.findById - ==> Parameters: 77e1514f-8e28-462a-8662-ba1dc4129fdd(String)
+2024-12-10 18:24:10.256 [http-nio-8010-exec-1] DEBUG c.d.m.r.T.findById - <==      Total: 1
+2024-12-10 18:24:11.463 [http-nio-8010-exec-6] DEBUG c.d.m.r.T.findById - ==>  Preparing: SELECT * FROM table_designs WHERE id = ?
+2024-12-10 18:24:11.463 [http-nio-8010-exec-6] DEBUG c.d.m.r.T.findById - ==> Parameters: d18c5825-dcc3-4006-ae10-f073be57552f(String)
+2024-12-10 18:24:11.465 [http-nio-8010-exec-6] DEBUG c.d.m.r.T.findById - <==      Total: 1

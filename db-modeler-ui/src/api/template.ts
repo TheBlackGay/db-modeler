@@ -1,6 +1,12 @@
 import { http } from '@/utils/http';
 import type { ListResponse } from '@/types/api';
 
+export enum TemplateCategory {
+  BASIC = 'BASIC',
+  BUSINESS = 'BUSINESS',
+  SYSTEM = 'SYSTEM'
+}
+
 export interface FieldTemplate {
   id?: string;
   name: string;
@@ -13,7 +19,7 @@ export interface FieldTemplate {
   autoIncrement: boolean;
   defaultValue?: string;
   comment?: string;
-  category?: string;
+  category?: TemplateCategory;
   tags?: string[];
   createTime?: string;
 }
@@ -30,11 +36,17 @@ export const getTemplateById = (id: string) => {
 
 // 创建字段模板
 export const createTemplate = (template: FieldTemplate) => {
+  if (template.category) {
+    template.category = template.category.toUpperCase() as TemplateCategory;
+  }
   return http.post<FieldTemplate>('/api/field-templates', template);
 };
 
 // 更新字段模板
 export const updateTemplate = (id: string, template: FieldTemplate) => {
+  if (template.category) {
+    template.category = template.category.toUpperCase() as TemplateCategory;
+  }
   return http.put<FieldTemplate>(`/api/field-templates/${id}`, template);
 };
 
