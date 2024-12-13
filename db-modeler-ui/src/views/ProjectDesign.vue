@@ -337,8 +337,8 @@ const fetchTableCount = async () => {
 
   try {
     const response = await getTableDesigns()
-    if (response?.data) {
-      tableCount.value = response.data.filter(table => table.projectId === projectId).length
+    if (response?.data?.code === 0 && response.data.data) {
+      tableCount.value = response.data.data.filter(table => table.projectId === projectId).length
     } else {
       tableCount.value = 0
     }
@@ -356,14 +356,14 @@ const loadProjectInfo = async () => {
 
   try {
     // 加载项目信息
-    const project = await projectApi.getProjectById(projectId)
-    console.log('获取到的项目信息:', project)
-    if (!project || !project.data) {
+    const { data: response } = await projectApi.getProjectById(projectId)
+    console.log('获取到的项目信息:', response)
+    if (!response || response.code !== 0 || !response.data) {
       console.error('找不到项目信息')
       return
     }
 
-    const projectData = project.data
+    const projectData = response.data
     if (!projectData.tenantId) {
       console.error('项目缺少租户ID')
       return
@@ -372,10 +372,10 @@ const loadProjectInfo = async () => {
     // 如果没有租户或租户不匹配，加载并设置租户
     if (!globalStore.currentTenant || globalStore.currentTenant.id !== projectData.tenantId) {
       try {
-        const tenant = await tenantApi.getTenantById(projectData.tenantId)
-        console.log('获取到的租户信息:', tenant)
-        if (tenant && tenant.data) {
-          await globalStore.setCurrentTenant(tenant.data)
+        const { data: tenantResponse } = await tenantApi.getTenantById(projectData.tenantId)
+        console.log('获取到的租户信息:', tenantResponse)
+        if (tenantResponse && tenantResponse.code === 0 && tenantResponse.data) {
+          await globalStore.setCurrentTenant(tenantResponse.data)
           console.log('已设置当前租户:', globalStore.currentTenant)
         } else {
           console.error('找不到项目对应的租户')
@@ -394,13 +394,13 @@ const loadProjectInfo = async () => {
     // 加载项目的数据表列表
     try {
       console.log('开始加载项目数据表，projectId:', projectId)
-      const response = await projectApi.getProjectTables(projectId)
-      console.log('获取到的数据表列表:', response)
-      if (response?.data) {
-        globalStore.setProjectTables(response.data)
+      const { data: tablesResponse } = await projectApi.getProjectTables(projectId)
+      console.log('获取到的数据表列表:', tablesResponse)
+      if (tablesResponse && tablesResponse.code === 0 && tablesResponse.data) {
+        globalStore.setProjectTables(tablesResponse.data)
         console.log('已设置数据表到全局状态，当前数据表列表:', globalStore.projectTables)
       } else {
-        console.warn('获取到的数据表响应无效:', response)
+        console.warn('获取到的数据表响应无效:', tablesResponse)
       }
     } catch (error) {
       console.error('加载数据表列表失败:', error)

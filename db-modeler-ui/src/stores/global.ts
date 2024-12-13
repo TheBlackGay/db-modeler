@@ -1,16 +1,29 @@
 import { defineStore } from 'pinia'
 import type { Tenant } from '../api/tenant'
-import type { Project } from '../api/project'
-import { getProjectTables, projectApi } from '../api/project'
+import type { Project, Table } from '../api/project'
+import { projectApi } from '../api/project'
+import type { ApiResponse } from '@/types/api'
+import { ApiResponseUtil } from '@/types/api'
 
 interface GlobalState {
   currentTenant: Tenant | null
   currentProject: Project | null
   projects: Project[]
-  projectTables: any[]
+  projectTables: Table[]
 }
 
-export const useGlobalStore = defineStore('global', {
+interface GlobalActions {
+  setCurrentTenant(tenant: Tenant | null): Promise<void>
+  setCurrentProject(project: Project | null): void
+  loadProjectsForTenant(tenantId: string): Promise<void>
+  loadProjectTables(projectId: string): Promise<void>
+  clearCurrentProject(): void
+  clearState(): void
+  initializeState(): Promise<void>
+  setProjectTables(tables: Table[]): void
+}
+
+export const useGlobalStore = defineStore<'global', GlobalState, {}, GlobalActions>('global', {
   state: (): GlobalState => ({
     currentTenant: null,
     currentProject: null,
@@ -41,24 +54,30 @@ export const useGlobalStore = defineStore('global', {
       } catch (error) {
         console.error('Error setting current tenant:', error)
         this.clearState()
+        throw new Error(ApiResponseUtil.getErrorMessage(error))
       }
     },
 
-    setCurrentProject(project: Project | null) {
+    async setCurrentProject(project: Project | null) {
       console.log('Setting current project:', project)
+      if (!project) {
+        console.log('Project is null, clearing project state')
+        this.clearCurrentProject()
+        return
+      }
+
       try {
         this.$patch({
           currentProject: project,
           projectTables: []
         })
         
-        if (project?.id) {
-          console.log('Loading tables for project:', project.id)
-          this.loadProjectTables(project.id)
-        }
+        // 加载项目的表列表
+        await this.loadProjectTables(project.id)
       } catch (error) {
         console.error('Error setting current project:', error)
         this.clearCurrentProject()
+        throw new Error(ApiResponseUtil.getErrorMessage(error))
       }
     },
 
@@ -73,26 +92,34 @@ export const useGlobalStore = defineStore('global', {
         const response = await projectApi.getProjects(tenantId)
         console.log('Projects response:', response)
 
-        if (response.code === 0 && Array.isArray(response.data)) {
-          console.log('Setting projects:', response.data)
-          this.$patch({ projects: response.data })
+        const projects = ApiResponseUtil.getListData(response)
+        if (projects) {
+          console.log('Setting projects:', projects)
+          this.$patch({ projects })
         } else {
           console.error('Invalid projects response:', response)
-          throw new Error(response.message || '加载项目列表失败')
+          this.$patch({ projects: [] })
+          throw new Error('加载项目列表失败：返回数据格式错误')
         }
-      } catch (error: any) {
+      } catch (error) {
         console.error('Error loading projects:', error)
         this.$patch({ projects: [] })
-        throw new Error(error.message || '加载项目列表失败：未知错误')
+        throw new Error(ApiResponseUtil.getErrorMessage(error))
       }
     },
 
     async loadProjectTables(projectId: string) {
       console.log('Loading project tables for project:', projectId)
+      if (!projectId) {
+        console.warn('项目 ID 为空，跳过加载表')
+        return
+      }
+
       try {
-        const response = await projectApi.getProjectTables(projectId)
+        const { data: response } = await projectApi.getProjectTables(projectId)
         console.log('Received project tables response:', response)
-        if (response.code === 0 && Array.isArray(response.data)) {
+        
+        if (response && response.code === 0 && response.data) {
           this.$patch((state) => {
             state.projectTables = response.data
           })
@@ -101,12 +128,14 @@ export const useGlobalStore = defineStore('global', {
           this.$patch((state) => {
             state.projectTables = []
           })
+          throw new Error(response?.message || '获取表列表失败：返回数据格式错误')
         }
       } catch (error) {
         console.error('Failed to load project tables:', error)
         this.$patch((state) => {
           state.projectTables = []
         })
+        throw new Error(ApiResponseUtil.getErrorMessage(error))
       }
     },
 
@@ -128,26 +157,37 @@ export const useGlobalStore = defineStore('global', {
 
     // 初始化状态
     async initializeState() {
-      if (this.currentTenant) {
-        try {
-          await this.loadProjectsForTenant(this.currentTenant.id);
+      console.log('Initializing global state')
+      try {
+        if (this.currentTenant) {
+          console.log('Found current tenant, loading projects')
+          await this.loadProjectsForTenant(this.currentTenant.id)
           
           // 如果有当前项目，验证它是否在项目列表中
           if (this.currentProject) {
-            const projectInList = this.projects.find(p => p.id === this.currentProject?.id);
+            console.log('Validating current project')
+            const projectInList = this.projects.find(p => p.id === this.currentProject?.id)
             if (!projectInList) {
-              this.currentProject = null;
+              console.log('Current project not found in list, clearing project state')
+              this.clearCurrentProject()
+            } else {
+              console.log('Loading tables for current project')
+              await this.loadProjectTables(this.currentProject.id)
             }
           }
-        } catch (error) {
-          console.error('初始化状态失败:', error);
-          this.clearState();
+        } else {
+          console.log('No current tenant found, clearing state')
+          this.clearState()
         }
+      } catch (error: any) {
+        console.error('Failed to initialize state:', error)
+        this.clearState()
+        throw new Error(error.message || '初始化状态失败')
       }
     },
 
     // 设置项目的数据表列表
-    setProjectTables(tables: any) {
+    setProjectTables(tables: Table[]) {
       if (!tables) {
         console.warn('setProjectTables: 数据为空')
         this.projectTables = []
@@ -158,13 +198,6 @@ export const useGlobalStore = defineStore('global', {
   },
 
   persist: {
-    enabled: true,
-    strategies: [
-      {
-        key: 'global',
-        storage: localStorage,
-        paths: ['currentTenant', 'currentProject', 'projects', 'projectTables']
-      }
-    ]
+    storage: localStorage
   }
 })

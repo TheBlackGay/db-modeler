@@ -171,15 +171,20 @@ const dbRules = {
 // 获取项目信息
 const fetchProjectInfo = async () => {
   try {
-    const project = await getProjectById(projectId)
-    basicForm.value = {
-      name: project.name,
-      description: project.description || '',
-      status: project.status,
-      icon: project.icon || ''
+    const { data: response } = await getProjectById(projectId)
+    if (response.code === 0 && response.data) {
+      const project = response.data
+      basicForm.value = {
+        name: project.name,
+        description: project.description || '',
+        status: project.status,
+        icon: project.icon || ''
+      }
+    } else {
+      throw new Error(response.message || '获取项目信息失败')
     }
-  } catch (error) {
-    ElMessage.error('获取项目信息失败')
+  } catch (error: any) {
+    ElMessage.error(error.message || '获取项目信息失败')
   }
 }
 
@@ -225,13 +230,23 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (file) => {
 
 // 提交表单
 const submitBasicForm = async () => {
-  if (!basicFormRef.value) return
-  await basicFormRef.value.validate((valid: boolean) => {
-    if (valid) {
-      // TODO: 调用API保存基本信息
+  try {
+    await basicFormRef.value.validate()
+    const { data: response } = await updateProject(projectId, {
+      name: basicForm.value.name,
+      description: basicForm.value.description,
+      status: basicForm.value.status,
+      tenantId: currentTenant.value.id
+    })
+    
+    if (response.code === 0) {
       ElMessage.success('保存成功')
+    } else {
+      throw new Error(response.message || '保存失败')
     }
-  })
+  } catch (error: any) {
+    ElMessage.error(error.message || '保存失败')
+  }
 }
 
 const submitDbForm = async () => {

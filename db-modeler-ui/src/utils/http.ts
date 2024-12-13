@@ -1,16 +1,10 @@
-import axios from 'axios'
 import type { AxiosInstance, AxiosResponse, AxiosError } from 'axios'
-import { message } from 'ant-design-vue'
-
-export interface ApiResponse<T = any> {
-  code: number
-  message: string
-  data: T
-}
+import axios from 'axios'
+import type { ApiResponse } from '@/types/api'
 
 // 创建 axios 实例
 const http: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8010',
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
@@ -20,11 +14,14 @@ const http: AxiosInstance = axios.create({
 // 请求拦截器
 http.interceptors.request.use(
   (config) => {
-    // 在这里可以添加认证信息等
+    // 从 localStorage 获取 token
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
     return config
   },
-  (error: AxiosError) => {
-    console.error('Request Error:', error)
+  (error) => {
     return Promise.reject(error)
   }
 )
@@ -34,71 +31,48 @@ http.interceptors.response.use(
   (response: AxiosResponse) => {
     const responseData = response.data
 
-    // 调试日志
-    console.log('Response interceptor:', {
-      status: response.status,
-      data: responseData,
-      headers: response.headers
-    })
-
-    // 检查响应格式
+    // 如果响应数据是标准格式
     if (responseData && typeof responseData === 'object') {
-      // 检查是否符合 ApiResponse 格式
-      if ('code' in responseData && 'data' in responseData) {
-        return responseData as ApiResponse<any>
+      // 如果业务状态码不是 0，说明有错误
+      if (responseData.code !== 0) {
+        return Promise.reject(new Error(responseData.message || '请求失败'))
       }
-      // 如果不是标准格式，包装成标准格式
-      return {
-        code: 0,
-        message: 'success',
-        data: responseData
-      } as ApiResponse<any>
     }
 
-    // 处理非对象响应
-    return {
-      code: 0,
-      message: 'success',
-      data: responseData
-    } as ApiResponse<any>
+    // 返回完整的响应对象
+    return response
   },
   (error: AxiosError) => {
-    console.error('HTTP Error:', error)
+    let errorMessage = '请求失败'
     
     if (error.response) {
-      console.error('Error Response:', {
-        status: error.response.status,
-        statusText: error.response.statusText,
-        data: error.response.data,
-        headers: error.response.headers
-      })
-
-      const responseData = error.response.data as any
-      const errorResponse: ApiResponse = {
-        code: error.response.status,
-        message: responseData?.message || `服务器错误 (${error.response.status}): ${error.response.statusText}`,
-        data: null
+      const { status } = error.response
+      switch (status) {
+        case 401:
+          // 未授权，清除 token 并跳转到登录页
+          localStorage.removeItem('token')
+          window.location.href = '/login'
+          errorMessage = '未授权，请重新登录'
+          break
+        case 403:
+          errorMessage = '权限不足'
+          break
+        case 404:
+          errorMessage = '请求的资源不存在'
+          break
+        case 500:
+          errorMessage = '服务器错误'
+          break
       }
-      message.error(errorResponse.message)
-      return Promise.reject(errorResponse)
+    } else if (error.request) {
+      errorMessage = '网络错误，请检查您的网络连接'
+    } else {
+      errorMessage = '请求配置有误'
     }
 
-    if (error.request) {
-      console.error('No response received:', error.request)
-      return Promise.reject({
-        code: -1,
-        message: '网络错误，请检查网络连接',
-        data: null
-      } as ApiResponse)
-    }
-
-    return Promise.reject({
-      code: -1,
-      message: error.message || '请求失败',
-      data: null
-    } as ApiResponse)
+    console.error('HTTP Error:', errorMessage, error)
+    return Promise.reject(new Error(errorMessage))
   }
 )
 
 export { http }
-export default http

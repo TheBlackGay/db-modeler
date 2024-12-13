@@ -380,7 +380,7 @@
 | ├─ tenantId | string | 是 | 租户ID | test_123456 |
 | ├─ status | string | 是 | 状态 | ACTIVE |
 | ├─ createdAt | string | 是 | 创建时间 | 2024-03-15T10:00:00Z |
-| └─ updatedAt | string | 是 | 更新��间 | 2024-03-15T10:00:00Z |
+| └─ updatedAt | string | 是 | 更新时间 | 2024-03-15T10:00:00Z |
 
 ### GET /api/projects 获取项目列表
 #### 请求参数
@@ -723,7 +723,7 @@
 
 ### GET /api/graph-layouts/projects/{projectId} 获取项目布局
 #### 路径参数
-| 参数名 | 类型 | 必填类型 | 必填 | 说明 | 示例 |
+| 参数�� | 类型 | 必填类型 | 必填 | 说明 | 示例 |
 |--------|------|----------|------|------|------|
 | projectId | string | singular | 是 | 项目ID | test_123456 |
 
@@ -917,3 +917,260 @@
 | success | boolean | 是 | 成功标识 | true |
 | errcode | string | 是 | 错误码 | 0 |
 | errmsg | string | 是 | 错误信息 | |
+
+## 表设计管理
+
+### 获取表设计详情
+
+```http
+GET /api/table-designs/{id}/detail
+```
+
+**请求参数：**
+- `id`: 表设计ID (UUID)
+
+**响应数据：**
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    "id": "uuid",
+    "code": "table_name",
+    "displayName": "表名",
+    "comment": "表注释",
+    "type": "TABLE",
+    "domain": "BUSINESS",
+    "columns": "{\"fields\":[...],\"indexes\":[...]}",
+    "metadata": "{\"dbType\":\"MYSQL\",\"engine\":\"InnoDB\",\"charset\":\"utf8mb4\",\"collation\":\"utf8mb4_general_ci\"}",
+    "status": "DRAFT",
+    "synced": false
+  }
+}
+```
+
+### 保存表设计
+
+```http
+PUT /api/table-designs/{id}
+```
+
+**请求参数：**
+```json
+{
+  "id": "uuid",
+  "code": "table_name",
+  "displayName": "表名",
+  "comment": "表注释",
+  "type": "TABLE",
+  "domain": "BUSINESS",
+  "columns": "{\"fields\":[...],\"indexes\":[...]}",
+  "metadata": "{\"dbType\":\"MYSQL\",\"engine\":\"InnoDB\",\"charset\":\"utf8mb4\",\"collation\":\"utf8mb4_general_ci\"}",
+  "status": "DRAFT"
+}
+```
+
+**响应数据：**
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    // 同上
+  }
+}
+```
+
+### 同步表到数据库
+
+```http
+POST /api/table-designs/{id}/sync
+```
+
+**请求参数：**
+- `id`: 表设计ID (UUID)
+
+**响应数据：**
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    // 同上，synced 字段会更新为 true
+  }
+}
+```
+
+### 预览表 DDL
+
+```http
+GET /api/table-designs/{id}/preview-ddl
+```
+
+**请求参数：**
+- `id`: 表设计ID (UUID)
+
+**响应数据：**
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    "ddl": "CREATE TABLE ...",
+    "type": "CREATE",
+    "tableName": "table_name",
+    "status": "success"
+  }
+}
+```
+
+### 导入表设计
+
+```http
+POST /api/table-designs/import
+Content-Type: multipart/form-data
+```
+
+**请求参数：**
+- `file`: 表设计文件 (JSON格式)
+- `projectId`: 项目ID (UUID)
+
+**文件格式：**
+```json
+{
+  "code": "table_name",
+  "displayName": "表名",
+  "comment": "表注释",
+  "type": "TABLE",
+  "domain": "BUSINESS",
+  "columns": {
+    "fields": [...],
+    "indexes": [...]
+  },
+  "metadata": {
+    "dbType": "MYSQL",
+    "engine": "InnoDB",
+    "charset": "utf8mb4",
+    "collation": "utf8mb4_general_ci"
+  }
+}
+```
+
+**响应数据：**
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    // 导入后的表设计数据
+  }
+}
+```
+
+### 批量导出表 DDL
+
+```http
+POST /api/table-designs/export
+```
+
+**请求参数：**
+```json
+{
+  "tableIds": ["uuid1", "uuid2", ...]
+}
+```
+
+**响应数据：**
+- Content-Type: application/octet-stream
+- Content-Disposition: attachment; filename=table_ddl_yyyyMMddHHmmss.sql
+- 响应体为 SQL 文件内容
+
+### 验证表名
+
+```http
+POST /api/table-designs/validate
+```
+
+**请求参数：**
+```json
+{
+  "projectId": "uuid",
+  "name": "table_name"
+}
+```
+
+**响应数据：**
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    "valid": true,
+    "message": "表名可用"
+  }
+}
+```
+
+### 复制表设计
+
+```http
+POST /api/table-designs/{id}/copy
+```
+
+**请求参数：**
+```json
+{
+  "newName": "new_table_name"
+}
+```
+
+**响应数据：**
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    // 新建的表设计数据
+  }
+}
+```
+
+### 同步所有表到数据库
+
+```http
+POST /api/table-designs/sync-all
+```
+
+**响应数据：**
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": [
+    // 所有同步后的表设计数据
+  ]
+}
+```
+
+### 预览所有表 DDL
+
+```http
+GET /api/table-designs/preview-all-ddl
+```
+
+**响应数据：**
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": [
+    {
+      "ddl": "CREATE TABLE ...",
+      "type": "CREATE",
+      "tableName": "table_name",
+      "status": "success"
+    },
+    // ...
+  ]
+}
+```

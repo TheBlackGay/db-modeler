@@ -11,111 +11,55 @@
         </div>
       </div>
     </div>
-    <div class="model-sidebar__content">
-      <a-menu
-        v-model:selectedKeys="selectedKeys"
-        v-model:openKeys="openKeys"
-        mode="inline"
-        :inline-collapsed="false"
-      >
-        <a-menu-item key="home" @click="handleMenuClick('home')">
-          <template #icon>
-            <home-outlined />
-          </template>
-          <span>首页封面</span>
+
+    <a-menu
+      v-model:selectedKeys="selectedKeys"
+      v-model:openKeys="openKeys"
+      mode="inline"
+      :inline-collapsed="false"
+      class="model-sidebar-menu"
+    >
+      <a-menu-item key="home">
+        <template #icon>
+          <home-outlined />
+        </template>
+        <span>首页封面</span>
+      </a-menu-item>
+
+      <a-sub-menu key="tables">
+        <template #icon>
+          <table-outlined />
+        </template>
+        <template #title>数据表</template>
+        <a-menu-item
+          v-for="table in tables"
+          :key="'table-' + table.id"
+          @click="handleTableClick(table)"
+        >
+          {{ table.name || table.code }}
         </a-menu-item>
-
-        <a-sub-menu key="tables">
-          <template #title>
-            <div class="group-title">
-              <span class="title-content">
-                <table-outlined />
-                <span>数据表({{ tableList.length }})</span>
-              </span>
-              <div class="title-actions">
-                <a-dropdown :trigger="['click']" placement="bottomRight">
-                  <a class="action-trigger" @click.prevent>
-                    <plus-outlined />
-                  </a>
-                  <template #overlay>
-                    <a-menu>
-                      <a-menu-item key="create" @click="handleCreateTable">
-                        <plus-outlined />
-                        <span>创建表</span>
-                      </a-menu-item>
-                      <a-menu-item key="import">
-                        <import-outlined />
-                        <span>导入表</span>
-                      </a-menu-item>
-                    </a-menu>
-                  </template>
-                </a-dropdown>
-              </div>
-            </div>
-          </template>
-          <template v-if="tableList.length > 0">
-            <a-menu-item
-              v-for="table in tableList"
-              :key="'table-' + table.id"
-              @click="handleMenuClick('table-' + table.id)"
-            >
-              <template #icon>
-                <table-outlined />
-              </template>
-              <span>{{ table.displayName }}</span>
-            </a-menu-item>
-          </template>
-        </a-sub-menu>
-
-        <a-sub-menu key="entities">
-          <template #title>
-            <div class="group-title">
-              <span class="title-content">
-                <appstore-outlined />
-                <span>实体</span>
-              </span>
-            </div>
-          </template>
-          <a-menu-item key="no-entities">
-            <template #icon>
-              <appstore-outlined />
-            </template>
-            <a-empty description="暂无实体" />
-          </a-menu-item>
-        </a-sub-menu>
-
-        <a-sub-menu key="views">
-          <template #title>
-            <div class="group-title">
-              <span class="title-content">
-                <eye-outlined />
-                <span>视图</span>
-              </span>
-            </div>
-          </template>
-          <a-menu-item key="no-views">
-            <template #icon>
-              <eye-outlined />
-            </template>
-            <a-empty description="暂无视图" />
-          </a-menu-item>
-        </a-sub-menu>
-
-        <a-menu-item key="dictionary" @click="handleMenuClick('dictionary')">
-          <template #icon>
-            <book-outlined />
-          </template>
-          <span>数据字典</span>
+        <a-menu-item v-if="tables.length === 0" disabled>
+          暂无数据表
         </a-menu-item>
+      </a-sub-menu>
 
-        <a-menu-item key="relations" @click="handleMenuClick('relations')">
-          <template #icon>
-            <node-index-outlined />
-          </template>
-          <span>关系图</span>
+      <a-sub-menu key="models">
+        <template #icon>
+          <database-outlined />
+        </template>
+        <template #title>数据模型</template>
+        <a-menu-item
+          v-for="model in models"
+          :key="'model-' + model.id"
+          @click="handleModelClick(model)"
+        >
+          {{ model.name }}
         </a-menu-item>
-      </a-menu>
-    </div>
+        <a-menu-item v-if="models.length === 0" disabled>
+          暂无数据模型
+        </a-menu-item>
+      </a-sub-menu>
+    </a-menu>
   </div>
 </template>
 
@@ -123,131 +67,123 @@
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useGlobalStore } from '@/stores/global'
-import { Empty } from 'ant-design-vue'
+import { message } from 'ant-design-vue'
+import * as pinyin from 'pinyin'
 import {
-  MenuOutlined,
-  SettingOutlined,
-  EyeOutlined,
-  LeftOutlined,
   HomeOutlined,
+  EyeOutlined,
+  SettingOutlined,
+  MenuOutlined,
+  LeftOutlined,
   TableOutlined,
-  AppstoreOutlined,
-  BookOutlined,
-  NodeIndexOutlined,
-  PlusOutlined,
-  MoreOutlined,
-  ImportOutlined
+  DatabaseOutlined
 } from '@ant-design/icons-vue'
-
-interface DataItem {
-  id: string
-  name: string
-  displayName: string
-}
 
 const route = useRoute()
 const router = useRouter()
 const globalStore = useGlobalStore()
 
-const selectedKeys = ref<string[]>(['home'])
-const openKeys = ref<string[]>(['tables'])
-const tableList = computed(() => {
-  console.log('Current project tables:', globalStore.projectTables)
+const selectedKeys = ref<string[]>([])
+const openKeys = ref<string[]>(['tables', 'models'])
+
+// 计算属性：表格列表
+const tables = computed(() => {
   return globalStore.projectTables || []
 })
 
-// 处理菜单点击
-const handleMenuClick = (key: string) => {
-  console.log('Menu clicked:', key)
-  if (key === 'home') {
-    router.push({ name: 'model-home' })
-  } else if (key === 'dictionary') {
-    router.push({ name: 'model-dictionary' })
-  } else if (key === 'relations') {
-    router.push({ name: 'model-relations' })
-  } else if (key.startsWith('table-')) {
-    const tableId = key.replace('table-', '')
-    const projectId = route.params.id
-    console.log('Navigating to table design:', { tableId, projectId })
-    
-    // 从当前表列表中获取表的详细信息
-    const selectedTable = tableList.value.find(table => table.id === tableId)
-    console.log('Selected table:', selectedTable)
-    
-    router.push({ 
-      name: 'table-design',
-      params: { 
-        id: projectId,
-        tableId 
-      }
-    })
-  }
+// 计算属性：模型列表
+const models = computed(() => {
+  return globalStore.projectModels || []
+})
+
+// 确保 projectId 是字符串类型
+const getProjectId = (value: string | string[]): string => {
+  return Array.isArray(value) ? value[0] : value
 }
 
-// 处理创建表
-const handleCreateTable = () => {
+// 处理表点击
+const handleTableClick = (table: any) => {
   const projectId = route.params.id
-  router.push({ 
-    name: 'table-design', 
-    params: { 
-      id: projectId,
-      tableId: 'new' 
-    } 
+  console.log('Current route params:', route.params)
+  console.log('Project ID:', projectId)
+  
+  if (!projectId) {
+    message.error('项目ID不存在')
+    return
+  }
+  
+  router.push(`/project/${projectId}/design/model/tables/${table.id}/design`)
+}
+
+// 处理模型点击
+const handleModelClick = (model: any) => {
+  const projectId = getProjectId(route.params.projectId)
+  router.push({
+    name: 'model-design',
+    params: {
+      projectId,
+      modelId: model.id
+    }
   })
 }
 
-// 在组件挂载时加载表列表
-onMounted(async () => {
-  const projectId = route.params.id
-  if (projectId) {
-    try {
-      await globalStore.loadProjectTables(projectId)
-    } catch (error) {
-      console.error('Failed to load project tables:', error)
-    }
+// 加载项目数据
+const loadProjectData = async (projectId: string) => {
+  try {
+    await Promise.all([
+      globalStore.loadProjectTables(projectId),
+      globalStore.loadProjectModels(projectId)
+    ])
+  } catch (error) {
+    console.error('Failed to load project data:', error)
   }
-})
+}
 
-// 监听路由变化，确保在切换项目时重新加载表列表
-watch(() => route.params.id, async (newProjectId) => {
+// 监听路由变化并加载数据
+watch(() => route.params.projectId, async (newProjectId) => {
   if (newProjectId) {
-    try {
-      await globalStore.loadProjectTables(newProjectId)
-    } catch (error) {
-      console.error('Failed to load project tables:', error)
-    }
+    await loadProjectData(getProjectId(newProjectId))
   }
 }, { immediate: true })
 
-// 监听路由变化
-watch(() => route.name, () => {
-  const routeName = route.name as string
-  if (routeName === 'model-home') {
-    selectedKeys.value = ['home']
-  } else if (routeName === 'model-dictionary') {
-    selectedKeys.value = ['dictionary']
-  } else if (routeName === 'model-relations') {
-    selectedKeys.value = ['relations']
-  } else if (routeName === 'table-design') {
-    const tableId = route.params.tableId as string
-    selectedKeys.value = [`table-${tableId}`]
-    openKeys.value = ['tables']
+// 组件挂载时加载数据
+onMounted(async () => {
+  const projectId = route.params.projectId
+  if (projectId) {
+    await loadProjectData(getProjectId(projectId))
   }
 })
+
+// 监听路由变化更新选中状态
+watch(() => route.name, (routeName) => {
+  if (routeName === 'table-design') {
+    const tableId = route.params.tableId
+    selectedKeys.value = [`table-${tableId}`]
+    openKeys.value = ['tables']
+  } else if (routeName === 'model-design') {
+    const modelId = route.params.modelId
+    selectedKeys.value = [`model-${modelId}`]
+    openKeys.value = ['models']
+  } else if (routeName === 'model-home') {
+    selectedKeys.value = ['home']
+  }
+}, { immediate: true })
 </script>
 
 <style lang="scss" scoped>
 .model-sidebar {
+  width: 260px;
+  border-right: 1px solid #f0f0f0;
+  background: #fff;
   height: 100%;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  background-color: #fff;
-  border-right: 1px solid #f0f0f0;
-  width: 240px;
 
   &__header {
     padding: 16px;
     border-bottom: 1px solid #f0f0f0;
+    flex-shrink: 0;
   }
 
   &__title {
@@ -264,83 +200,44 @@ watch(() => route.name, () => {
   }
 
   &__icon {
-    font-size: 16px;
     cursor: pointer;
-    color: #595959;
+    color: #666;
+    font-size: 16px;
 
     &:hover {
       color: #1890ff;
     }
   }
 
-  &__content {
+  .model-sidebar-menu {
     flex: 1;
-    overflow-y: auto;
-    padding: 8px;
-
-    :deep(.ant-menu) {
-      border-right: none;
-      width: 100%;
-    }
-
-    :deep(.ant-menu-item) {
-      height: auto;
-      line-height: 1.5715;
-      padding: 8px 12px;
-      margin: 4px 0;
-
-      .anticon {
-        margin-right: 8px;
-      }
-    }
-
-    :deep(.ant-menu-item-group) {
-      .ant-menu-item-group-title {
-        padding: 8px 12px;
-        margin: 4px 0;
-        color: rgba(0, 0, 0, 0.88);
-      }
-    }
-  }
-}
-
-.group-title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  .title-content {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    border-right: none;
   }
 
-  .title-actions {
-    display: flex;
-    gap: 8px;
+  :deep(.ant-menu) {
+    border-right: none;
   }
 
-  .action-trigger {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    border-radius: 4px;
-    color: #595959;
+  :deep(.ant-menu-item) {
+    margin: 0;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 24px !important;
     
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.04);
-      color: #1890ff;
+    &.ant-menu-item-disabled {
+      color: rgba(0, 0, 0, 0.25);
+      font-style: italic;
     }
   }
-}
 
-:deep(.ant-dropdown-menu-item) {
-  padding: 8px 12px;
+  :deep(.ant-menu-submenu-title) {
+    margin: 0;
+    height: 40px;
+    line-height: 40px;
+  }
 
-  .anticon {
-    margin-right: 8px;
+  :deep(.ant-menu-sub) {
+    background: transparent;
   }
 }
 </style>

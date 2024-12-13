@@ -1,4 +1,4 @@
-import http from '@/utils/http'
+import { http } from '@/utils/http'
 import type { DatabaseConfig } from '@/types/database'
 
 export function getDatabaseConfigs(projectId: string) {

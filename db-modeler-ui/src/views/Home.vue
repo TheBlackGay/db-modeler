@@ -39,8 +39,8 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { ref } from 'vue'
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { DatabaseOutlined } from '@ant-design/icons-vue'
 import TenantSelector from '@/components/TenantSelector.vue'
 import ProjectList from '@/components/ProjectList.vue'
@@ -48,6 +48,16 @@ import { useGlobalStore } from '@/stores/global'
 
 const globalStore = useGlobalStore()
 const selectedKeys = ref<string[]>(['projects'])
+
+// 组件挂载时的处理
+onMounted(() => {
+  console.log('Home component mounted')
+  // 在这里添加初始化逻辑
+  if (globalStore.currentTenant) {
+    // 如果已有租户，执行相关初始化
+    console.log('Current tenant:', globalStore.currentTenant)
+  }
+})
 
 // 处理租户切换事件
 const onTenantChanged = () => {
@@ -104,11 +114,20 @@ const onTenantChanged = () => {
 }
 
 :deep(.ant-layout) {
-  background: #f0f2f5;
+  background: #fff;
 }
 
 :deep(.ant-layout-sider) {
-  margin: 24px 0 24px 24px;
-  border-radius: 2px;
+  background: #fff;
+  border-right: 1px solid #f0f0f0;
+}
+
+:deep(.ant-menu) {
+  border-right: none;
+}
+
+:deep(.ant-layout-header) {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 0 24px;
 }
 </style>

@@ -1,11 +1,10 @@
 import { http } from '@/utils/http'
-import type { ListResponse, DetailResponse, PageResponse } from '@/types/api'
+import type { ApiResponse, PageResult } from '@/types/api'
 
 export interface Project {
   id: string
   name: string
   description?: string
-  tenantId: string
   status: 'ACTIVE' | 'INACTIVE' | 'DELETED'
   createdAt: string
   updatedAt: string
@@ -41,61 +40,67 @@ export interface TableField {
 export interface CreateProjectRequest {
   name: string
   description?: string
+}
+
+export interface UpdateProjectRequest {
+  name?: string
+  description?: string
+  status?: 'ACTIVE' | 'INACTIVE' | 'DELETED'
   tenantId: string
 }
 
 export const projectApi = {
   getProjects(tenantId: string) {
-    return http.get<ListResponse<Project>>('/api/projects', {
+    return http.get<ApiResponse<Project[]>>('/api/projects', {
       params: { tenantId }
     })
   },
 
   getProjectsPage(tenantId: string, current: number, pageSize: number) {
-    return http.get<PageResponse<Project>>('/api/projects/page', {
+    return http.get<PageResult<Project>>('/api/projects/page', {
       params: { tenantId, current, pageSize }
     })
   },
 
   getProjectById(id: string) {
-    return http.get<DetailResponse<Project>>(`/api/projects/${id}`)
+    return http.get<ApiResponse<Project>>(`/api/projects/${id}`)
   },
 
   createProject(data: CreateProjectRequest) {
-    return http.post<DetailResponse<Project>>('/api/projects', data)
+    return http.post<ApiResponse<Project>>('/api/projects', data)
   },
 
-  updateProject(id: string, data: Partial<CreateProjectRequest>) {
-    return http.put<DetailResponse<Project>>(`/api/projects/${id}`, data)
+  updateProject(id: string, data: UpdateProjectRequest) {
+    return http.put<ApiResponse<Project>>(`/api/projects/${id}`, data)
   },
 
   deleteProject(id: string) {
-    return http.delete<DetailResponse<void>>(`/api/projects/${id}`)
+    return http.delete<ApiResponse<void>>(`/api/projects/${id}`)
   },
 
   // 获取项目的数据表列表
   getProjectTables(projectId: string) {
-    return http.get<ListResponse<Table>>(`/api/table-designs`, {
+    return http.get<ApiResponse<Table[]>>('/api/table-designs', {
       params: { projectId }
     })
   },
 
   // 获取数据表详情
   getTableById(projectId: string, tableId: string) {
-    return http.get<DetailResponse<Table>>(`/api/projects/${projectId}/tables/${tableId}`)
+    return http.get<ApiResponse<Table>>(`/api/projects/${projectId}/tables/${tableId}`)
   },
 
   // 获取表设计详情
   getTableDesignById(id: string) {
-    return http.get<DetailResponse<Table>>(`/api/table-designs/detail/${id}`)
+    return http.get<ApiResponse<Table>>(`/api/table-designs/detail/${id}`)
   },
 
   // 保存表设计
   saveTableDesign(data: Table) {
     if (data.id) {
-      return http.put<DetailResponse<Table>>(`/api/table-designs/${data.id}`, data)
+      return http.put<ApiResponse<Table>>(`/api/table-designs/${data.id}`, data)
     } else {
-      return http.post<DetailResponse<Table>>('/api/table-designs', data)
+      return http.post<ApiResponse<Table>>('/api/table-designs', data)
     }
   }
 }

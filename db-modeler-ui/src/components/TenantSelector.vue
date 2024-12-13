@@ -76,18 +76,17 @@ const loadTenants = async () => {
     const response = await tenantApi.getTenants()
     console.log('Tenant API response:', response)
     
-    if (ApiResponseUtil.isSuccess(response)) {
-      const data = ApiResponseUtil.getListData(response)
-      tenants.value = data
+    const tenantList = ApiResponseUtil.getListData(response)
+    if (tenantList.length > 0) {
+      tenants.value = tenantList
       console.log('Loaded tenants:', tenants.value)
     } else {
-      console.error('Failed to load tenants:', response.message)
-      message.error('加载租户列表失败：' + ApiResponseUtil.getErrorMsg(response))
+      console.warn('No tenants found')
       tenants.value = []
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Failed to load tenants:', error)
-    message.error('加载租户列表失败：' + (error.message || '未知错误'))
+    message.error('加载租户列表失败：' + ApiResponseUtil.getErrorMessage(error))
     tenants.value = []
   } finally {
     loading.value = false
@@ -138,23 +137,21 @@ const handleCreateTenant = async () => {
       description: formState.value.description
     })
 
-    if (ApiResponseUtil.isSuccess(response)) {
-      const newTenant = ApiResponseUtil.getDetailData(response)
-      if (newTenant) {
-        message.success('创建租户成功')
-        modalVisible.value = false
-        await loadTenants()
-        
-        // 自动选择新创建的租户
-        selectedTenantId.value = newTenant.id
-        await handleTenantSelect(newTenant.id)
-      }
+    const newTenant = ApiResponseUtil.getData(response)
+    if (newTenant) {
+      message.success('创建租户成功')
+      modalVisible.value = false
+      await loadTenants()
+      
+      // 自动选择新创建的租户
+      selectedTenantId.value = newTenant.id
+      await handleTenantSelect(newTenant.id)
     } else {
-      throw new Error(ApiResponseUtil.getErrorMsg(response))
+      throw new Error('创建租户失败：返回数据格式错误')
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Failed to create tenant:', error)
-    message.error(error.message || '创建租户失败')
+    message.error('创建租户失败：' + ApiResponseUtil.getErrorMessage(error))
   } finally {
     creating.value = false
   }

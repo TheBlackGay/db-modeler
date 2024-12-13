@@ -135,7 +135,10 @@ import {
   PlusOutlined, 
   ImportOutlined, 
   ExportOutlined,
-  SyncOutlined
+  SyncOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  TableOutlined
 } from '@ant-design/icons-vue'
 import type { TableListItem } from '@/types/table'
 import { getTableList, createTable, updateTable, deleteTable } from '@/api/table'
@@ -146,35 +149,42 @@ const projectId = route.params.id as string
 
 const columns = [
   {
-    title: '代码',
+    title: '表名',
     dataIndex: 'code',
     key: 'code',
+    width: 200,
+    fixed: 'left'
   },
   {
     title: '显示名称',
     dataIndex: 'displayName',
     key: 'displayName',
+    width: 200
+  },
+  {
+    title: '说明',
+    dataIndex: 'comment',
+    key: 'comment',
+    ellipsis: true
   },
   {
     title: '类型',
     dataIndex: 'type',
     key: 'type',
+    width: 100
   },
   {
     title: '主题域',
     dataIndex: 'domain',
     key: 'domain',
-  },
-  {
-    title: '备注',
-    dataIndex: 'comment',
-    key: 'comment',
+    width: 100
   },
   {
     title: '操作',
     key: 'action',
     width: 180,
-  },
+    fixed: 'right'
+  }
 ]
 
 // 表格数据和加载状态
@@ -371,64 +381,57 @@ onMounted(() => {
 })
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .table-page {
   height: 100%;
   display: flex;
   flex-direction: column;
   background: #fff;
-  margin: -10px;  /* 抵消外部容器的 padding */
-}
-
-.table-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;  /* 移动 padding 到内部元素 */
+  padding: 16px;
   
-  .toolbar-right {
+  .table-toolbar {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 8px;
+    margin-bottom: 16px;
+    
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+  
+  .table-view {
+    flex: 1;
+    overflow: hidden;
+    
+    :deep(.ant-table-wrapper) {
+      height: 100%;
+      
+      .ant-table {
+        height: 100%;
+      }
+      
+      .table-name-cell {
+        .table-link {
+          color: #1890ff;
+          cursor: pointer;
+          
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
   }
 }
 
-.table-view {
-  flex: 1;
-  overflow: hidden;
-  padding: 0 16px 16px;  /* 移动 padding 到内部元素 */
-
-  .table-name-cell {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    .table-link {
-      color: #1890ff;
-      font-weight: 500;
-      &:hover {
-        color: #40a9ff;
-      }
-    }
-  }
-
-  :deep(.ant-table) {
-    .ant-table-thead > tr > th {
-      padding: 8px;
-      background: #fafafa;
-      font-weight: 600;
-      color: #1f1f1f;
-    }
-
-    .ant-table-tbody > tr > td {
-      padding: 6px 8px;
-    }
-
-    .ant-table-row:hover {
-      .table-link {
-        color: #40a9ff;
-      }
-    }
+.table-form {
+  .form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 }
 </style>

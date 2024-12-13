@@ -109,37 +109,30 @@ const loadProjects = async () => {
     )
     console.log('项目 API 响应:', response)
     
-    if (ApiResponseUtil.isSuccess(response)) {
-      const data = ApiResponseUtil.getPageData(response)
-      if (data) {
-        projects.value = data.records || []
-        pageInfo.value = {
-          current: data.pageInfo.current || 1,
-          pageSize: data.pageInfo.pageSize || 10,
-          total: data.pageInfo.total || 0,
-          totalPages: data.pageInfo.totalPages || 0
-        }
-        // 同步到全局状态
-        globalStore.$patch({ projects: projects.value })
-        console.log('成功加载项目列表:', projects.value)
-        if (projects.value.length === 0) {
-          message.info('暂无项目数据')
-        }
-      } else {
-        console.warn('API 响应数据为空')
-        message.warning('获取项目列表失败：返回数据为空')
-        projects.value = []
-        globalStore.$patch({ projects: [] })
+    const pageData = ApiResponseUtil.getPageData(response)
+    if (pageData) {
+      projects.value = pageData.records || []
+      pageInfo.value = {
+        current: pageData.pageInfo.current || 1,
+        pageSize: pageData.pageInfo.pageSize || 10,
+        total: pageData.pageInfo.total || 0,
+        totalPages: pageData.pageInfo.totalPages || 0
+      }
+      // 同步到全局状态
+      globalStore.$patch({ projects: projects.value })
+      console.log('成功加载项目列表:', projects.value)
+      if (projects.value.length === 0) {
+        message.info('暂无项目数据')
       }
     } else {
-      console.warn('加载项目失败:', response.message)
-      message.error('加载项目列表失败：' + ApiResponseUtil.getErrorMsg(response))
+      console.warn('API 响应数据为空')
+      message.warning('获取项目列表失败：返回数据为空')
       projects.value = []
       globalStore.$patch({ projects: [] })
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error('加载项目列表出错:', error)
-    message.error('加载项目列表失败：' + (error.message || '未知错误'))
+    message.error('加载项目列表失败：' + ApiResponseUtil.getErrorMessage(error))
     projects.value = []
     globalStore.$patch({ projects: [] })
   } finally {
@@ -172,14 +165,13 @@ const handleModalOk = async () => {
       };
 
       const response = await projectApi.createProject(projectData);
-      
-      if (ApiResponseUtil.isSuccess(response)) {
+      if (response.data.code === 0 && response.data.data) {
         message.success('创建成功');
         modalVisible.value = false;
         formState.value = { name: '', description: '' };
         await loadProjects();
       } else {
-        throw new Error(ApiResponseUtil.getErrorMsg(response));
+        throw new Error(response.data.message || '创建项目失败');
       }
     } else {
       if (!currentProjectId.value) {
@@ -195,38 +187,39 @@ const handleModalOk = async () => {
 
       const updateData = {
         name: formState.value.name.trim(),
-        description: formState.value.description?.trim()
+        description: formState.value.description?.trim(),
+        tenantId: currentTenant.value.id
       };
 
       const response = await projectApi.updateProject(currentProjectId.value, updateData);
-      
-      if (ApiResponseUtil.isSuccess(response)) {
+      if (response.data.code === 0 && response.data.data) {
         message.success('更新成功');
         modalVisible.value = false;
         formState.value = { name: '', description: '' };
         await loadProjects();
       } else {
-        throw new Error(ApiResponseUtil.getErrorMsg(response));
+        throw new Error(response.data.message || '更新项目失败');
       }
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Operation failed:', error);
-    message.error(error.message || (modalMode.value === 'create' ? '创建失败' : '更新失败'));
+    message.error(ApiResponseUtil.getErrorMessage(error));
   }
 };
 
 const handleDelete = async (id: string) => {
   try {
     const response = await projectApi.deleteProject(id)
-    if (ApiResponseUtil.isSuccess(response)) {
+    const result = ApiResponseUtil.getData(response)
+    if (result !== null) {
       message.success('删除成功')
       await loadProjects()
     } else {
-      throw new Error(ApiResponseUtil.getErrorMsg(response))
+      throw new Error('删除项目失败：返回数据格式错误')
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Delete failed:', error)
-    message.error(error.message || '删除失败')
+    message.error(ApiResponseUtil.getErrorMessage(error))
   }
 }
 

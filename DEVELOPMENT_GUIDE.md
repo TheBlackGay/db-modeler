@@ -348,14 +348,83 @@ PUT    /api/users/{id}     # 更新用户
 DELETE /api/users/{id}     # 删除用户
 ```
 
-#### 响应格式
+#### 统一响应格式
+
+所有API接口必须使用统一的响应格式：
+
+1. **基础响应格式**
+```typescript
+interface ApiResponse<T> {
+  code: number        // 响应码：0表示成功，非0表示错误
+  message: string     // 响应消息
+  data: T            // 响应数据
+}
+```
+
+2. **分页信息格式**
+```typescript
+interface PageInfo {
+  current: number     // 当前页码
+  pageSize: number    // 每页条数
+  total: number       // 总记录数
+  totalPages: number  // 总页数
+}
+```
+
+3. **分页数据格式**
+```typescript
+interface PageResult<T> {
+  records: T[]        // 数据列表
+  pageInfo: PageInfo  // 分页信息
+}
+```
+
+4. **响应示例**
+
+成功响应：
 ```json
 {
-  "code": 200,
+  "code": 0,
   "message": "success",
   "data": {
-    // 响应数据
+    "id": "1",
+    "name": "示例"
   }
+}
+```
+
+分页响应：
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    "records": [
+      {
+        "id": "1",
+        "name": "示例1"
+      },
+      {
+        "id": "2",
+        "name": "示例2"
+      }
+    ],
+    "pageInfo": {
+      "current": 1,
+      "pageSize": 10,
+      "total": 100,
+      "totalPages": 10
+    }
+  }
+}
+```
+
+错误响应：
+```json
+{
+  "code": -1,
+  "message": "操作失败：xxx",
+  "data": null
 }
 ```
 
@@ -723,7 +792,7 @@ Close #123
    - 注意性能优化
 
 3. **协作配合**
-   - ���现问题及时沟通
+   - 现问题及时沟通
    - 接口变更及时通知
    - 保持文档更新
    - 遵守开发规范

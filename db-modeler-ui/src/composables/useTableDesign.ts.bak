@@ -1,0 +1,267 @@
+import { ref, computed } from 'vue'
+import { message } from 'ant-design-vue'
+import { tableApi } from '@/api/table'
+import { TableType, TableDomain, TableStatus } from '@/types/table'
+import type { Table, TableDTO, Field, Index } from '@/types/table'
+import { ApiResponseUtil } from '@/types/api'
+
+// 表元数据接口
+interface TableMetadata {
+  dbType: string
+  engine: string
+  charset: string
+  collation: string
+  tablespace?: string
+  autoIncrement?: number
+  rowFormat?: string
+}
+
+export function useTableDesign(tableId: string) {
+  // 状态
+  const loading = ref(false)
+  const saving = ref(false)
+  const table = ref<Table>({
+    id: tableId,
+    name: '',
+    displayName: '',
+    comment: '',
+    type: TableType.TABLE,
+    domain: TableDomain.BUSINESS,
+    dbType: 'MYSQL',
+    engine: 'InnoDB',
+    charset: 'utf8mb4',
+    collation: 'utf8mb4_general_ci',
+    fields: [],
+    indexes: [],
+    status: TableStatus.DRAFT,
+    synced: false
+  })
+  
+  // 保存原始数据用于比较变更
+  const originalTable = ref<Table | null>(null)
+
+  // 计算属性
+  const hasUnsavedChanges = computed(() => {
+    if (!originalTable.value) return false
+    
+    // 比较主要属性
+    const mainProps = [
+      'name', 'displayName', 'comment', 'type', 'domain',
+      'dbType', 'engine', 'charset', 'collation'
+    ] as const
+    
+    for (const prop of mainProps) {
+      if (table.value[prop] !== originalTable.value[prop]) {
+        return true
+      }
+    }
+    
+    // 比较字段
+    if (table.value.fields.length !== originalTable.value.fields.length) {
+      return true
+    }
+    for (let i = 0; i < table.value.fields.length; i++) {
+      const newField = table.value.fields[i]
+      const oldField = originalTable.value.fields[i]
+      if (JSON.stringify(newField) !== JSON.stringify(oldField)) {
+        return true
+      }
+    }
+    
+    // 比较索引
+    if (table.value.indexes.length !== originalTable.value.indexes.length) {
+      return true
+    }
+    for (let i = 0; i < table.value.indexes.length; i++) {
+      const newIndex = table.value.indexes[i]
+      const oldIndex = originalTable.value.indexes[i]
+      if (JSON.stringify(newIndex) !== JSON.stringify(oldIndex)) {
+        return true
+      }
+    }
+    
+    return false
+  })
+
+  // 加载表设计
+  const loadTableDesign = async () => {
+    try {
+      loading.value = true
+      const response = await tableApi.getTableDesignById(tableId)
+      const data = ApiResponseUtil.getData(response.data)
+
+      if (!data) {
+        throw new Error('加载表设计失败')
+      }
+      
+      // 解析元数据
+      let metadata: TableMetadata = {
+        dbType: 'MYSQL',
+        engine: 'InnoDB',
+        charset: 'utf8mb4',
+        collation: 'utf8mb4_general_ci'
+      }
+
+      if (data.metadata) {
+        try {
+          if (typeof data.metadata === 'string') {
+            const parsedMetadata = JSON.parse(data.metadata)
+            metadata = {
+              ...metadata,
+              ...parsedMetadata,
+              dbType: parsedMetadata.dbType.toUpperCase()
+            }
+          } else {
+            metadata = {
+              ...metadata,
+              ...data.metadata,
+              dbType: data.metadata.dbType.toUpperCase()
+            }
+          }
+        } catch (e) {
+          console.error('Failed to parse metadata:', e)
+        }
+      }
+
+      // 解析字段和索引
+      let fields = []
+      let indexes = []
+      if (data.columns) {
+        try {
+          const columns = typeof data.columns === 'string' 
+            ? JSON.parse(data.columns)
+            : data.columns
+          fields = columns.fields || []
+          indexes = columns.indexes || []
+        } catch (e) {
+          console.error('Failed to parse columns:', e)
+        }
+      }
+
+      // 更新表数据
+      table.value = {
+        id: data.id,
+        name: data.code || '',
+        displayName: data.displayName || '',
+        comment: data.comment || '',
+        type: data.type || TableType.TABLE,
+        domain: data.domain || TableDomain.BUSINESS,
+        dbType: metadata.dbType,
+        engine: metadata.engine,
+        charset: metadata.charset,
+        collation: metadata.collation,
+        tablespace: metadata.tablespace,
+        autoIncrement: metadata.autoIncrement,
+        rowFormat: metadata.rowFormat,
+        fields,
+        indexes,
+        status: data.status || TableStatus.DRAFT,
+        synced: data.synced || false
+      }
+
+      // 保存原始数据
+      originalTable.value = JSON.parse(JSON.stringify(table.value))
+      
+    } catch (error: any) {
+      console.error('Failed to load table design:', error)
+      message.error(error.message || '加载表设计失败')
+      throw error
+    } finally {
+      loading.value = false
+    }
+  }
+
+  // 保存表设计
+  const saveTableDesign = async () => {
+    try {
+      // 验证必填字段
+      if (!table.value.name) {
+        throw new Error('表名不能为空')
+      }
+      if (!table.value.fields.length) {
+        throw new Error('至少需要一个字段')
+      }
+      if (!table.value.fields.some(f => f.primaryKey)) {
+        throw new Error('请设置主键字段')
+      }
+
+      saving.value = true
+      
+      // 准备保存的数据
+      const saveData: Partial<TableDTO> = {
+        id: table.value.id,
+        code: table.value.name,
+        displayName: table.value.displayName || table.value.name,
+        type: table.value.type,
+        domain: table.value.domain,
+        comment: table.value.comment,
+        columns: JSON.stringify({
+          fields: table.value.fields,
+          indexes: table.value.indexes
+        }),
+        status: table.value.status,
+        metadata: JSON.stringify({
+          dbType: table.value.dbType,
+          engine: table.value.engine,
+          charset: table.value.charset,
+          collation: table.value.collation,
+          tablespace: table.value.tablespace,
+          autoIncrement: table.value.autoIncrement,
+          rowFormat: table.value.rowFormat
+        })
+      }
+
+      // 调用保存接口
+      const response = await tableApi.updateTableDesign(table.value.id, saveData)
+      const data = ApiResponseUtil.getData(response.data)
+
+      if (!data) {
+        throw new Error('保存表设计失败')
+      }
+      
+      // 更新原始数据
+      originalTable.value = JSON.parse(JSON.stringify(table.value))
+      
+      message.success('保存成功')
+      return data
+      
+    } catch (error: any) {
+      console.error('Failed to save table design:', error)
+      message.error(error.message || '保存表设计失败')
+      throw error
+    } finally {
+      saving.value = false
+    }
+  }
+
+  // 同步到数据库
+  const syncToDatabase = async () => {
+    try {
+      loading.value = true
+      const response = await tableApi.syncTableDesign(tableId)
+
+      if (!ApiResponseUtil.isSuccess(response.data)) {
+        throw new Error('同步到数据库失败')
+      }
+
+      message.success('同步成功')
+      return response.data
+    } catch (error: any) {
+      console.error('Failed to sync to database:', error)
+      message.error(error.message || '同步到数据库失败')
+      throw error
+    } finally {
+      loading.value = false
+    }
+  }
+
+  return {
+    loading,
+    saving,
+    table,
+    hasUnsavedChanges,
+    loadTableDesign,
+    saveTableDesign,
+    syncToDatabase
+  }
+} 
