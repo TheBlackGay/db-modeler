@@ -1,55 +1,171 @@
-# DB-Modeler-React 开发指南
+# DB Modeler 开发指南
 
-## 开发环境要求
-- Node.js >= 16.0.0
-- npm >= 8.0.0
-- Git
+## 项目概述
+DB Modeler 是一个基于 React + TypeScript 的数据库模型设计工具，支持数据表的可视化设计、字段管理、SQL导出等功能。
 
-## 项目设置
-1. 克隆项目
-```bash
-git clone <repository-url>
-cd db-modeler-react
-```
+## 技术栈
+- React 18
+- TypeScript 5
+- Redux Toolkit
+- React Router v6
+- Ant Design v5
+- TailwindCSS
+- Vite
+- Jest + Testing Library
 
-2. 安装依赖
+## 开发环境搭建
+
+### 系统要求
+- Node.js >= 18.0.0
+- pnpm >= 8.0.0
+
+### 安装依赖
 ```bash
 pnpm install
 ```
 
-3. 启动开发服务器
+### 开发服务器启动
 ```bash
-pnpm run dev
+pnpm dev
+```
+
+### 构建项目
+```bash
+pnpm build
+```
+
+### 运行测试
+```bash
+pnpm test
+```
+
+## 项目结构
+```
+src/
+├── components/        # React组件
+├── store/            # Redux状态管理
+├── services/         # 服务层
+├── types/            # TypeScript类型定义
+└── utils/            # 工具函数
 ```
 
 ## 开发规范
 
-### 1. 代码风格
-- 使用TypeScript编写所有代码
-- 遵循ESLint规则
-- 使用Prettier进行代码格式化
-- 组件采用函数式组件和Hooks
+### 代码风格
+- 使用 ESLint 和 Prettier 进行代码格式化
+- 遵循 TypeScript 严格模式
+- 使用函数式组件和 Hooks
 
-### 2. 文件命名规范
-- 组件文件：PascalCase（如：TableList.tsx）
-- 工具函数文件：camelCase（如：formatDate.ts）
-- 样式文件：与组件同名（如：TableList.css）
-- 类型定义文件：camelCase（如：model.ts）
-
-### 3. 目录结构
+### 组件开发规范
+1. 组件文件命名采用大驼峰（PascalCase）
+2. 组件目录结构：
 ```
-src/
-  ├── components/        # 可复用组件
-  ├── pages/            # 页面组件
-  ├── store/            # Redux相关
-  ├── services/         # 服务层
-  ├── types/            # 类型定义
-  ├── utils/            # 工具函数
-  ├── hooks/            # 自定义Hooks
-  └── assets/           # 静态资源
+ComponentName/
+├── index.tsx         # 组件主文件
+├── styles.css        # 样式文件（如果需要）
+└── __tests__/       # 测试文件
+    └── ComponentName.test.tsx
 ```
 
-### 4. Git提交规范
+### 状态管理规范
+1. 使用 Redux Toolkit 进行状态管理
+2. Slice 文件命名采用小驼峰（camelCase）
+3. Action 类型使用 `domain/action` 格式
+
+### 测试规范
+1. 使用 Jest 和 Testing Library 编写测试
+2. 测试文件命名：`*.test.tsx` 或 `*.test.ts`
+3. 测试覆盖率要求：
+   - 语句覆盖率 > 80%
+   - 分支覆盖率 > 80%
+   - 函数覆盖率 > 90%
+
+### 组件测试指南
+1. 组件测试原则：
+   - 测试组件的用户交互
+   - 测试组件的渲染输出
+   - 测试组件的状态变化
+   - 测试组件的错误处理
+
+2. 测试用例编写：
+```typescript
+describe('组件名称', () => {
+  // 基础渲染测试
+  it('应该正确渲染组件', () => {
+    // 测试代码
+  });
+
+  // 用户交互测试
+  it('应该正确响应用户操作', () => {
+    // 测试代码
+  });
+
+  // 状态变化测试
+  it('应该正确更新状态', () => {
+    // 测试代码
+  });
+
+  // 错误处理测试
+  it('应该正确处理错误情况', () => {
+    // 测试代码
+  });
+});
+```
+
+3. Mock 数据和依赖：
+   - 使用 `jest.mock()` 模拟外部依赖
+   - 使用 `jest.spyOn()` 监视函数调用
+   - 使用 `mockImplementation()` 模拟函数行为
+   - 使用 `mockResolvedValue()` 模拟异步操作
+
+4. 常用测试工具：
+   - `render`: 渲染组件
+   - `screen`: 查询元素
+   - `fireEvent`: 触发事件
+   - `waitFor`: 等待异步操作
+   - `act`: 包装状态更新
+
+5. 测试示例：
+```typescript
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { store } from '../store';
+import MyComponent from './MyComponent';
+
+describe('MyComponent', () => {
+  const renderComponent = () => {
+    return render(
+      <Provider store={store}>
+        <MyComponent />
+      </Provider>
+    );
+  };
+
+  it('应该正确渲染表单', () => {
+    renderComponent();
+    expect(screen.getByRole('form')).toBeInTheDocument();
+  });
+
+  it('应该正确处理表单提交', async () => {
+    renderComponent();
+    fireEvent.click(screen.getByText('提交'));
+    await waitFor(() => {
+      expect(screen.getByText('提交成功')).toBeInTheDocument();
+    });
+  });
+});
+```
+
+## Git 工作流
+
+### 分支管理
+- main: 主分支，用于发布
+- develop: 开发分支
+- feature/*: 功能分支
+- bugfix/*: 修复分支
+- release/*: 发布分支
+
+### 提交规范
 提交信息格式：
 ```
 <type>(<scope>): <subject>
@@ -59,77 +175,57 @@ src/
 <footer>
 ```
 
-类型（type）：
+type 类型：
 - feat: 新功能
 - fix: 修复bug
 - docs: 文档更新
 - style: 代码格式（不影响代码运行的变动）
 - refactor: 重构
-- test: 测试
+- test: 测试相关
 - chore: 构建过程或辅助工具的变动
 
-### 5. 组件开发规范
-- 组件应该是纯函数
-- Props使用TypeScript接口定义
-- 使用自定义Hooks抽取业务逻辑
-- 组件应该是可复用的
-- 避免过度嵌套
+### 版本发布流程
+1. 从 develop 分支创建 release 分支
+2. 在 release 分支进行测试和 bug 修复
+3. 合并到 main 分支并打 tag
+4. 合并回 develop 分支
 
-### 6. 状态管理规范
-- 使用Redux Toolkit管理全局状态
-- 使用Redux Thunk处理异步操作
-- 按功能模块拆分Slice
-- 使用TypeScript定义Action和State类型
+## 部署指南
 
-### 7. 测试规范
-- 编写单元测试（使用Jest和React Testing Library）
-- 测试文件命名：*.test.tsx 或 *.spec.tsx
-- 保持测试覆盖率
-- 模拟复杂的外部依赖
+### 构建
+```bash
+pnpm build
+```
 
-## 开发流程
+### 环境变量
+- `VITE_API_URL`: API地址
+- `VITE_ENV`: 环境标识（development/production）
 
-### 1. 功能开发
-1. 从main分支创建新的功能分支
-2. 开发新功能
-3. 编写测试
-4. 提交代码
-5. 创建Pull Request
+### 部署检查清单
+- [ ] 环境变量配置
+- [ ] 构建产物验证
+- [ ] 性能测试
+- [ ] 兼容性测试
+- [ ] 安全检查
 
-### 2. 代码审查
-- 确保所有测试通过
-- 符合代码规范
-- 代码逻辑清晰
-- 文档完善
+## 常见问题
 
-### 3. 版本发布
-1. 更新版本号
-2. 更新CHANGELOG
-3. 创建Release Tag
-4. 部署新版本
+### 开发环境问题
+1. 依赖安装失败
+   - 清除 pnpm store: `pnpm store prune`
+   - 删除 node_modules: `rm -rf node_modules`
+   - 重新安装: `pnpm install`
 
-## 调试指南
+2. 开发服务器启动失败
+   - 检查端口占用
+   - 检查环境变量配置
+   - 检查 vite.config.ts 配置
 
-### 1. 开发工具
-- 使用React Developer Tools
-- 使用Redux DevTools
-- 使用Chrome DevTools
+### 测试相关问题
+1. 测试超时
+   - 增加超时时间配置
+   - 检查异步操作处理
 
-### 2. 日志级别
-- ERROR: 错误信息
-- WARN: 警告信息
-- INFO: 一般信息
-- DEBUG: 调试信息
-
-## 文档维护
-- 及时更新API文档
-- 维护CHANGELOG
-- 更新README
-- 编写组件文档
-
-## 性能优化
-- 使用React.memo()优化渲染
-- 使用useMemo和useCallback
-- 实现代码分割
-- 优化打包大小
-- 使用性能分析工具 
+2. 测试失败
+   - 检查测试环境配置
+   - 更新快照: `pnpm test -u`
