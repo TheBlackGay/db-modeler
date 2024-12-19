@@ -1,0 +1,49 @@
+.projectList {
+  padding: 24px;
+
+  .projectCard {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    
+    h3 {
+      margin-bottom: 12px;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    p {
+      color: rgba(0, 0, 0, 0.45);
+      margin-bottom: 8px;
+    }
+  }
+
+  .createCard {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed #d9d9d9;
+    background-color: #fafafa;
+
+    &:hover {
+      border-color: #1890ff;
+      
+      .plusIcon {
+        color: #1890ff;
+      }
+    }
+
+    .plusIcon {
+      font-size: 24px;
+      margin-bottom: 8px;
+      color: rgba(0, 0, 0, 0.45);
+    }
+
+    p {
+      margin: 0;
+      color: rgba(0, 0, 0, 0.45);
+    }
+  }
+} 

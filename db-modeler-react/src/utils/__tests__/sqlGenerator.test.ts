@@ -1,259 +1,160 @@
 import { describe, it, expect } from '@jest/globals';
-import { SQLGenerator } from '../sqlGenerator';
-import type { Table } from '../../types/models';
+import { generateSQLScript } from '../sqlGenerator';
+import type { Table, Field } from '../../types/models';
 
-describe('SQLGenerator', () => {
-  const mockTable: Table = {
+// 测试数据准备
+const mockFields: Field[] = [
+  {
     id: '1',
-    name: 'users',
-    comment: '用户表',
-    fields: [
-      {
-        id: '1',
-        name: 'id',
-        type: 'INT',
-        length: 11,
-        nullable: false,
-        comment: '主键ID',
-      },
-      {
-        id: '2',
-        name: 'username',
-        type: 'VARCHAR',
-        length: 50,
-        nullable: false,
-        comment: '用户名',
-      },
-      {
-        id: '3',
-        name: 'email',
-        type: 'VARCHAR',
-        length: 100,
-        nullable: true,
-        defaultValue: null,
-        comment: '邮箱',
-      },
-      {
-        id: '4',
-        name: 'created_at',
-        type: 'TIMESTAMP',
-        nullable: false,
-        defaultValue: 'CURRENT_TIMESTAMP',
-        comment: '创建时间',
-      },
-    ],
-    createdAt: '2024-01-15T00:00:00.000Z',
-    updatedAt: '2024-01-15T00:00:00.000Z',
-  };
+    name: 'id',
+    type: 'INT',
+    nullable: false,
+    isPrimaryKey: true,
+    isAutoIncrement: true,
+    unique: false,
+    index: false,
+    comment: '用户ID',
+    defaultValue: '',
+    length: undefined,
+    unsigned: true,
+    zerofill: false,
+  },
+  {
+    id: '2',
+    name: 'username',
+    type: 'VARCHAR',
+    nullable: false,
+    isPrimaryKey: false,
+    isAutoIncrement: false,
+    unique: true,
+    index: false,
+    comment: '用户名',
+    defaultValue: '',
+    length: 50,
+    unsigned: false,
+    zerofill: false,
+  },
+  {
+    id: '3',
+    name: 'created_at',
+    type: 'DATETIME',
+    nullable: false,
+    isPrimaryKey: false,
+    isAutoIncrement: false,
+    unique: false,
+    index: true,
+    comment: '创建时间',
+    defaultValue: 'CURRENT_TIMESTAMP',
+    length: undefined,
+    unsigned: false,
+    zerofill: false,
+  }
+];
 
-  describe('MySQL', () => {
-    it('应该生成基本的MySQL建表语句', () => {
-      const generator = new SQLGenerator({ dbType: 'mysql' });
-      const sql = generator.generateTableSQL(mockTable);
-      
-      expect(sql).toContain('CREATE TABLE `users`');
-      expect(sql).toContain('`id` INT(11) NOT NULL AUTO_INCREMENT');
+const mockTable: Table = {
+  id: '1',
+  name: 'users',
+  comment: '用户表',
+  fields: mockFields,
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+};
+
+const defaultOptions = {
+  dialect: 'mysql' as const,
+  version: '8.0',
+  includeDropTable: true,
+  includeIfNotExists: true,
+  includeComments: true,
+  includeAutoIncrement: true,
+  includeCharset: true,
+  charset: 'utf8mb4',
+  collation: 'utf8mb4_unicode_ci'
+};
+
+describe('SQL生成器', () => {
+  describe('MySQL语法', () => {
+    it('应该能生成基本的MySQL表结构', () => {
+      const sql = generateSQLScript(mockTable, defaultOptions);
+      expect(sql).toContain('CREATE TABLE IF NOT EXISTS `users`');
+      expect(sql).toContain('`id` INT UNSIGNED NOT NULL AUTO_INCREMENT');
       expect(sql).toContain('`username` VARCHAR(50) NOT NULL');
-      expect(sql).toContain('`email` VARCHAR(100) NULL');
-      expect(sql).toContain('`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
-      expect(sql).toContain('ENGINE = InnoDB');
-      expect(sql).toContain('DEFAULT CHARSET = utf8mb4');
-      expect(sql).toContain('COLLATE = utf8mb4_unicode_ci');
+      expect(sql).toContain('PRIMARY KEY (`id`)');
+      expect(sql).toContain('UNIQUE KEY `uk_username` (`username`)');
+      expect(sql).toContain('KEY `idx_created_at` (`created_at`)');
     });
+  });
 
-    it('应该正确处理注释选项', () => {
-      const generator = new SQLGenerator({ dbType: 'mysql', includeComments: false });
-      const sql = generator.generateTableSQL(mockTable);
-      
-      expect(sql).not.toContain('COMMENT');
-      expect(sql).not.toContain('-- 用户表');
-    });
-
-    it('应该正确处理存储引擎选项', () => {
-      const generator = new SQLGenerator({ dbType: 'mysql', engine: 'MyISAM' });
-      const sql = generator.generateTableSQL(mockTable);
-      
-      expect(sql).toContain('ENGINE = MyISAM');
-    });
-
-    it('应该正确处理字符集选项', () => {
-      const generator = new SQLGenerator({ 
-        dbType: 'mysql', 
-        charset: 'utf8', 
-        collate: 'utf8_general_ci' 
+  describe('PostgreSQL语法', () => {
+    it('应该能生成PostgreSQL表结构', () => {
+      const sql = generateSQLScript(mockTable, {
+        ...defaultOptions,
+        dialect: 'postgresql'
       });
-      const sql = generator.generateTableSQL(mockTable);
-      
-      expect(sql).toContain('DEFAULT CHARSET = utf8');
-      expect(sql).toContain('COLLATE = utf8_general_ci');
+      expect(sql).toContain('CREATE TABLE IF NOT EXISTS "users"');
+      expect(sql).toContain('"id" SERIAL NOT NULL');
+      expect(sql).toContain('"username" VARCHAR(50) NOT NULL');
+      expect(sql).toContain('PRIMARY KEY ("id")');
+      expect(sql).toContain('UNIQUE ("username")');
+      expect(sql).toContain('CREATE INDEX "idx_users_created_at" ON "users" ("created_at");');
+    });
+  });
+
+  describe('SQLite语法', () => {
+    it('应该能生成SQLite表结构', () => {
+      const sql = generateSQLScript(mockTable, {
+        ...defaultOptions,
+        dialect: 'sqlite'
+      });
+      expect(sql).toContain('CREATE TABLE IF NOT EXISTS users');
+      expect(sql).toContain('id INTEGER NOT NULL');
+      expect(sql).toContain('username TEXT NOT NULL');
+      expect(sql).toContain('PRIMARY KEY (id)');
+      expect(sql).toContain('UNIQUE (username)');
+      expect(sql).toContain('CREATE INDEX idx_users_created_at ON users (created_at);');
+    });
+  });
+
+  describe('选项控制', () => {
+    it('应该能控制DROP TABLE语句的生成', () => {
+      const sql = generateSQLScript(mockTable, {
+        ...defaultOptions,
+        includeDropTable: false
+      });
+      expect(sql).not.toContain('DROP TABLE');
     });
 
-    it('应该正确处理自增选项', () => {
-      const generator = new SQLGenerator({ dbType: 'mysql', autoIncrement: false });
-      const sql = generator.generateTableSQL(mockTable);
-      
+    it('应该能控制IF NOT EXISTS语句的生成', () => {
+      const sql = generateSQLScript(mockTable, {
+        ...defaultOptions,
+        includeIfNotExists: false
+      });
+      expect(sql).not.toContain('IF NOT EXISTS');
+    });
+
+    it('应该能控制注释的生成', () => {
+      const sql = generateSQLScript(mockTable, {
+        ...defaultOptions,
+        includeComments: false
+      });
+      expect(sql).not.toContain('COMMENT');
+    });
+
+    it('应该能控制自增长属性的生成', () => {
+      const sql = generateSQLScript(mockTable, {
+        ...defaultOptions,
+        includeAutoIncrement: false
+      });
       expect(sql).not.toContain('AUTO_INCREMENT');
     });
-  });
 
-  describe('PostgreSQL', () => {
-    it('应该生成基本的PostgreSQL建表语句', () => {
-      const generator = new SQLGenerator({ dbType: 'postgresql' });
-      const sql = generator.generateTableSQL(mockTable);
-      
-      expect(sql).toContain('CREATE TABLE "users"');
-      expect(sql).toContain('"id" INT NOT NULL GENERATED ALWAYS AS IDENTITY');
-      expect(sql).toContain('"username" VARCHAR(50) NOT NULL');
-      expect(sql).toContain('"email" VARCHAR(100) NULL');
-      expect(sql).toContain('"created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
-      expect(sql).not.toContain('ENGINE =');
-      expect(sql).not.toContain('CHARSET');
-    });
-
-    it('应该使用PostgreSQL风格的注释', () => {
-      const generator = new SQLGenerator({ dbType: 'postgresql' });
-      const sql = generator.generateTableSQL(mockTable);
-      
-      expect(sql).toContain('-- 用户表');
-      expect(sql).toContain('-- 主键ID');
-      expect(sql).not.toContain('COMMENT');
-    });
-  });
-
-  describe('generateDatabaseSQL', () => {
-    it('应该生成完整的数据库SQL（MySQL）', () => {
-      const generator = new SQLGenerator({ dbType: 'mysql' });
-      const sql = generator.generateDatabaseSQL([mockTable]);
-      
-      expect(sql).toContain('SET NAMES utf8mb4');
-      expect(sql).toContain('SET FOREIGN_KEY_CHECKS = 0');
-      expect(sql).toContain('CREATE TABLE');
-      expect(sql).toContain('SET FOREIGN_KEY_CHECKS = 1');
-    });
-
-    it('应该生成完整的数据库SQL（PostgreSQL）', () => {
-      const generator = new SQLGenerator({ dbType: 'postgresql' });
-      const sql = generator.generateDatabaseSQL([mockTable]);
-      
-      expect(sql).not.toContain('SET NAMES');
-      expect(sql).not.toContain('FOREIGN_KEY_CHECKS');
-      expect(sql).toContain('CREATE TABLE');
-    });
-  });
-
-  describe('主键和自增', () => {
-    it('应该正确生成单一主键', () => {
-      const table: Table = {
-        id: '1',
-        name: 'users',
-        comment: '用户表',
-        fields: [
-          {
-            id: '1',
-            name: 'id',
-            type: 'INT',
-            nullable: false,
-            isPrimaryKey: true,
-            comment: '主键ID',
-          }
-        ],
-        createdAt: '2024-01-15T00:00:00.000Z',
-        updatedAt: '2024-01-15T00:00:00.000Z',
-      };
-
-      const sql = generator.generateTableSQL(table);
-      expect(sql).toContain('`id` INT NOT NULL');
-      expect(sql).toContain('PRIMARY KEY (`id`)');
-    });
-
-    it('应该正确生成复合主键', () => {
-      const table: Table = {
-        id: '1',
-        name: 'order_items',
-        comment: '订单项目表',
-        fields: [
-          {
-            id: '1',
-            name: 'order_id',
-            type: 'INT',
-            nullable: false,
-            isPrimaryKey: true,
-            comment: '订单ID',
-          },
-          {
-            id: '2',
-            name: 'product_id',
-            type: 'INT',
-            nullable: false,
-            isPrimaryKey: true,
-            comment: '产品ID',
-          }
-        ],
-        createdAt: '2024-01-15T00:00:00.000Z',
-        updatedAt: '2024-01-15T00:00:00.000Z',
-      };
-
-      const sql = generator.generateTableSQL(table);
-      expect(sql).toContain('PRIMARY KEY (`order_id`, `product_id`)');
-    });
-
-    it('应该正确生成自增主键', () => {
-      const table: Table = {
-        id: '1',
-        name: 'users',
-        comment: '用户表',
-        fields: [
-          {
-            id: '1',
-            name: 'id',
-            type: 'INT',
-            nullable: false,
-            isPrimaryKey: true,
-            isAutoIncrement: true,
-            comment: '主键ID',
-          }
-        ],
-        createdAt: '2024-01-15T00:00:00.000Z',
-        updatedAt: '2024-01-15T00:00:00.000Z',
-      };
-
-      const sql = generator.generateTableSQL(table);
-      expect(sql).toContain('`id` INT NOT NULL AUTO_INCREMENT');
-      expect(sql).toContain('PRIMARY KEY (`id`)');
-    });
-
-    it('应该在PostgreSQL中正确生成自增', () => {
-      generator = new SQLGenerator({
-        dbType: 'postgresql',
-        includeComments: true,
-        charset: 'utf8',
-        collate: 'utf8_general_ci',
-        engine: 'InnoDB',
-        autoIncrement: true,
+    it('应该能控制字符集设置的生成', () => {
+      const sql = generateSQLScript(mockTable, {
+        ...defaultOptions,
+        includeCharset: false
       });
-
-      const table: Table = {
-        id: '1',
-        name: 'users',
-        comment: '用户表',
-        fields: [
-          {
-            id: '1',
-            name: 'id',
-            type: 'INT',
-            nullable: false,
-            isPrimaryKey: true,
-            isAutoIncrement: true,
-            comment: '主键ID',
-          }
-        ],
-        createdAt: '2024-01-15T00:00:00.000Z',
-        updatedAt: '2024-01-15T00:00:00.000Z',
-      };
-
-      const sql = generator.generateTableSQL(table);
-      expect(sql).toContain('"id" INT NOT NULL GENERATED ALWAYS AS IDENTITY');
-      expect(sql).toContain('PRIMARY KEY ("id")');
+      expect(sql).not.toContain('CHARACTER SET');
+      expect(sql).not.toContain('COLLATE');
     });
   });
 }); 

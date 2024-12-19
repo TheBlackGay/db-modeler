@@ -1,155 +1,246 @@
 import type { Table, Field } from '../types/models';
 
-export type DatabaseType = 'mysql' | 'postgresql';
-
 interface SQLGeneratorOptions {
-  includeComments?: boolean;
-  dbType?: DatabaseType;
-  charset?: string;
-  collate?: string;
-  engine?: 'InnoDB' | 'MyISAM';
-  autoIncrement?: boolean;
+  dialect: 'mysql' | 'postgresql' | 'sqlite';
+  version: string;
+  includeDropTable: boolean;
+  includeIfNotExists: boolean;
+  includeComments: boolean;
+  includeAutoIncrement: boolean;
+  includeCharset: boolean;
+  charset: string;
+  collation: string;
 }
 
-export class SQLGenerator {
-  private dbType: DatabaseType;
-  private includeComments: boolean;
-  private charset: string;
-  private collate: string;
-  private engine: string;
-  private autoIncrement: boolean;
-
-  constructor(options: SQLGeneratorOptions = {}) {
-    this.dbType = options.dbType || 'mysql';
-    this.includeComments = options.includeComments ?? true;
-    this.charset = options.charset || 'utf8mb4';
-    this.collate = options.collate || 'utf8mb4_unicode_ci';
-    this.engine = options.engine || 'InnoDB';
-    this.autoIncrement = options.autoIncrement ?? true;
+export function generateSQLScript(table: Table, options: SQLGeneratorOptions): string {
+  const lines: string[] = [];
+  
+  // 添加注释
+  if (options.includeComments) {
+    lines.push(`-- ${table.name} 表结构`);
+    if (table.description) {
+      lines.push(`-- ${table.description}`);
+    }
+    lines.push('');
   }
 
-  private getFieldType(field: Field): string {
-    const type = field.type.toUpperCase();
-    
-    // PostgreSQL 不支持某些类型的长度参数
-    if (this.dbType === 'postgresql') {
-      if (['INT', 'BIGINT'].includes(type)) {
-        return type;
-      }
+  // DROP TABLE语句
+  if (options.includeDropTable) {
+    if (options.dialect === 'mysql') {
+      lines.push(`DROP TABLE IF EXISTS \`${table.name}\`;`);
+    } else if (options.dialect === 'postgresql') {
+      lines.push(`DROP TABLE IF EXISTS "${table.name}";`);
+    } else {
+      lines.push(`DROP TABLE IF EXISTS ${table.name};`);
     }
-    
-    if (field.length && ['VARCHAR', 'CHAR', 'INT', 'BIGINT'].includes(type)) {
-      return `${type}(${field.length})`;
-    }
-    return type;
+    lines.push('');
   }
 
-  private getFieldDefinition(field: Field): string {
-    const parts: string[] = [];
+  // CREATE TABLE语句
+  let createTableLine = 'CREATE TABLE ';
+  if (options.includeIfNotExists) {
+    createTableLine += 'IF NOT EXISTS ';
+  }
+
+  if (options.dialect === 'mysql') {
+    createTableLine += `\`${table.name}\` (`;
+  } else if (options.dialect === 'postgresql') {
+    createTableLine += `"${table.name}" (`;
+  } else {
+    createTableLine += `${table.name} (`;
+  }
+  lines.push(createTableLine);
+
+  // 字段定义
+  const fieldLines = table.fields.map(field => {
+    let line = '';
     
     // 字段名
-    parts.push(this.dbType === 'mysql' ? `\`${field.name}\`` : `"${field.name}"`);
-    
-    // 数据类型
-    let typeStr = field.type;
-    if (field.length && ['VARCHAR', 'INT', 'BIGINT', 'DECIMAL'].includes(field.type)) {
-      typeStr += `(${field.length})`;
+    if (options.dialect === 'mysql') {
+      line += `  \`${field.name}\``;
+    } else if (options.dialect === 'postgresql') {
+      line += `  "${field.name}"`;
+    } else {
+      line += `  ${field.name}`;
     }
-    parts.push(typeStr);
-    
-    // 是否为空
-    parts.push(field.nullable ? 'NULL' : 'NOT NULL');
-    
-    // 自增
-    if (field.isAutoIncrement && ['INT', 'BIGINT'].includes(field.type.toUpperCase())) {
-      parts.push(this.dbType === 'mysql' ? 'AUTO_INCREMENT' : 'GENERATED ALWAYS AS IDENTITY');
+
+    // 字段类型
+    line += ` ${getFieldType(field, options)}`;
+
+    // 是否可空
+    if (!field.nullable) {
+      line += ' NOT NULL';
     }
-    
+
     // 默认值
-    if (field.defaultValue !== undefined && field.defaultValue !== null) {
-      parts.push(`DEFAULT ${field.defaultValue}`);
+    if (field.defaultValue !== undefined && field.defaultValue !== '') {
+      line += ` DEFAULT ${formatDefaultValue(field.defaultValue, field.type)}`;
     }
-    
-    return parts.join(' ');
-  }
 
-  private getCurrentTable(): Table | null {
-    return this._currentTable || null;
-  }
-
-  private _currentTable: Table | null = null;
-
-  generateTableSQL(table: Table): string {
-    this._currentTable = table;
-    const lines: string[] = [];
-    
-    // 添加建表注释
-    if (this.includeComments && table.comment) {
-      lines.push(`-- ${table.comment}`);
-    }
-    
-    // 开始建表语句
-    lines.push(`CREATE TABLE ${this.dbType === 'mysql' ? `\`${table.name}\`` : `"${table.name}"`} (`);
-    
-    // 添加字段定义
-    const fieldLines = table.fields.map(field => {
-      const fieldLine = `  ${this.getFieldDefinition(field)}`;
-      if (this.includeComments && field.comment) {
-        return this.dbType === 'mysql' 
-          ? `${fieldLine} COMMENT '${field.comment}'`
-          : `${fieldLine} -- ${field.comment}`;
+    // 自增
+    if (field.isAutoIncrement && options.includeAutoIncrement) {
+      if (options.dialect === 'mysql') {
+        line += ' AUTO_INCREMENT';
+      } else if (options.dialect === 'postgresql') {
+        // PostgreSQL使用SERIAL类型代替AUTO_INCREMENT
       }
-      return fieldLine;
+    }
+
+    // 注释
+    if (options.includeComments && field.comment && options.dialect === 'mysql') {
+      line += ` COMMENT '${field.comment.replace(/'/g, "''")}'`;
+    }
+
+    return line;
+  });
+
+  // 主键约束
+  const primaryKeys = table.fields.filter(f => f.isPrimaryKey).map(f => {
+    if (options.dialect === 'mysql') {
+      return `\`${f.name}\``;
+    } else if (options.dialect === 'postgresql') {
+      return `"${f.name}"`;
+    }
+    return f.name;
+  });
+
+  if (primaryKeys.length > 0) {
+    fieldLines.push(`  PRIMARY KEY (${primaryKeys.join(', ')})`);
+  }
+
+  // 唯一约束
+  table.fields.forEach(field => {
+    if (field.unique && !field.isPrimaryKey) {
+      if (options.dialect === 'mysql') {
+        fieldLines.push(`  UNIQUE KEY \`uk_${field.name}\` (\`${field.name}\`)`);
+      } else if (options.dialect === 'postgresql') {
+        fieldLines.push(`  UNIQUE ("${field.name}")`);
+      } else {
+        fieldLines.push(`  UNIQUE (${field.name})`);
+      }
+    }
+  });
+
+  // 索引
+  table.fields.forEach(field => {
+    if (field.index && !field.unique && !field.isPrimaryKey) {
+      if (options.dialect === 'mysql') {
+        fieldLines.push(`  KEY \`idx_${field.name}\` (\`${field.name}\`)`);
+      } else if (options.dialect === 'postgresql') {
+        // PostgreSQL的索引在表外创建
+        lines.push(`CREATE INDEX "idx_${table.name}_${field.name}" ON "${table.name}" ("${field.name}");`);
+      } else {
+        lines.push(`CREATE INDEX idx_${table.name}_${field.name} ON ${table.name} (${field.name});`);
+      }
+    }
+  });
+
+  lines.push(fieldLines.join(',\n'));
+
+  // 表选项
+  if (options.dialect === 'mysql') {
+    const tableOptions: string[] = [];
+    
+    if (options.includeCharset) {
+      tableOptions.push(`CHARACTER SET = ${options.charset}`);
+      tableOptions.push(`COLLATE = ${options.collation}`);
+    }
+
+    if (options.includeComments && table.description) {
+      tableOptions.push(`COMMENT = '${table.description.replace(/'/g, "''")}'`);
+    }
+
+    if (tableOptions.length > 0) {
+      lines.push(`) ${tableOptions.join(' ')};`);
+    } else {
+      lines.push(');');
+    }
+  } else {
+    lines.push(');');
+  }
+
+  // PostgreSQL的注释
+  if (options.dialect === 'postgresql' && options.includeComments) {
+    if (table.description) {
+      lines.push('');
+      lines.push(`COMMENT ON TABLE "${table.name}" IS '${table.description.replace(/'/g, "''")}';`);
+    }
+
+    table.fields.forEach(field => {
+      if (field.comment) {
+        lines.push(`COMMENT ON COLUMN "${table.name}"."${field.name}" IS '${field.comment.replace(/'/g, "''")}';`);
+      }
     });
-    
-    // 添加主键
-    const primaryKeys = table.fields.filter(field => field.isPrimaryKey);
-    if (primaryKeys.length > 0) {
-      const pkNames = primaryKeys.map(field => 
-        this.dbType === 'mysql' ? `\`${field.name}\`` : `"${field.name}"`
-      );
-      fieldLines.push(`  PRIMARY KEY (${pkNames.join(', ')})`);
-    }
-    
-    lines.push(fieldLines.join(',\n'));
-    lines.push(')');
-    
-    // MySQL特有的表选项
-    if (this.dbType === 'mysql') {
-      const tableOptions = [];
-      tableOptions.push(`ENGINE = ${this.engine}`);
-      tableOptions.push(`DEFAULT CHARSET = ${this.charset}`);
-      tableOptions.push(`COLLATE = ${this.collate}`);
-      if (this.includeComments && table.comment) {
-        tableOptions.push(`COMMENT = '${table.comment}'`);
-      }
-      lines.push(tableOptions.join('\n'));
-    }
-    
-    lines.push(';');
-    this._currentTable = null;
-    return lines.join('\n');
   }
 
-  generateDatabaseSQL(tables: Table[]): string {
-    const lines = [];
+  return lines.join('\n');
+}
+
+function getFieldType(field: Field, options: SQLGeneratorOptions): string {
+  const { type, length, unsigned, zerofill } = field;
+  
+  if (options.dialect === 'mysql') {
+    let fieldType = type;
     
-    // 添加数据库选项（仅MySQL）
-    if (this.dbType === 'mysql') {
-      lines.push(`SET NAMES ${this.charset} COLLATE ${this.collate};`);
-      lines.push('SET FOREIGN_KEY_CHECKS = 0;');
-      lines.push('');
+    if (length) {
+      fieldType += `(${length})`;
     }
-
-    // 添加表定义
-    lines.push(tables.map(table => this.generateTableSQL(table)).join('\n\n'));
-
-    // 恢复数据库选项（仅MySQL）
-    if (this.dbType === 'mysql') {
-      lines.push('');
-      lines.push('SET FOREIGN_KEY_CHECKS = 1;');
+    
+    if (unsigned) {
+      fieldType += ' UNSIGNED';
     }
-
-    return lines.join('\n');
+    
+    if (zerofill) {
+      fieldType += ' ZEROFILL';
+    }
+    
+    return fieldType;
+  } else if (options.dialect === 'postgresql') {
+    switch (type) {
+      case 'INT':
+        return field.isAutoIncrement ? 'SERIAL' : 'INTEGER';
+      case 'VARCHAR':
+        return `VARCHAR(${length || 255})`;
+      case 'TEXT':
+        return 'TEXT';
+      case 'DATETIME':
+        return 'TIMESTAMP';
+      case 'DECIMAL':
+        return `DECIMAL(${length || '10,2'})`;
+      default:
+        return type;
+    }
+  } else {
+    // SQLite
+    switch (type) {
+      case 'INT':
+        return 'INTEGER';
+      case 'VARCHAR':
+        return 'TEXT';
+      case 'TEXT':
+        return 'TEXT';
+      case 'DATETIME':
+        return 'DATETIME';
+      case 'DECIMAL':
+        return 'REAL';
+      default:
+        return type;
+    }
   }
+}
+
+function formatDefaultValue(value: string, type: string): string {
+  if (value.toUpperCase() === 'NULL') {
+    return 'NULL';
+  }
+  
+  if (value.toUpperCase() === 'CURRENT_TIMESTAMP') {
+    return 'CURRENT_TIMESTAMP';
+  }
+  
+  if (type === 'INT' || type === 'DECIMAL') {
+    return value;
+  }
+  
+  return `'${value.replace(/'/g, "''")}'`;
 } 

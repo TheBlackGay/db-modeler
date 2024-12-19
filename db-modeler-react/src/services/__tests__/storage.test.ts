@@ -1,232 +1,262 @@
-import { jest, describe, it, expect, beforeEach, afterEach } from '@jest/globals';
-import { loadProjects, saveProjects, exportProject, importProject } from '../storage';
-import type { Project } from '../../types/models';
+import { describe, it, expect, beforeEach } from '@jest/globals';
+import { 
+  loadProjects, 
+  saveProjects, 
+  loadFieldLibrary,
+  saveFieldToLibrary,
+  removeFieldFromLibrary,
+  loadFieldTemplates,
+  saveFieldTemplates,
+  addFieldTemplate,
+  updateFieldTemplate,
+  deleteFieldTemplate,
+  loadTemplateCategories,
+  saveTemplateCategories,
+  addTemplateCategory,
+  updateTemplateCategory,
+  deleteTemplateCategory,
+} from '../storage';
+import type { Field, Project, FieldTemplate, FieldTemplateCategory } from '../../types/models';
 
-describe('Storage Service', () => {
-  const mockProject: Project = {
-    id: '1',
-    name: '测试项目',
-    description: '这是一个测试项目',
-    tables: [],
-    createdAt: '2023-12-15T00:00:00.000Z',
-    updatedAt: '2023-12-15T00:00:00.000Z',
-  };
+// Mock 外部依赖
+const mockLocalStorage = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+  length: 0,
+  key: jest.fn(),
+};
 
+Object.defineProperty(window, 'localStorage', {
+  value: mockLocalStorage,
+});
+
+// 测试数据准备
+const mockField: Field = {
+  id: 'field1',
+  name: 'id',
+  type: 'INT',
+  length: 11,
+  nullable: false,
+  defaultValue: '',
+  comment: '主键',
+  isPrimaryKey: true,
+  isAutoIncrement: true,
+  unique: true,
+  index: false,
+  unsigned: true,
+  zerofill: false,
+};
+
+const mockTable = {
+  id: 'table1',
+  name: '用户表',
+  comment: '存储用户信息',
+  fields: [mockField],
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+};
+
+const mockProject: Project = {
+  id: 'project1',
+  name: '测试项目',
+  description: '这是一个测试项目',
+  tables: [mockTable],
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+};
+
+const mockTemplate: FieldTemplate = {
+  id: 'template1',
+  name: 'ID字段',
+  type: 'INT',
+  description: '主键ID字段',
+  category: 'basic',
+  length: 11,
+  nullable: false,
+  defaultValue: '',
+  comment: '主键',
+  isPrimaryKey: true,
+  isAutoIncrement: true,
+  unique: true,
+  index: false,
+  unsigned: true,
+  zerofill: false,
+  isBuiltin: true,
+};
+
+const mockCategory: FieldTemplateCategory = {
+  id: 'test-category',
+  name: '测试分类',
+  description: '这是一个测试分类',
+  isBuiltin: false,
+};
+
+describe('存储服务', () => {
   beforeEach(() => {
-    // 清除所有 mock 的调用记录
     jest.clearAllMocks();
-    localStorage.clear();
   });
 
-  describe('loadProjects', () => {
-    it('应该从 localStorage 加载项目', () => {
-      const mockData = JSON.stringify([mockProject]);
-      jest.spyOn(Storage.prototype, 'getItem').mockReturnValue(mockData);
-
-      const result = loadProjects();
-      expect(result).toEqual([mockProject]);
-      expect(localStorage.getItem).toHaveBeenCalledWith('db_modeler_projects');
+  describe('字段库操作', () => {
+    it('应该能保存字段到字段库', () => {
+      saveFieldToLibrary(mockField);
+      expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+        'db-modeler-field-library',
+        JSON.stringify([mockField])
+      );
     });
 
-    it('如果 localStorage 为空应该返回空数组', () => {
-      jest.spyOn(Storage.prototype, 'getItem').mockReturnValue(null);
-
-      const result = loadProjects();
-      expect(result).toEqual([]);
+    it('应该能加载字段库', () => {
+      mockLocalStorage.getItem.mockReturnValue(JSON.stringify([mockField]));
+      const fields = loadFieldLibrary();
+      expect(fields).toEqual([mockField]);
+      expect(mockLocalStorage.getItem).toHaveBeenCalledWith('db-modeler-field-library');
     });
 
-    it('如果数据无效应该返回空数组', () => {
-      jest.spyOn(Storage.prototype, 'getItem').mockReturnValue('invalid json');
-
-      const result = loadProjects();
-      expect(result).toEqual([]);
+    it('当字段库为空时应该返回空数组', () => {
+      mockLocalStorage.getItem.mockReturnValue(null);
+      const fields = loadFieldLibrary();
+      expect(fields).toEqual([]);
     });
 
-    it('应该处理包含特殊字符的项目数据', () => {
-      const projectWithSpecialChars: Project = {
-        ...mockProject,
-        name: '测试项目 #$%^&*',
-        description: '包含特殊字符 !@#$%^&*()',
-      };
-      const mockData = JSON.stringify([projectWithSpecialChars]);
-      jest.spyOn(Storage.prototype, 'getItem').mockReturnValue(mockData);
+    it('应该能从字段库中删除字段', () => {
+      mockLocalStorage.getItem.mockReturnValue(JSON.stringify([mockField]));
+      removeFieldFromLibrary(mockField.id);
+      expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+        'db-modeler-field-library',
+        JSON.stringify([])
+      );
+    });
 
-      const result = loadProjects();
-      expect(result).toEqual([projectWithSpecialChars]);
+    it('删除不存在的字段时不应该报错', () => {
+      mockLocalStorage.getItem.mockReturnValue(JSON.stringify([mockField]));
+      removeFieldFromLibrary('nonexistent');
+      expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+        'db-modeler-field-library',
+        JSON.stringify([mockField])
+      );
     });
   });
 
-  describe('saveProjects', () => {
-    it('应该将项目保存到 localStorage', () => {
-      const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
-      
+  describe('项目操作', () => {
+    it('应该能保存项目', () => {
       saveProjects([mockProject]);
-      expect(setItemSpy).toHaveBeenCalledWith(
-        'db_modeler_projects',
+      expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+        'db-modeler-projects',
         JSON.stringify([mockProject])
       );
     });
 
-    it('应该处理空数组', () => {
-      const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
-      
+    it('应该能加载项目', () => {
+      mockLocalStorage.getItem.mockReturnValue(JSON.stringify([mockProject]));
+      const projects = loadProjects();
+      expect(projects).toEqual([mockProject]);
+      expect(mockLocalStorage.getItem).toHaveBeenCalledWith('db-modeler-projects');
+    });
+
+    it('当项目为空时应该返回空数组', () => {
+      mockLocalStorage.getItem.mockReturnValue(null);
+      const projects = loadProjects();
+      expect(projects).toEqual([]);
+    });
+
+    it('保存空项目列表时应该正常工作', () => {
       saveProjects([]);
-      expect(setItemSpy).toHaveBeenCalledWith(
-        'db_modeler_projects',
-        '[]'
-      );
-    });
-
-    it('保存失败时应该记录错误', () => {
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-      jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
-        throw new Error('存储错误');
-      });
-
-      saveProjects([mockProject]);
-      expect(consoleSpy).toHaveBeenCalledWith('保存项目数据失败:', expect.any(Error));
-    });
-  });
-
-  describe('exportProject', () => {
-    let createElementSpy: ReturnType<typeof jest.spyOn>;
-    let clickSpy: ReturnType<typeof jest.fn>;
-
-    beforeEach(() => {
-      clickSpy = jest.fn();
-      createElementSpy = jest.spyOn(document, 'createElement').mockImplementation(
-        () => ({
-          setAttribute: jest.fn(),
-          click: clickSpy,
-        } as unknown as HTMLElement)
-      );
-    });
-
-    afterEach(() => {
-      createElementSpy.mockRestore();
-    });
-
-    it('应该创建下载链接并触发点击', () => {
-      exportProject(mockProject);
-      expect(createElementSpy).toHaveBeenCalledWith('a');
-      expect(clickSpy).toHaveBeenCalled();
-    });
-
-    it('导出失败时应该抛出错误', () => {
-      createElementSpy.mockImplementation(() => {
-        throw new Error('模拟错误');
-      });
-
-      expect(() => exportProject(mockProject)).toThrow('导出项目失败');
-    });
-
-    it('应该生成正确的文件名', () => {
-      const setAttributeSpy = jest.fn();
-      createElementSpy.mockImplementation(
-        () => ({
-          setAttribute: setAttributeSpy,
-          click: clickSpy,
-        } as unknown as HTMLElement)
-      );
-
-      exportProject(mockProject);
-      expect(setAttributeSpy).toHaveBeenCalledWith(
-        'download',
-        expect.stringMatching(/^测试项目_\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z\.json$/)
+      expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+        'db-modeler-projects',
+        JSON.stringify([])
       );
     });
   });
 
-  describe('importProject', () => {
-    it('应该正确解析有效的项目文件', async () => {
-      const file = new File(
-        [JSON.stringify(mockProject)],
-        'test-project.json',
-        { type: 'application/json' }
-      );
-
-      const result = await importProject(file);
-      expect(result).toEqual(mockProject);
+  describe('字段模板操作', () => {
+    it('应该能加载字段模板', () => {
+      mockLocalStorage.getItem.mockReturnValue(JSON.stringify([mockTemplate]));
+      const templates = loadFieldTemplates();
+      expect(templates).toEqual([mockTemplate]);
+      expect(mockLocalStorage.getItem).toHaveBeenCalledWith('db-modeler-field-templates');
     });
 
-    it('应该拒绝无效的项目文件', async () => {
-      const invalidFile = new File(
-        ['invalid json'],
-        'invalid-project.json',
-        { type: 'application/json' }
+    it('应该能保存字段模板', () => {
+      saveFieldTemplates([mockTemplate]);
+      expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+        'db-modeler-field-templates',
+        JSON.stringify([mockTemplate])
       );
-
-      await expect(importProject(invalidFile)).rejects.toThrow('解析项目文件失败');
     });
 
-    it('应该验证项目数据结构', async () => {
-      const invalidProject = { name: '测试项目' }; // 缺少必要字段
-      const file = new File(
-        [JSON.stringify(invalidProject)],
-        'invalid-project.json',
-        { type: 'application/json' }
+    it('应该能添加字段模板', () => {
+      mockLocalStorage.getItem.mockReturnValue(JSON.stringify([]));
+      addFieldTemplate(mockTemplate);
+      expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+        'db-modeler-field-templates',
+        JSON.stringify([mockTemplate])
       );
-
-      await expect(importProject(file)).rejects.toThrow('解析项目文件失败');
     });
 
-    it('应该处理大型项目文件', async () => {
-      const largeProject: Project = {
-        ...mockProject,
-        tables: Array(100).fill(null).map((_, index) => ({
-          id: `table-${index}`,
-          name: `Table ${index}`,
-          fields: Array(20).fill(null).map((_, fieldIndex) => ({
-            id: `field-${index}-${fieldIndex}`,
-            name: `Field ${fieldIndex}`,
-            type: 'VARCHAR',
-            nullable: false,
-          })),
-          comment: `Table ${index} comment`,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        })),
-      };
-
-      const file = new File(
-        [JSON.stringify(largeProject)],
-        'large-project.json',
-        { type: 'application/json' }
+    it('应该能更新字段模板', () => {
+      mockLocalStorage.getItem.mockReturnValue(JSON.stringify([mockTemplate]));
+      const updatedData = { name: '更新后的名称' };
+      updateFieldTemplate(mockTemplate.id, updatedData);
+      expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+        'db-modeler-field-templates',
+        JSON.stringify([{ ...mockTemplate, ...updatedData }])
       );
-
-      const result = await importProject(file);
-      expect(result).toEqual(largeProject);
     });
 
-    it('应该处理包含所有可选字段的项目', async () => {
-      const fullProject: Project = {
-        ...mockProject,
-        tables: [{
-          id: 'table-1',
-          name: 'Test Table',
-          fields: [{
-            id: 'field-1',
-            name: 'test_field',
-            type: 'VARCHAR',
-            length: 255,
-            nullable: true,
-            defaultValue: 'test',
-            comment: 'Test field comment',
-          }],
-          comment: 'Test table comment',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        }],
-      };
-
-      const file = new File(
-        [JSON.stringify(fullProject)],
-        'full-project.json',
-        { type: 'application/json' }
+    it('应该能删除字段模板', () => {
+      mockLocalStorage.getItem.mockReturnValue(JSON.stringify([mockTemplate]));
+      deleteFieldTemplate(mockTemplate.id);
+      expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+        'db-modeler-field-templates',
+        JSON.stringify([])
       );
+    });
+  });
 
-      const result = await importProject(file);
-      expect(result).toEqual(fullProject);
+  describe('模板分类操作', () => {
+    it('应该能加载默认模板分类', () => {
+      mockLocalStorage.getItem.mockReturnValue(null);
+      const categories = loadTemplateCategories();
+      expect(categories.length).toBeGreaterThan(0);
+      expect(categories[0].isBuiltin).toBe(true);
+    });
+
+    it('应该能保存模板分类', () => {
+      saveTemplateCategories([mockCategory]);
+      expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+        'db-modeler-template-categories',
+        JSON.stringify([mockCategory])
+      );
+    });
+
+    it('应该能添加模板分类', () => {
+      mockLocalStorage.getItem.mockReturnValue(JSON.stringify([]));
+      addTemplateCategory(mockCategory);
+      expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+        'db-modeler-template-categories',
+        JSON.stringify([mockCategory])
+      );
+    });
+
+    it('应该能更新模板分类', () => {
+      mockLocalStorage.getItem.mockReturnValue(JSON.stringify([mockCategory]));
+      const updatedData = { name: '更新后的分类名称' };
+      updateTemplateCategory(mockCategory.id, updatedData);
+      expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+        'db-modeler-template-categories',
+        JSON.stringify([{ ...mockCategory, ...updatedData }])
+      );
+    });
+
+    it('应该能删除模板分类', () => {
+      mockLocalStorage.getItem.mockReturnValue(JSON.stringify([mockCategory]));
+      deleteTemplateCategory(mockCategory.id);
+      expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+        'db-modeler-template-categories',
+        JSON.stringify([])
+      );
     });
   });
 }); 

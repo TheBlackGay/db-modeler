@@ -4,24 +4,41 @@ export interface Field {
   type: string;
   length?: number;
   nullable: boolean;
-  defaultValue?: string | null;
+  defaultValue?: string;
   comment?: string;
-  isFK?: boolean;
-  references?: {
-    tableId: string;
-    fieldId: string;
-    onDelete?: 'CASCADE' | 'SET NULL' | 'RESTRICT' | 'NO ACTION';
-    onUpdate?: 'CASCADE' | 'SET NULL' | 'RESTRICT' | 'NO ACTION';
-  };
-  isPrimaryKey?: boolean;
-  isAutoIncrement?: boolean;
+  isPrimaryKey: boolean;
+  isAutoIncrement: boolean;
+  unique: boolean;
+  index: boolean;
+  unsigned: boolean;
+  zerofill: boolean;
+}
+
+export interface FieldTemplate extends Omit<Field, 'id' | 'name'> {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  isBuiltin?: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface FieldTemplateCategory {
+  id: string;
+  name: string;
+  description: string;
+  isBuiltin?: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Table {
   id: string;
   name: string;
+  description?: string;
+  comment: string;
   fields: Field[];
-  comment?: string;
   createdAt: string;
   updatedAt: string;
 }

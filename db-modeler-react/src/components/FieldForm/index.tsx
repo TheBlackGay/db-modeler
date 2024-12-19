@@ -1,28 +1,13 @@
 import React, { useEffect } from 'react';
-import { Form, Input, Select, Switch, Modal, InputNumber } from 'antd';
+import { Modal, Form, Input, Select, InputNumber, Switch } from 'antd';
 import type { Field } from '../../types/models';
-
-const { Option } = Select;
 
 interface FieldFormProps {
   visible: boolean;
   onCancel: () => void;
-  onSubmit: (values: Omit<Field, 'id'>) => void;
-  initialValues?: Field | null;
+  onSubmit: (values: Partial<Field>) => void;
+  initialValues?: Field;
 }
-
-const dataTypes = [
-  { value: 'INT', label: 'INT - 整数' },
-  { value: 'BIGINT', label: 'BIGINT - 长整数' },
-  { value: 'VARCHAR', label: 'VARCHAR - 可变字符串' },
-  { value: 'TEXT', label: 'TEXT - 长文本' },
-  { value: 'DATETIME', label: 'DATETIME - 日期时间' },
-  { value: 'BOOLEAN', label: 'BOOLEAN - 布尔值' },
-  { value: 'DECIMAL', label: 'DECIMAL - 小数' },
-  { value: 'FLOAT', label: 'FLOAT - 浮点数' },
-];
-
-const needLengthTypes = ['VARCHAR', 'INT', 'BIGINT', 'DECIMAL'];
 
 const FieldForm: React.FC<FieldFormProps> = ({
   visible,
@@ -31,128 +16,147 @@ const FieldForm: React.FC<FieldFormProps> = ({
   initialValues,
 }) => {
   const [form] = Form.useForm();
-  const type = Form.useWatch('type', form);
-  const isPrimaryKey = Form.useWatch('isPrimaryKey', form);
 
   useEffect(() => {
-    if (visible && initialValues) {
-      form.setFieldsValue(initialValues);
+    if (visible) {
+      if (initialValues) {
+        form.setFieldsValue(initialValues);
+      } else {
+        form.resetFields();
+      }
     }
   }, [visible, initialValues, form]);
 
-  useEffect(() => {
-    if (isPrimaryKey) {
-      form.setFieldValue('nullable', false);
-    }
-  }, [isPrimaryKey, form]);
-
-  const handleOk = async () => {
-    try {
-      const values = await form.validateFields();
-      onSubmit(values);
-      form.resetFields();
-    } catch (error) {
-      console.error('表单验证失败:', error);
-    }
-  };
-
-  const handleCancel = () => {
-    form.resetFields();
-    onCancel();
+  const handleSubmit = () => {
+    form.validateFields().then((values) => {
+      onSubmit({
+        ...values,
+        length: values.length ? Number(values.length) : undefined,
+      });
+    });
   };
 
   return (
     <Modal
       title={initialValues ? '编辑字段' : '添加字段'}
       open={visible}
-      onOk={handleOk}
-      onCancel={handleCancel}
-      destroyOnClose
+      onCancel={onCancel}
+      onOk={handleSubmit}
+      okText="确定"
+      cancelText="取消"
     >
       <Form
         form={form}
         layout="vertical"
         initialValues={{
-          nullable: false,
+          nullable: true,
+          defaultValue: '',
+          comment: '',
           isPrimaryKey: false,
           isAutoIncrement: false,
-          ...initialValues,
+          unique: false,
+          index: false,
+          unsigned: false,
+          zerofill: false,
         }}
-        preserve={false}
       >
         <Form.Item
-          name="name"
           label="字段名"
-          rules={[
-            { required: true, message: '请输入字段名' },
-            { pattern: /^[a-zA-Z_][a-zA-Z0-9_]*$/, message: '字段名只能包含字母、数字和下划线，且不能以数字开头' },
-          ]}
+          name="name"
+          rules={[{ required: true, message: '请输入字段名' }]}
         >
-          <Input placeholder="例如：user_name" />
+          <Input placeholder="请输入字段名" />
         </Form.Item>
 
         <Form.Item
+          label="类型"
           name="type"
-          label="数据类型"
-          rules={[{ required: true, message: '请选择数据类型' }]}
+          rules={[{ required: true, message: '请选择字段类型' }]}
         >
           <Select>
-            {dataTypes.map(({ value, label }) => (
-              <Option key={value} value={value}>
-                {label}
-              </Option>
-            ))}
+            <Select.Option value="INT">INT</Select.Option>
+            <Select.Option value="VARCHAR">VARCHAR</Select.Option>
+            <Select.Option value="TEXT">TEXT</Select.Option>
+            <Select.Option value="DATETIME">DATETIME</Select.Option>
+            <Select.Option value="DECIMAL">DECIMAL</Select.Option>
           </Select>
         </Form.Item>
 
-        {needLengthTypes.includes(type) && (
-          <Form.Item
-            name="length"
-            label="长度"
-            rules={[{ required: true, message: '请输入长度' }]}
-          >
-            <InputNumber min={1} max={type === 'VARCHAR' ? 65535 : 255} />
-          </Form.Item>
-        )}
+        <Form.Item
+          label="长度"
+          name="length"
+        >
+          <InputNumber min={1} placeholder="请输入字段长度" />
+        </Form.Item>
 
         <Form.Item
-          name="isPrimaryKey"
-          label="主键"
+          label="允许为空"
+          name="nullable"
           valuePropName="checked"
         >
           <Switch />
         </Form.Item>
 
-        {isPrimaryKey && ['INT', 'BIGINT'].includes(type) && (
-          <Form.Item
-            name="isAutoIncrement"
-            label="自增"
-            valuePropName="checked"
-          >
-            <Switch />
-          </Form.Item>
-        )}
+        <Form.Item
+          label="默认值"
+          name="defaultValue"
+        >
+          <Input placeholder="请输入默认值" />
+        </Form.Item>
 
         <Form.Item
-          name="nullable"
-          label="允许为空"
+          label="注释"
+          name="comment"
+        >
+          <Input.TextArea rows={4} placeholder="请输入字段注释" />
+        </Form.Item>
+
+        <Form.Item
+          label="主键"
+          name="isPrimaryKey"
           valuePropName="checked"
         >
-          <Switch disabled={isPrimaryKey} />
+          <Switch />
         </Form.Item>
 
         <Form.Item
-          name="defaultValue"
-          label="默认值"
+          label="自增"
+          name="isAutoIncrement"
+          valuePropName="checked"
         >
-          <Input placeholder="留空表示无默认值" />
+          <Switch />
         </Form.Item>
 
         <Form.Item
-          name="comment"
-          label="注释"
+          label="唯一"
+          name="unique"
+          valuePropName="checked"
         >
-          <Input.TextArea rows={2} placeholder="请输入字段说明" />
+          <Switch />
+        </Form.Item>
+
+        <Form.Item
+          label="索引"
+          name="index"
+          valuePropName="checked"
+        >
+          <Switch />
+        </Form.Item>
+
+        <Form.Item
+          label="无符号"
+          name="unsigned"
+          valuePropName="checked"
+        >
+          <Switch />
+        </Form.Item>
+
+        <Form.Item
+          label="补零"
+          name="zerofill"
+          valuePropName="checked"
+        >
+          <Switch />
         </Form.Item>
       </Form>
     </Modal>

@@ -1,62 +1,175 @@
-import type { Project } from '../types/models';
+import type { Project, Field, FieldTemplate, FieldTemplateCategory } from '../types/models';
 
-const STORAGE_KEY = 'db_modeler_projects';
+const STORAGE_KEY = 'db-modeler-projects';
+const FIELD_LIBRARY_KEY = 'db-modeler-field-library';
+const FIELD_TEMPLATES_KEY = 'db-modeler-field-templates';
+const TEMPLATE_CATEGORIES_KEY = 'db-modeler-template-categories';
 
-export const loadProjects = (): Project[] => {
+// 解析 JSON 数据，如果解析失败则返回默认值
+const parse = <T>(json: string | null, defaultValue: T): T => {
+  if (!json) return defaultValue;
   try {
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
+    return JSON.parse(json);
   } catch (error) {
-    console.error('加载项目数据失败:', error);
-    return [];
+    console.error('解析 JSON 失败:', error);
+    return defaultValue;
   }
 };
 
-export const saveProjects = (projects: Project[]): void => {
+// 加载字段库
+export const loadFieldLibrary = (): Field[] => {
+  return parse(localStorage.getItem(FIELD_LIBRARY_KEY), []);
+};
+
+// 保存字段到字段库
+export const saveFieldToLibrary = (field: Field) => {
+  const fields = loadFieldLibrary();
+  fields.push(field);
+  localStorage.setItem(FIELD_LIBRARY_KEY, JSON.stringify(fields));
+};
+
+// 从字段库中删除字段
+export const removeFieldFromLibrary = (fieldId: string) => {
+  const fields = loadFieldLibrary();
+  const updatedFields = fields.filter(field => field.id !== fieldId);
+  localStorage.setItem(FIELD_LIBRARY_KEY, JSON.stringify(updatedFields));
+};
+
+// 加载项目列表
+export const loadProjects = (): Project[] => {
+  return parse(localStorage.getItem(STORAGE_KEY), []);
+};
+
+// 保存项目列表
+export const saveProjects = (projects: Project[]) => {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+    // 创建一个深拷贝，确保所有嵌套对象都被正确序列化
+    const projectsToSave = projects.map(project => ({
+      ...project,
+      tables: project.tables.map(table => ({
+        ...table,
+        fields: [...table.fields],
+        updatedAt: table.updatedAt || new Date().toISOString(),
+      })),
+      updatedAt: project.updatedAt || new Date().toISOString(),
+    }));
+    
+    localStorage.setItem('db-modeler-projects', JSON.stringify(projectsToSave));
   } catch (error) {
-    console.error('保存项目数据失败:', error);
+    console.error('保存项目失败:', error);
   }
 };
 
 export const exportProject = (project: Project): void => {
-  try {
-    const dataStr = JSON.stringify(project, null, 2);
-    const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-    const exportFileName = `${project.name}_${new Date().toISOString()}.json`;
+  const dataStr = JSON.stringify(project, null, 2);
+  const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+  const exportFileDefaultName = `${project.name.toLowerCase().replace(/\s+/g, '_')}.json`;
 
-    const linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileName);
-    linkElement.click();
-  } catch (error) {
-    console.error('导出项目失败:', error);
-    throw new Error('导出项目失败');
+  const linkElement = document.createElement('a');
+  linkElement.setAttribute('href', dataUri);
+  linkElement.setAttribute('download', exportFileDefaultName);
+  linkElement.click();
+};
+
+export const importProject = async (file: File): Promise<Project> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const project = JSON.parse(e.target?.result as string);
+        if (!project.id || !project.name || !Array.isArray(project.tables)) {
+          throw new Error('无效的项目数据结构');
+        }
+        resolve(project);
+      } catch (error: unknown) {
+        if (error instanceof Error && error.message === '无效的项目数据结构') {
+          reject(error);
+        } else {
+          reject(new Error('无效的项目文件格式'));
+        }
+      }
+    };
+    reader.readAsText(file);
+  });
+};
+
+// 加载字段模板
+export const loadFieldTemplates = (): FieldTemplate[] => {
+  return parse(localStorage.getItem(FIELD_TEMPLATES_KEY), []);
+};
+
+// 保存字段模板
+export const saveFieldTemplates = (templates: FieldTemplate[]) => {
+  localStorage.setItem(FIELD_TEMPLATES_KEY, JSON.stringify(templates));
+};
+
+// 添加字段模板
+export const addFieldTemplate = (template: FieldTemplate) => {
+  const templates = loadFieldTemplates();
+  templates.push(template);
+  saveFieldTemplates(templates);
+};
+
+// 更新字段模板
+export const updateFieldTemplate = (id: string, data: Partial<FieldTemplate>) => {
+  const templates = loadFieldTemplates();
+  const index = templates.findIndex(t => t.id === id);
+  if (index !== -1) {
+    templates[index] = { ...templates[index], ...data };
+    saveFieldTemplates(templates);
   }
 };
 
-export const importProject = (file: File): Promise<Project> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
+// 删除字段模板
+export const deleteFieldTemplate = (id: string) => {
+  const templates = loadFieldTemplates();
+  const updatedTemplates = templates.filter(t => t.id !== id);
+  saveFieldTemplates(updatedTemplates);
+};
 
-    reader.onload = (e) => {
-      try {
-        const content = e.target?.result as string;
-        const project: Project = JSON.parse(content);
-        
-        // 验证项目数据结构
-        if (!project.id || !project.name || !Array.isArray(project.tables)) {
-          throw new Error('无效的项目文件格式');
-        }
+// 加载模板分类
+export const loadTemplateCategories = (): FieldTemplateCategory[] => {
+  return parse(localStorage.getItem(TEMPLATE_CATEGORIES_KEY), [
+    {
+      id: 'basic',
+      name: '基础字段',
+      description: '常用的基础字段类型',
+      isBuiltin: true
+    },
+    {
+      id: 'custom',
+      name: '自定义字段',
+      description: '用户自定义的字段模板',
+      isBuiltin: false
+    }
+  ]);
+};
 
-        resolve(project);
-      } catch (error) {
-        reject(new Error('解析项目文件失败'));
-      }
-    };
+// 保存模板分类
+export const saveTemplateCategories = (categories: FieldTemplateCategory[]) => {
+  localStorage.setItem(TEMPLATE_CATEGORIES_KEY, JSON.stringify(categories));
+};
 
-    reader.onerror = () => reject(new Error('读取文件失败'));
-    reader.readAsText(file);
-  });
+// 添加模板分类
+export const addTemplateCategory = (category: FieldTemplateCategory) => {
+  const categories = loadTemplateCategories();
+  categories.push(category);
+  saveTemplateCategories(categories);
+};
+
+// 更新模板分类
+export const updateTemplateCategory = (id: string, data: Partial<FieldTemplateCategory>) => {
+  const categories = loadTemplateCategories();
+  const index = categories.findIndex(c => c.id === id);
+  if (index !== -1) {
+    categories[index] = { ...categories[index], ...data };
+    saveTemplateCategories(categories);
+  }
+};
+
+// 删除模板分类
+export const deleteTemplateCategory = (id: string) => {
+  const categories = loadTemplateCategories();
+  const updatedCategories = categories.filter(c => c.id !== id);
+  saveTemplateCategories(updatedCategories);
 }; 

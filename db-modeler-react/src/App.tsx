@@ -1,28 +1,29 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import { initializeState } from './store/projectsSlice';
 import Layout from './components/Layout';
-import ProjectList from './components/ProjectList';
-import ProjectDetail from './components/ProjectDetail';
-import TableDesigner from './components/TableDesigner';
-
-// 确保在应用启动时加载数据
-store.dispatch(initializeState());
+import ProjectList from './pages/ProjectList';
+import ProjectDetail from './pages/ProjectDetail';
+import TableEdit from './pages/TableEdit';
+import DatabaseConnections from './pages/DatabaseConnections';
+import Settings from './pages/Settings';
 
 const App: React.FC = () => {
   return (
     <Provider store={store}>
-      <BrowserRouter>
+      <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<ProjectList />} />
-            <Route path="project/:id" element={<ProjectDetail />} />
-            <Route path="table/:id" element={<TableDesigner />} />
+            <Route path="project/:projectId" element={<ProjectDetail />} />
+            <Route path="project/:projectId/tables/new" element={<TableEdit />} />
+            <Route path="project/:projectId/tables/:tableId" element={<TableEdit />} />
+            <Route path="project/:projectId/connections" element={<DatabaseConnections />} />
+            <Route path="project/:projectId/settings" element={<Settings />} />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </Router>
     </Provider>
   );
 };
