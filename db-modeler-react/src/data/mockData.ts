@@ -1,5 +1,109 @@
 import { v4 as uuidv4 } from 'uuid';
 
+// HTTP方法类型
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS';
+
+// 接口状态
+export type ApiStatus = 'developing' | 'completed' | 'deprecated';
+
+// 参数类型
+export type ParamType = 'string' | 'number' | 'boolean' | 'object' | 'array' | 'file' | 'enum';
+
+// 参数位置
+export type ParamIn = 'query' | 'header' | 'path' | 'body' | 'formData';
+
+// 参数验证规则
+export interface IParamRule {
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: string;
+  minimum?: number;
+  maximum?: number;
+  enum?: string[];
+  description?: string;
+}
+
+// 请求参数
+export interface IApiParam {
+  id: string;
+  name: string;
+  type: ParamType;
+  paramIn: ParamIn;
+  description?: string;
+  example?: string;
+  rules: IParamRule;
+  children?: IApiParam[];
+}
+
+// 响应数据
+export interface IApiResponse {
+  id: string;
+  statusCode: number;
+  description?: string;
+  schema: {
+    type: ParamType;
+    properties?: IApiParam[];
+  };
+  example?: string;
+}
+
+// 错误码
+export interface IErrorCode {
+  id: string;
+  code: string;
+  message: string;
+  description?: string;
+}
+
+// 接口测试历史
+export interface IApiTestHistory {
+  id: string;
+  timestamp: string;
+  request: {
+    params: Record<string, any>;
+    headers: Record<string, string>;
+  };
+  response: {
+    statusCode: number;
+    data: any;
+    headers: Record<string, string>;
+  };
+  duration: number;
+  status: 'success' | 'failed';
+}
+
+// Mock配置
+export interface IMockConfig {
+  id: string;
+  enabled: boolean;
+  delay?: number;
+  rules: {
+    condition: string;
+    response: any;
+  }[];
+}
+
+// API接口定义
+export interface IApi {
+  id: string;
+  name: string;
+  description?: string;
+  url: string;
+  method: HttpMethod;
+  status: ApiStatus;
+  group?: string;
+  tags: string[];
+  params: IApiParam[];
+  responses: IApiResponse[];
+  errorCodes: IErrorCode[];
+  testHistory: IApiTestHistory[];
+  mockConfig?: IMockConfig;
+  createdAt: string;
+  updatedAt: string;
+  version?: string;
+}
+
 export interface IField {
   id: string;
   name: string;
@@ -61,6 +165,7 @@ export interface IProject {
   tables: ITable[];
   connections: IConnection[];
   settings: IProjectSettings;
+  apis: IApi[];
 }
 
 // 数据库字段类型列表

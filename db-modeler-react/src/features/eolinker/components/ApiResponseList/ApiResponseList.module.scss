@@ -1,0 +1,65 @@
+.apiResponseList {
+  .toolbar {
+    margin-bottom: 16px;
+  }
+
+  .table {
+    :global {
+      .ant-table-thead > tr > th {
+        background-color: #fafafa;
+        font-weight: 500;
+      }
+
+      .ant-table-cell {
+        vertical-align: top;
+      }
+
+      .ant-tag {
+        margin-right: 0;
+      }
+
+      .ant-space {
+        gap: 8px !important;
+      }
+    }
+  }
+
+  .codeBlock {
+    margin: 0;
+    padding: 4px 8px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+}
+
+.container {
+  margin-top: 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+
+.responseBody {
+  margin: 0;
+  padding: 16px;
+  background-color: #fafafa;
+  border-radius: 2px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+} 

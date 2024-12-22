@@ -1,31 +1,34 @@
-import React from 'react';
-import { Card, Form, Switch, Select, InputNumber, Radio, Space, Button, message } from 'antd';
-import { SaveOutlined, ReloadOutlined } from '@ant-design/icons';
-import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store';
-import { updateProject } from '../../store/projectsSlice';
-import type { IProject } from '../../data/mockData';
+import React from "react";
+import { Layout, Card, Form, Switch, Select, InputNumber, Button, message, Typography } from "antd";
+import { SaveOutlined, ReloadOutlined } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProject } from "../../store/projectSlice";
+import type { RootState } from "../../main";
 
-const colorOptions = [
-  { label: '默认蓝', value: '#1890ff' },
-  { label: '拂晓蓝', value: '#1677ff' },
-  { label: '薄暮红', value: '#f5222d' },
-  { label: '火山橙', value: '#fa541c' },
-  { label: '日暮黄', value: '#faad14' },
-  { label: '极光绿', value: '#52c41a' },
-  { label: '明青色', value: '#13c2c2' },
-  { label: '酱紫色', value: '#722ed1' },
-];
+const { Content } = Layout;
+const { Title } = Typography;
 
-const databaseOptions = [
-  { label: 'MySQL', value: 'mysql' },
-  { label: 'PostgreSQL', value: 'postgresql' },
-  { label: 'SQL Server', value: 'sqlserver' },
-  { label: 'Oracle', value: 'oracle' },
-];
+interface Settings {
+  theme: {
+    darkMode: boolean;
+    primaryColor: string;
+    compactMode: boolean;
+  };
+  database: {
+    connectionTimeout: number;
+    maxConnections: number;
+    defaultDatabase: string;
+    sslEnabled: boolean;
+  };
+  export: {
+    indentStyle: 'space' | 'tab';
+    indentSize: number;
+    lineEnding: 'lf' | 'crlf';
+    upperCase: boolean;
+  };
+}
 
-const defaultSettings = {
+const defaultSettings: Settings = {
   theme: {
     darkMode: false,
     primaryColor: '#1890ff',
@@ -34,7 +37,7 @@ const defaultSettings = {
   database: {
     connectionTimeout: 30,
     maxConnections: 10,
-    defaultDatabase: 'mysql',
+    defaultDatabase: '',
     sslEnabled: true,
   },
   export: {
@@ -45,82 +48,76 @@ const defaultSettings = {
   },
 };
 
-const Settings: React.FC = () => {
-  const { projectId } = useParams<{ projectId: string }>();
+export const Settings: React.FC = () => {
   const dispatch = useDispatch();
-  const project = useSelector((state: RootState) => 
-    state.projects.items.find(p => p.id === projectId)
-  );
+  const currentProject = useSelector((state: RootState) => state.projects.currentProject);
   const [form] = Form.useForm();
 
-  if (!project) {
-    return null;
+  const handleSave = async () => {
+    if (!currentProject) {
+      message.error('请先选择一个项目');
+      return;
+    }
+
+    try {
+      const values = await form.validateFields();
+      dispatch(
+        updateProject({
+          ...currentProject,
+          settings: values,
+          updatedAt: new Date().toISOString(),
+        })
+      );
+      message.success('设置保存成功');
+    } catch (error) {
+      console.error('Validate Failed:', error);
+    }
+  };
+
+  const handleReset = () => {
+    form.setFieldsValue(defaultSettings);
+  };
+
+  if (!currentProject) {
+    return (
+      <Content style={{ padding: '24px' }}>
+        <Card>
+          <div style={{ textAlign: 'center', padding: '24px' }}>
+            <Title level={4}>请先选择一个项目</Title>
+          </div>
+        </Card>
+      </Content>
+    );
   }
 
-  // 保存设置
-  const handleSave = () => {
-    form.validateFields().then(values => {
-      const updatedProject = {
-        ...project,
-        settings: values,
-        updatedAt: new Date().toISOString().split('T')[0],
-      };
-      dispatch(updateProject(updatedProject));
-
-      // 应用主题设置
-      document.documentElement.classList.toggle('dark', values.theme.darkMode);
-      document.documentElement.style.setProperty('--primary-color', values.theme.primaryColor);
-      document.documentElement.classList.toggle('compact', values.theme.compactMode);
-
-      message.success('设置保存成功');
-    });
-  };
-
-  // 重置设置
-  const handleReset = () => {
-    const updatedProject = {
-      ...project,
-      settings: defaultSettings,
-      updatedAt: new Date().toISOString().split('T')[0],
-    };
-    dispatch(updateProject(updatedProject));
-    form.setFieldsValue(defaultSettings);
-
-    // 应用默认主题设置
-    document.documentElement.classList.toggle('dark', defaultSettings.theme.darkMode);
-    document.documentElement.style.setProperty('--primary-color', defaultSettings.theme.primaryColor);
-    document.documentElement.classList.toggle('compact', defaultSettings.theme.compactMode);
-
-    message.success('设置已重置为默认值');
-  };
-
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold m-0">项目设置</h2>
-        <Space>
-          <Button 
-            icon={<ReloadOutlined />} 
-            onClick={handleReset}
-          >
-            重置默认
-          </Button>
-          <Button 
-            type="primary" 
-            icon={<SaveOutlined />}
-            onClick={handleSave}
-          >
-            保存设置
-          </Button>
-        </Space>
-      </div>
+    <Content style={{ padding: '24px' }}>
+      <Card>
+        <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Title level={4} style={{ margin: 0 }}>项目设置</Title>
+          <Space>
+            <Button
+              icon={<ReloadOutlined />}
+              onClick={handleReset}
+            >
+              重置
+            </Button>
+            <Button
+              type="primary"
+              icon={<SaveOutlined />}
+              onClick={handleSave}
+            >
+              保存
+            </Button>
+          </Space>
+        </div>
 
-      <Form
-        form={form}
-        layout="vertical"
-        initialValues={project.settings}
-      >
-        <Card title="主题设置" className="mb-6">
+        <Form
+          form={form}
+          layout="vertical"
+          initialValues={currentProject.settings || defaultSettings}
+        >
+          <Title level={5}>主题设置</Title>
           <Form.Item
             name={['theme', 'darkMode']}
             label="深色模式"
@@ -128,18 +125,17 @@ const Settings: React.FC = () => {
           >
             <Switch />
           </Form.Item>
-
           <Form.Item
             name={['theme', 'primaryColor']}
             label="主题色"
           >
-            <Radio.Group 
-              optionType="button" 
-              buttonStyle="solid"
-              options={colorOptions}
-            />
+            <Select>
+              <Select.Option value="#1890ff">默认蓝</Select.Option>
+              <Select.Option value="#f5222d">中国红</Select.Option>
+              <Select.Option value="#52c41a">极光绿</Select.Option>
+              <Select.Option value="#722ed1">酱紫色</Select.Option>
+            </Select>
           </Form.Item>
-
           <Form.Item
             name={['theme', 'compactMode']}
             label="紧凑模式"
@@ -147,24 +143,15 @@ const Settings: React.FC = () => {
           >
             <Switch />
           </Form.Item>
-        </Card>
 
-        <Card title="数据库设置" className="mb-6">
-          <Form.Item
-            name={['database', 'defaultDatabase']}
-            label="默认数据库类型"
-          >
-            <Select options={databaseOptions} />
-          </Form.Item>
-
+          <Title level={5}>数据库设置</Title>
           <Form.Item
             name={['database', 'connectionTimeout']}
-            label="连接超时时间（秒）"
+            label="连接超时（秒）"
             rules={[{ type: 'number', min: 1, max: 300 }]}
           >
             <InputNumber min={1} max={300} />
           </Form.Item>
-
           <Form.Item
             name={['database', 'maxConnections']}
             label="最大连接数"
@@ -172,27 +159,30 @@ const Settings: React.FC = () => {
           >
             <InputNumber min={1} max={100} />
           </Form.Item>
-
+          <Form.Item
+            name={['database', 'defaultDatabase']}
+            label="默认数据库"
+          >
+            <Input />
+          </Form.Item>
           <Form.Item
             name={['database', 'sslEnabled']}
-            label="启用 SSL 连接"
+            label="启用 SSL"
             valuePropName="checked"
           >
             <Switch />
           </Form.Item>
-        </Card>
 
-        <Card title="导出设置">
+          <Title level={5}>导出设置</Title>
           <Form.Item
             name={['export', 'indentStyle']}
             label="缩进风格"
           >
-            <Radio.Group>
-              <Radio.Button value="space">空格</Radio.Button>
-              <Radio.Button value="tab">Tab</Radio.Button>
-            </Radio.Group>
+            <Select>
+              <Select.Option value="space">空格</Select.Option>
+              <Select.Option value="tab">制表符</Select.Option>
+            </Select>
           </Form.Item>
-
           <Form.Item
             name={['export', 'indentSize']}
             label="缩进大小"
@@ -200,17 +190,15 @@ const Settings: React.FC = () => {
           >
             <InputNumber min={1} max={8} />
           </Form.Item>
-
           <Form.Item
             name={['export', 'lineEnding']}
             label="换行符"
           >
-            <Radio.Group>
-              <Radio.Button value="lf">LF</Radio.Button>
-              <Radio.Button value="crlf">CRLF</Radio.Button>
-            </Radio.Group>
+            <Select>
+              <Select.Option value="lf">LF (Unix)</Select.Option>
+              <Select.Option value="crlf">CRLF (Windows)</Select.Option>
+            </Select>
           </Form.Item>
-
           <Form.Item
             name={['export', 'upperCase']}
             label="SQL 关键字大写"
@@ -218,10 +206,8 @@ const Settings: React.FC = () => {
           >
             <Switch />
           </Form.Item>
-        </Card>
-      </Form>
-    </div>
+        </Form>
+      </Card>
+    </Content>
   );
-};
-
-export default Settings; 
+}; 

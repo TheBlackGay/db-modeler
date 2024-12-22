@@ -1,0 +1,35 @@
+.mockConfigFormModal {
+  :global {
+    .ant-modal-content {
+      padding: 24px;
+    }
+  }
+}
+
+.mockConfigForm {
+  :global {
+    .ant-form-item {
+      margin-bottom: 16px;
+    }
+
+    .ant-input,
+    .ant-select,
+    .ant-input-number {
+      width: 100%;
+    }
+
+    .ant-input-textarea {
+      resize: vertical;
+      min-height: 60px;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    }
+
+    .ant-form-item-help {
+      color: #8c8c8c;
+    }
+
+    .ant-switch {
+      margin: 4px 0;
+    }
+  }
+} 

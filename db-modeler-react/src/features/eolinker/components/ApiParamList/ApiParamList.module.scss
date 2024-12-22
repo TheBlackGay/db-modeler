@@ -1,0 +1,51 @@
+.apiParamList {
+  .toolbar {
+    margin-bottom: 16px;
+  }
+
+  .table {
+    :global {
+      .ant-table-thead > tr > th {
+        background-color: #fafafa;
+        font-weight: 500;
+      }
+
+      .ant-table-row-expand-icon-cell {
+        width: 48px;
+      }
+
+      .ant-table-row-indent + .ant-table-row-expand-icon {
+        margin-top: 2px;
+      }
+
+      .ant-table-cell {
+        vertical-align: top;
+      }
+
+      .ant-tag {
+        margin-right: 0;
+      }
+
+      .ant-space {
+        gap: 8px !important;
+      }
+    }
+  }
+}
+
+.container {
+  margin-top: 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+} 

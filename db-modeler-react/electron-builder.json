@@ -1,0 +1,21 @@
+{
+  "appId": "com.dbmodeler.app",
+  "productName": "DB Modeler",
+  "directories": {
+    "output": "release"
+  },
+  "files": [
+    "dist/**/*",
+    "electron/**/*"
+  ],
+  "mac": {
+    "category": "public.app-category.developer-tools",
+    "target": ["dmg", "zip"]
+  },
+  "win": {
+    "target": ["nsis", "zip"]
+  },
+  "linux": {
+    "target": ["AppImage", "deb"]
+  }
+} 

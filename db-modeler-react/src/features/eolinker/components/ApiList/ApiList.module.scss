@@ -1,0 +1,89 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+  border-right: 1px solid #e8e8e8;
+  
+  .header {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .search {
+      width: 200px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 8px;
+    }
+  }
+
+  .tree {
+    flex: 1;
+    overflow: auto;
+    padding: 8px;
+
+    :global {
+      .ant-tree-node-content-wrapper {
+        display: flex;
+        align-items: center;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: all 0.3s;
+
+        &:hover {
+          background: #f5f5f5;
+        }
+
+        &.ant-tree-node-selected {
+          background: #e6f7ff;
+        }
+      }
+
+      .ant-tree-title {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .method {
+          padding: 2px 6px;
+          border-radius: 3px;
+          font-size: 12px;
+          font-weight: 500;
+          
+          &.get {
+            color: #1890ff;
+            background: #e6f7ff;
+          }
+          
+          &.post {
+            color: #52c41a;
+            background: #f6ffed;
+          }
+          
+          &.put {
+            color: #faad14;
+            background: #fff7e6;
+          }
+          
+          &.delete {
+            color: #ff4d4f;
+            background: #fff1f0;
+          }
+        }
+
+        .name {
+          flex: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+} 

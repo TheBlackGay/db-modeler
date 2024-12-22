@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { addProject } from '../../store/projectSlice';
-import styles from './index.module.less';
+import styles from './NewProject.module.scss';
 
-const NewProject: React.FC = () => {
+export const NewProject: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -72,6 +72,4 @@ const NewProject: React.FC = () => {
       </Card>
     </div>
   );
-};
-
-export default NewProject; 
+}; 

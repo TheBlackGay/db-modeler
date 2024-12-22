@@ -31,6 +31,109 @@
   - [ ] 字段模板管理
   - [ ] 字段依赖关系
 
+### 接口管理功能
+- [ ] EOLINKER表设计与实现
+  - [ ] 接口基本信息表（eolinker_api）
+    - [ ] id: string (主键)
+    - [ ] project_id: string (关联项目ID)
+    - [ ] name: string (接口名称)
+    - [ ] description: string (接口描述)
+    - [ ] url: string (接口URL)
+    - [ ] method: enum (GET/POST/PUT/DELETE/PATCH)
+    - [ ] group_id: string (分组ID)
+    - [ ] tags: string[] (标签列表)
+    - [ ] status: enum (developing/completed/deprecated)
+    - [ ] version: string (接口版本)
+    - [ ] created_at: timestamp
+    - [ ] updated_at: timestamp
+    - [ ] created_by: string
+    - [ ] updated_by: string
+
+  - [ ] 接口参数表（eolinker_api_param）
+    - [ ] id: string (主键)
+    - [ ] api_id: string (关联接口ID)
+    - [ ] name: string (参数名称)
+    - [ ] type: enum (string/number/boolean/object/array/file/enum)
+    - [ ] param_in: enum (query/header/path/body/formData)
+    - [ ] description: string (参数描述)
+    - [ ] required: boolean (是否必填)
+    - [ ] example: string (示例值)
+    - [ ] default_value: string (默认值)
+    - [ ] parent_id: string (父参数ID，用于嵌套参数)
+    - [ ] order: integer (参数顺序)
+    - [ ] rules: jsonb (验证规则)
+    - [ ] created_at: timestamp
+    - [ ] updated_at: timestamp
+
+  - [ ] 接口响应表（eolinker_api_response）
+    - [ ] id: string (主键)
+    - [ ] api_id: string (关联接口ID)
+    - [ ] status_code: integer (HTTP状态码)
+    - [ ] description: string (响应描述)
+    - [ ] schema: jsonb (响应数据结构)
+    - [ ] example: jsonb (响应示例)
+    - [ ] is_default: boolean (是否默认响应)
+    - [ ] created_at: timestamp
+    - [ ] updated_at: timestamp
+
+  - [ ] 错误码表（eolinker_error_code）
+    - [ ] id: string (主键)
+    - [ ] project_id: string (关联项目ID)
+    - [ ] code: string (错误码)
+    - [ ] message: string (错误信息)
+    - [ ] description: string (错误描述)
+    - [ ] solution: string (解决方案)
+    - [ ] created_at: timestamp
+    - [ ] updated_at: timestamp
+
+  - [ ] 接口测试历史表（eolinker_api_test_history）
+    - [ ] id: string (主键)
+    - [ ] api_id: string (关联接口ID)
+    - [ ] request: jsonb (请求数据)
+    - [ ] response: jsonb (响应数据)
+    - [ ] status_code: integer (响应状态码)
+    - [ ] duration: integer (请求耗时，单位ms)
+    - [ ] test_at: timestamp (测试时间)
+    - [ ] tested_by: string (测试人员)
+    - [ ] environment: string (测试环境)
+    - [ ] result: enum (success/failed)
+    - [ ] error_message: string (错误信息)
+
+  - [ ] Mock配置表（eolinker_mock_config）
+    - [ ] id: string (主键)
+    - [ ] api_id: string (关联接口ID)
+    - [ ] enabled: boolean (是否启用)
+    - [ ] delay: integer (模拟延迟，单位ms)
+    - [ ] rules: jsonb (Mock规则配置)
+    - [ ] created_at: timestamp
+    - [ ] updated_at: timestamp
+
+  - [ ] 接口分组表（eolinker_api_group）
+    - [ ] id: string (主键)
+    - [ ] project_id: string (关联项目ID)
+    - [ ] name: string (分组名称)
+    - [ ] description: string (分组描述)
+    - [ ] parent_id: string (父分组ID)
+    - [ ] order: integer (分组顺序)
+    - [ ] created_at: timestamp
+    - [ ] updated_at: timestamp
+
+  - [ ] 功能实现计划
+    - [ ] 基础API管理
+      - [ ] 接口CRUD操作
+      - [ ] 参数管理
+      - [ ] 响应管理
+      - [ ] 分组管理
+    - [ ] 高级功能
+      - [ ] 接口测试
+      - [ ] Mock服务
+      - [ ] 文档导出
+      - [ ] 版本控制
+    - [ ] 数据迁移
+      - [ ] 历史数据导入
+      - [ ] 数据结构升级
+      - [ ] 数据一致性检查
+
 ### UI/UX改进
 - [ ] 深色模式支持
 - [ ] 自定义主题

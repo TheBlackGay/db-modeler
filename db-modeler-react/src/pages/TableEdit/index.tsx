@@ -718,4 +718,4 @@ const TableEdit: React.FC = () => {
   );
 };
 
-export default TableEdit; 
+export { TableEdit }; 

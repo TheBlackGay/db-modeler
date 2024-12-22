@@ -229,3 +229,144 @@ pnpm build
 2. 测试失败
    - 检查测试环境配置
    - 更新快照: `pnpm test -u`
+
+## 开发指南
+
+### 文件目录规范
+
+```
+src/
+├── assets/                # 静态资源文件
+│   ├── images/           # 图片资源
+│   ├── styles/           # 全局样式
+│   └── icons/            # 图标资源
+│
+├── components/           # 全局通用组件
+│   ├── common/          # 基础UI组件
+│   ├── business/        # 业务通用组件
+│   └── layout/          # 布局相关组件
+│
+├── features/            # 功能模块
+│   ├── project/         # 项目管理模块
+│   │   ├── components/  # 模块专用组件
+│   │   ├── hooks/       # 模块专用钩子
+│   │   ├── services/    # 模块专用服务
+│   │   └── types/       # 模块专用类型
+│   │
+│   ├── database/        # 数据库管理模块
+│   └── eolinker/        # 接口管理模块
+│
+├── hooks/               # 全局通用钩子
+├── services/            # 全局服务和API
+├── store/               # 状态管理
+├── types/               # 全局类型定义
+├── utils/               # 工具函数
+└── pages/               # 页面组件
+```
+
+### 文件命名规范
+
+#### 1. 目录命名
+- 使用小写字母
+- 多个单词用连字符（-）连接
+- 例如：`api-manager`, `table-designer`
+
+#### 2. 组件文件命名
+- 使用 PascalCase（大驼峰）
+- 组件名应该与文件名完全匹配
+- 例如：`TableDesigner.tsx`, `ApiManager.tsx`
+
+#### 3. 类型文件命名
+- 使用 `.types.ts` 后缀
+- 例如：`api.types.ts`, `project.types.ts`
+
+#### 4. 工具文件命名
+- 使用小写字母
+- 多个单词用连字符（-）连接
+- 例如：`string-utils.ts`, `date-formatter.ts`
+
+#### 5. 样式文件命名
+- 使用模块化CSS，文件名与组件名对应
+- 使用 `.module.css` 或 `.module.scss` 后缀
+- 例如：`TableDesigner.module.scss`
+
+#### 6. 测试文件命名
+- 使用 `.test.ts` 或 `.spec.ts` 后缀
+- 文件名应与被测试文件对应
+- 例如：`TableDesigner.test.tsx`
+
+### 文件组织规则
+
+#### 1. 组件文件结构
+```
+features/eolinker/
+├── components/
+│   ├── ApiForm/
+│   │   ├── index.tsx
+│   │   ├── ApiForm.types.ts
+│   │   ├── ApiForm.module.scss
+│   │   └── ApiForm.test.tsx
+│   └── ApiGroupForm/
+│       ├── index.tsx
+│       ├── ApiGroupForm.types.ts
+│       ├── ApiGroupForm.module.scss
+│       └── ApiGroupForm.test.tsx
+├── services/
+│   └── api.service.ts
+└── types/
+    └── api.types.ts
+```
+
+#### 2. 模块化原则
+- 相关的文件应该放在同一个目录下
+- 每个功能模块应该是独立的，包含自己的组件、类型和服务
+- 共享的代码应该提升到上层目录
+
+#### 3. 导入导出规则
+- 每个目录都应该有一个 `index.ts` 文件统一导出
+- 避免循环依赖
+- 使用相对路径导入模块内的文件
+- 使用绝对路径导入其他模块的文件
+
+#### 4. 类型文件组织
+- 全局类型定义放在 `src/types` 目录下
+- 模块专用类型定义放在模块的 `types` 目录下
+- 组件专用类型定义可以直接放在组件文件中或单独的类型文件中
+
+### 代码风格规范
+
+#### 1. TypeScript
+- 优先使用 `interface` 而不是 `type`
+- 使用明确的类型注解
+- 避免使用 `any`
+
+#### 2. React
+- 使用函数组件和 Hooks
+- 组件属性使用 interface 定义
+- 使用 memo 优化渲染性能
+
+#### 3. 样式
+- 使用 CSS Modules
+- 遵循 BEM 命名规范
+- 避免内联样式
+
+#### 4. 注释规范
+- 使用 JSDoc 格式注释
+- 关键逻辑必须添加注释
+- 复杂的类型定义需要添加说明
+
+### 版本控制规范
+
+#### 1. 分支命名
+- 功能分支：`feature/功能名称`
+- 修复分支：`fix/问题描述`
+- 优化分支：`optimize/优化内容`
+
+#### 2. 提交信息
+- feat: 新功能
+- fix: 修复问题
+- docs: 文档更新
+- style: 代码格式调整
+- refactor: 代码重构
+- test: 测试相关
+- chore: 构建过程或辅助工具的变动

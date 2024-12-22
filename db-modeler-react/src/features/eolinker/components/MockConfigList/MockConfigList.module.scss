@@ -1,0 +1,26 @@
+.container {
+  margin-top: 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+
+.responseBody {
+  margin: 0;
+  padding: 16px;
+  background-color: #fafafa;
+  border-radius: 2px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+} 

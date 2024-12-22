@@ -1,0 +1,26 @@
+.apiFormModal {
+  :global {
+    .ant-modal-content {
+      padding: 24px;
+    }
+  }
+}
+
+.apiForm {
+  :global {
+    .ant-form-item {
+      margin-bottom: 16px;
+    }
+
+    .ant-input,
+    .ant-select,
+    .ant-tree-select {
+      width: 100%;
+    }
+
+    .ant-input-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+  }
+} 
