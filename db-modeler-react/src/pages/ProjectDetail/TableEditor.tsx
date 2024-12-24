@@ -8,8 +8,59 @@ import FieldEditor from './FieldEditor';
 import { useNavigate } from 'react-router-dom';
 import DDLImportModal from '../../components/DDLImportModal';
 import { generateId } from '../../utils/helpers';
+import styled from 'styled-components';
+import { KawaiiButton } from '../../components/anime/AnimeComponents';
 
-const { Sider, Content } = Layout;
+const TableContainer = styled.div`
+  .ant-table {
+    background: var(--anime-card-background);
+    border-radius: 12px;
+    box-shadow: var(--anime-shadow);
+    overflow: hidden;
+  }
+  
+  .ant-table-thead > tr > th {
+    background: var(--anime-header-background);
+    color: var(--anime-text);
+  }
+
+  .ant-table-tbody > tr > td {
+    background: var(--anime-card-background);
+    color: var(--anime-text);
+  }
+
+  .ant-table-tbody > tr:hover > td {
+    background: var(--anime-hover-background) !important;
+  }
+
+  .ant-table-row {
+    transition: all 0.3s ease;
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+`;
+
+const StyledButton = styled(KawaiiButton)`
+  margin-right: 8px;
+`;
+
+const ActionButton = styled(Button)`
+  &.ant-btn-text {
+    color: var(--anime-text);
+    &:hover {
+      color: var(--anime-primary);
+      background: var(--anime-hover-background);
+    }
+    &.ant-btn-dangerous {
+      color: var(--anime-danger);
+      &:hover {
+        color: var(--anime-danger-hover);
+        background: var(--anime-danger-background);
+      }
+    }
+  }
+`;
 
 interface TableEditorProps {
   project: Project;
@@ -192,115 +243,113 @@ const TableEditor: React.FC<TableEditorProps> = ({ project }) => {
       key: 'action',
       render: (_: any, record: TableType) => (
         <Space size="middle">
-          <Button
+          <ActionButton
             type="text"
             icon={<EditOutlined />}
             onClick={() => handleEdit(record)}
           >
             编辑
-          </Button>
-          <Button
+          </ActionButton>
+          <ActionButton
             type="text"
             danger
             icon={<DeleteOutlined />}
             onClick={() => handleDelete(record.id)}
           >
             删除
-          </Button>
+          </ActionButton>
         </Space>
       ),
     },
   ];
 
   return (
-    <Layout style={{ background: '#fff', minHeight: 'calc(100vh - 200px)' }}>
-      <Content style={{ padding: '0 24px' }}>
-        <div style={{ marginBottom: 16 }}>
-          <Space>
-            <Button 
-              type="primary"
-              icon={<PlusOutlined />}
-              onClick={() => setShowTableForm(true)}
-            >
-              新建表
-            </Button>
-            <Button 
-              type="primary" 
-              icon={<ImportOutlined />}
-              onClick={() => setShowDDLImportModal(true)}
-            >
-              从 DDL 导入
-            </Button>
-            {selectedRowKeys.length > 0 && (
-              <>
-                <span>已选择 {selectedRowKeys.length} 个表</span>
-                <Button danger onClick={handleBatchDelete}>
-                  批量删除
-                </Button>
-              </>
-            )}
-          </Space>
-        </div>
+    <TableContainer>
+      <div style={{ marginBottom: 16 }}>
+        <Space>
+          <StyledButton 
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => setShowTableForm(true)}
+          >
+            新建表
+          </StyledButton>
+          <StyledButton 
+            type="primary" 
+            icon={<ImportOutlined />}
+            onClick={() => setShowDDLImportModal(true)}
+          >
+            从 DDL 导入
+          </StyledButton>
+          {selectedRowKeys.length > 0 && (
+            <>
+              <span>已选择 {selectedRowKeys.length} 个表</span>
+              <StyledButton danger onClick={handleBatchDelete}>
+                批量删除
+              </StyledButton>
+            </>
+          )}
+        </Space>
+      </div>
 
-        <Table
-          rowSelection={rowSelection}
-          columns={columns}
-          dataSource={project.tables}
-          rowKey="id"
-          pagination={{
-            defaultPageSize: 10,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total) => `共 ${total} 个表`,
-          }}
-        />
+      <Table
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={project.tables}
+        rowKey="id"
+        pagination={{
+          defaultPageSize: 10,
+          showSizeChanger: true,
+          showQuickJumper: true,
+          showTotal: (total) => `共 ${total} 个表`,
+        }}
+      />
 
-        <FieldEditor
-          visible={editorVisible}
-          table={selectedTable}
-          onCancel={() => setEditorVisible(false)}
-          project={project}
-        />
+      <FieldEditor
+        visible={editorVisible}
+        table={selectedTable}
+        onCancel={() => setEditorVisible(false)}
+        project={project}
+      />
 
-        <DDLImportModal
-          visible={showDDLImportModal}
-          onCancel={() => setShowDDLImportModal(false)}
-          onImport={() => {}}
-          onBatchImport={handleBatchDDLImport}
-        />
+      <DDLImportModal
+        visible={showDDLImportModal}
+        onCancel={() => setShowDDLImportModal(false)}
+        onImport={() => {}}
+        onBatchImport={handleBatchDDLImport}
+      />
 
-        <Modal
-          title="新建表"
-          open={showTableForm}
-          onCancel={() => setShowTableForm(false)}
-          onOk={() => {
-            const form = document.querySelector('form');
-            if (form) {
-              form.requestSubmit();
-            }
-          }}
-        >
-          <Form onFinish={handleTableFormSubmit}>
-            <Form.Item
-              name="name"
-              label="表名"
-              rules={[
-                { required: true, message: '请输入表名' },
-                { validator: validateTableName }
-              ]}
-            >
-              <Input placeholder="请输入表名，只能包含字母、数字和下划线，必须以字母开头" />
-            </Form.Item>
-            <Form.Item
-              name="description"
-              label="描述"
-            >
-              <Input.TextArea placeholder="请输入表描述" />
-            </Form.Item>
-          </Form>
-        </Modal>
-      </Content>
-    </Layout>
+      <Modal
+        title="新建表"
+        open={showTableForm}
+        onCancel={() => setShowTableForm(false)}
+        onOk={() => {
+          const form = document.querySelector('form');
+          if (form) {
+            form.requestSubmit();
+          }
+        }}
+      >
+        <Form onFinish={handleTableFormSubmit}>
+          <Form.Item
+            name="name"
+            label="表名"
+            rules={[
+              { required: true, message: '请输入表名' },
+              { validator: validateTableName }
+            ]}
+          >
+            <Input placeholder="请输入表名，只能包含字母、数字和下划线，必须以字母开头" />
+          </Form.Item>
+          <Form.Item
+            name="description"
+            label="描述"
+          >
+            <Input.TextArea placeholder="请输入表描述" />
+          </Form.Item>
+        </Form>
+      </Modal>
+    </TableContainer>
   );
 };
 

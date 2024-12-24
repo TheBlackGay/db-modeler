@@ -20,10 +20,74 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { KawaiiButton } from '../../components/anime/AnimeComponents';
 
 import type { Project, Table } from '../../types/models';
 import type { RootState } from '../../store';
 import { TableNode } from './nodes/TableNode';
+
+const FlowContainer = styled.div`
+  width: 100%;
+  height: 600px;
+  background: var(--anime-card-background);
+  border-radius: 12px;
+  box-shadow: var(--anime-shadow);
+  overflow: hidden;
+
+  .react-flow__node {
+    border-radius: 8px;
+    border: 2px solid var(--anime-primary);
+    background: var(--anime-card-background);
+    padding: 10px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--anime-shadow);
+    }
+  }
+
+  .react-flow__edge {
+    path {
+      stroke: var(--anime-primary);
+      stroke-width: 2;
+    }
+
+    .react-flow__edge-text {
+      fill: var(--anime-text);
+      font-size: 12px;
+    }
+  }
+
+  .react-flow__controls {
+    background: var(--anime-card-background);
+    border-radius: 8px;
+    box-shadow: var(--anime-shadow);
+    button {
+      background: var(--anime-background);
+      color: var(--anime-text);
+      border: none;
+      &:hover {
+        background: var(--anime-hover-background);
+      }
+    }
+  }
+
+  .react-flow__minimap {
+    background: var(--anime-card-background);
+    border-radius: 8px;
+    box-shadow: var(--anime-shadow);
+  }
+
+  .react-flow__background {
+    background: var(--anime-background);
+  }
+`;
+
+const StyledButton = styled(KawaiiButton)`
+  margin-right: 8px;
+`;
 
 const nodeTypes = {
   tableNode: TableNode,
@@ -119,7 +183,7 @@ const Flow: React.FC = () => {
               height: 20,
             },
             style: {
-              stroke: '#1890ff',
+              stroke: 'var(--anime-primary)',
               strokeWidth: 2,
             },
             label: `[${relationType}] ${table.name} -> ${field.foreignKey.tableName}`,
@@ -163,7 +227,7 @@ const Flow: React.FC = () => {
         height: 20,
       },
       style: {
-        stroke: '#1890ff',
+        stroke: 'var(--anime-primary)',
         strokeWidth: 2,
       },
       label: `[1:n] ${sourceTable.name} -> ${targetTable.name}`,
@@ -278,7 +342,7 @@ const Flow: React.FC = () => {
   };
 
   return (
-    <div style={{ width: '100%', height: 'calc(100vh - 64px)' }}>
+    <FlowContainer>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -296,53 +360,47 @@ const Flow: React.FC = () => {
       >
         <Controls showInteractive={false} />
         <MiniMap
-          nodeColor="#1890ff"
+          nodeColor="var(--anime-primary)"
           nodeStrokeWidth={3}
           zoomable
           pannable
-          style={{
-            backgroundColor: '#f0f2f5',
-            border: '1px solid #d9d9d9',
-          }}
         />
         <Background gap={12} size={1} />
         <Panel position="top-right">
           <Space>
-            <Tooltip title="添加已有表">
-              <Button onClick={handleAddExistingTable}>
-                添加表
-              </Button>
-            </Tooltip>
-            <Tooltip title={isSimpleMode ? "详细模式" : "简化模式"}>
-              <Button 
-                icon={isSimpleMode ? <ExpandOutlined /> : <CompressOutlined />}
-                onClick={toggleSimpleMode}
-              />
-            </Tooltip>
-            <Tooltip title="放大">
-              <Button 
-                icon={<ZoomInOutlined />} 
-                onClick={() => zoomIn()}
-              />
-            </Tooltip>
-            <Tooltip title="缩小">
-              <Button 
-                icon={<ZoomOutOutlined />} 
-                onClick={() => zoomOut()}
-              />
-            </Tooltip>
-            <Tooltip title="重置视图">
-              <Button 
-                icon={<RedoOutlined />} 
-                onClick={() => fitView()}
-              />
-            </Tooltip>
-            <Tooltip title="导出图片">
-              <Button 
-                icon={<DownloadOutlined />} 
-                onClick={handleExport}
-              />
-            </Tooltip>
+            <StyledButton onClick={handleAddExistingTable}>
+              添加表
+            </StyledButton>
+            <StyledButton 
+              icon={isSimpleMode ? <ExpandOutlined /> : <CompressOutlined />}
+              onClick={toggleSimpleMode}
+            >
+              {isSimpleMode ? "详细模式" : "简化模式"}
+            </StyledButton>
+            <StyledButton 
+              icon={<ZoomInOutlined />} 
+              onClick={() => zoomIn()}
+            >
+              放大
+            </StyledButton>
+            <StyledButton 
+              icon={<ZoomOutOutlined />} 
+              onClick={() => zoomOut()}
+            >
+              缩小
+            </StyledButton>
+            <StyledButton 
+              icon={<RedoOutlined />} 
+              onClick={() => fitView()}
+            >
+              重置视图
+            </StyledButton>
+            <StyledButton 
+              icon={<DownloadOutlined />} 
+              onClick={handleExport}
+            >
+              导出图片
+            </StyledButton>
           </Space>
         </Panel>
       </ReactFlow>
@@ -402,7 +460,7 @@ const Flow: React.FC = () => {
           </Form.Item>
         </Form>
       </Modal>
-    </div>
+    </FlowContainer>
   );
 };
 

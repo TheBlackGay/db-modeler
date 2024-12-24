@@ -1,127 +1,120 @@
 import React, { memo } from 'react';
 import { Handle, Position } from 'reactflow';
-import { Card, Typography, Badge, Space } from 'antd';
+import styled from 'styled-components';
 
-const { Title, Text } = Typography;
+const NodeContainer = styled.div`
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--anime-card-background);
+  border: 2px solid var(--anime-primary);
+  min-width: 200px;
+  
+  &:hover {
+    box-shadow: var(--anime-shadow);
+  }
+`;
 
-interface Field {
-  name: string;
-  type: string;
-  length?: number;
-  icons: string;
-  isPrimaryKey: boolean;
-  isForeignKey: boolean;
-}
+const NodeHeader = styled.div`
+  padding: 8px;
+  background: var(--anime-header-background);
+  border-radius: 4px 4px 0 0;
+  margin: -10px -10px 10px -10px;
+  border-bottom: 2px solid var(--anime-primary);
 
-interface TableNodeData {
-  label: string;
-  description?: string;
-  fields: Field[];
-  isSimpleMode: boolean;
-}
+  h3 {
+    margin: 0;
+    color: var(--anime-text);
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  p {
+    margin: 4px 0 0;
+    color: var(--anime-text-secondary);
+    font-size: 12px;
+  }
+`;
+
+const FieldList = styled.div`
+  font-size: 12px;
+`;
+
+const Field = styled.div<{ isPrimary?: boolean; isForeign?: boolean }>`
+  padding: 4px 8px;
+  margin: 2px 0;
+  border-radius: 4px;
+  background: ${props => 
+    props.isPrimary ? 'var(--anime-primary-light)' : 
+    props.isForeign ? 'var(--anime-secondary-light)' : 
+    'transparent'
+  };
+  color: var(--anime-text);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  &:hover {
+    background: var(--anime-hover-background);
+  }
+
+  .icons {
+    margin-right: 4px;
+  }
+`;
 
 interface TableNodeProps {
-  data: TableNodeData;
-  isConnectable: boolean;
+  data: {
+    label: string;
+    description?: string;
+    fields: Array<{
+      name: string;
+      type: string;
+      length?: number;
+      icons: string;
+      isPrimaryKey: boolean;
+      isForeignKey: boolean;
+    }>;
+    isSimpleMode?: boolean;
+  };
 }
 
-export const TableNode = memo(({ data, isConnectable }: TableNodeProps) => {
-  const primaryKeyCount = data.fields.filter(f => f.isPrimaryKey).length;
-  const foreignKeyCount = data.fields.filter(f => f.isForeignKey).length;
-  const indexCount = data.fields.filter(f => f.icons.includes('📇')).length;
+const TableNode: React.FC<TableNodeProps> = memo(({ data }) => {
+  const { label, description, fields, isSimpleMode } = data;
 
   return (
-    <>
-      <Handle
-        type="target"
-        position={Position.Left}
-        isConnectable={isConnectable}
-        style={{ 
-          width: 10,
-          height: 10,
-          background: '#1890ff',
-          border: '2px solid #fff',
-        }}
-      />
-      <Handle
-        type="source"
-        position={Position.Right}
-        isConnectable={isConnectable}
-        style={{ 
-          width: 10,
-          height: 10,
-          background: '#1890ff',
-          border: '2px solid #fff',
-        }}
-      />
-      <Card
-        title={
-          <Space direction="vertical" size={0} style={{ width: '100%' }}>
-            <Title level={5} style={{ margin: 0 }}>
-              {data.label}
-            </Title>
-            {data.description && (
-              <Text type="secondary" style={{ fontSize: 12 }}>
-                {data.description}
-              </Text>
+    <NodeContainer>
+      <Handle type="target" position={Position.Left} />
+      <NodeHeader>
+        <h3>{label}</h3>
+        {description && <p>{description}</p>}
+      </NodeHeader>
+      <FieldList>
+        {fields.map((field, index) => (
+          <Field
+            key={index}
+            isPrimary={field.isPrimaryKey}
+            isForeign={field.isForeignKey}
+          >
+            <span className="icons">{field.icons}</span>
+            {isSimpleMode ? (
+              <span>{field.name}</span>
+            ) : (
+              <>
+                <span>{field.name}</span>
+                <span style={{ color: 'var(--anime-text-secondary)' }}>
+                  : {field.type}
+                  {field.length && `(${field.length})`}
+                </span>
+              </>
             )}
-          </Space>
-        }
-        size="small"
-        style={{
-          width: data.isSimpleMode ? 200 : 280,
-          background: '#fff',
-          border: '2px solid #1890ff',
-          borderRadius: 8,
-        }}
-        bodyStyle={{
-          padding: '12px',
-          maxHeight: data.isSimpleMode ? '100px' : '300px',
-          overflowY: 'auto',
-        }}
-      >
-        {data.isSimpleMode ? (
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <Badge count={primaryKeyCount} color="#1890ff" overflowCount={99} title="主键">
-              <Text>🔑</Text>
-            </Badge>
-            <Badge count={foreignKeyCount} color="#52c41a" overflowCount={99} title="外键">
-              <Text>🔗</Text>
-            </Badge>
-            <Badge count={indexCount} color="#faad14" overflowCount={99} title="索引">
-              <Text>📇</Text>
-            </Badge>
-            <Text type="secondary">
-              共 {data.fields.length} 个字段
-            </Text>
-          </div>
-        ) : (
-          data.fields.map((field, index) => (
-            <div
-              key={index}
-              style={{
-                padding: '4px 8px',
-                marginBottom: 4,
-                background: field.isPrimaryKey ? '#e6f7ff' : field.isForeignKey ? '#f6ffed' : 'transparent',
-                borderRadius: 4,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-              }}
-            >
-              <span style={{ fontSize: 16 }}>{field.icons}</span>
-              <Text strong={field.isPrimaryKey || field.isForeignKey}>
-                {field.name}
-              </Text>
-              <Text type="secondary">
-                {field.type}{field.length ? `(${field.length})` : ''}
-              </Text>
-            </div>
-          ))
-        )}
-      </Card>
-    </>
+          </Field>
+        ))}
+      </FieldList>
+      <Handle type="source" position={Position.Right} />
+    </NodeContainer>
   );
 });
 
-TableNode.displayName = 'TableNode'; 
+TableNode.displayName = 'TableNode';
+
+export { TableNode }; 

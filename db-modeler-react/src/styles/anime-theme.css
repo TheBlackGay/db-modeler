@@ -1,0 +1,143 @@
+:root {
+  /* 主题色彩 - 樱花配色 */
+  --anime-primary: #FF69B4;
+  --anime-secondary: #FFB7C5;
+  --anime-accent: #FF1493;
+  --anime-background: #FFF0F5;
+  --anime-text: #4A4A4A;
+  
+  /* 字体 */
+  --anime-font-family: 'Noto Sans SC', 'M PLUS Rounded 1c', sans-serif;
+  
+  /* 圆角 */
+  --anime-border-radius: 12px;
+  
+  /* 阴影 */
+  --anime-box-shadow: 0 4px 12px rgba(255, 105, 180, 0.15);
+  
+  /* 动画时间 */
+  --anime-transition: all 0.3s ease;
+}
+
+/* 全局样式重置 */
+body {
+  background-color: var(--anime-background);
+  font-family: var(--anime-font-family);
+  color: var(--anime-text);
+}
+
+/* 按钮样式 */
+.anime-btn {
+  background: var(--anime-primary);
+  color: white;
+  border: none;
+  border-radius: var(--anime-border-radius);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: var(--anime-transition);
+  box-shadow: var(--anime-box-shadow);
+}
+
+.anime-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 105, 180, 0.25);
+}
+
+/* 卡片样式 */
+.anime-card {
+  background: white;
+  border-radius: var(--anime-border-radius);
+  padding: 16px;
+  box-shadow: var(--anime-box-shadow);
+  transition: var(--anime-transition);
+}
+
+.anime-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(255, 105, 180, 0.2);
+}
+
+/* 输入框样式 */
+.anime-input {
+  border: 2px solid var(--anime-secondary);
+  border-radius: var(--anime-border-radius);
+  padding: 8px 12px;
+  transition: var(--anime-transition);
+}
+
+.anime-input:focus {
+  border-color: var(--anime-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.1);
+}
+
+/* 动画效果 */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.anime-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* 导航栏样式 */
+.anime-nav {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--anime-secondary);
+}
+
+/* 表格样式 */
+.anime-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.anime-table th,
+.anime-table td {
+  border: 1px solid var(--anime-secondary);
+  padding: 12px;
+}
+
+.anime-table th {
+  background: var(--anime-secondary);
+  color: var(--anime-text);
+}
+
+/* 加载动画 */
+@keyframes sakura-fall {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+.anime-loading {
+  position: relative;
+  min-height: 200px;
+}
+
+.anime-loading::before {
+  content: '🌸';
+  position: absolute;
+  animation: sakura-fall 3s linear infinite;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--anime-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--anime-secondary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--anime-primary);
+} 
