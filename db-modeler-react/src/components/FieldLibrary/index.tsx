@@ -27,7 +27,7 @@ interface FieldWithCategory extends Field {
 interface FieldLibraryProps {
   visible: boolean;
   onClose: () => void;
-  onSelect: (field: Field) => void;
+  onSelect: (fields: Field[]) => void;
   existingFields: Field[];
 }
 
@@ -59,6 +59,7 @@ const FieldLibrary: React.FC<FieldLibraryProps> = ({
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [deletedFields, setDeletedFields] = useState<FieldWithCategory[]>([]);
   const [isRecycleBinVisible, setIsRecycleBinVisible] = useState(false);
+  const [selectedFields, setSelectedFields] = useState<Field[]>([]);
 
   useEffect(() => {
     if (visible) {
@@ -537,10 +538,10 @@ const FieldLibrary: React.FC<FieldLibraryProps> = ({
   // 处理单个字段添加
   const handleFieldAdd = (field: Field) => {
     if (checkFieldNameExists(field.name)) {
-      message.error(`字段名 "${field.name}" 已存在`);
+      message.warning(`字段名 "${field.name}" 已存在`);
       return;
     }
-    onSelect(field);
+    onSelect([field]);
   };
 
   // 处理批量添加
@@ -557,13 +558,11 @@ const FieldLibrary: React.FC<FieldLibraryProps> = ({
       }
     });
 
-    // 添加有效字段
-    validFields.forEach(field => onSelect(field));
-
-    // 显示结果消息
     if (validFields.length > 0) {
+      onSelect(validFields);
       message.success(`成功添加 ${validFields.length} 个字段`);
     }
+
     if (duplicateFields.length > 0) {
       message.error(`以下字段名已存在，未添加：${duplicateFields.join(', ')}`);
     }
@@ -992,12 +991,37 @@ const FieldLibrary: React.FC<FieldLibraryProps> = ({
     );
   };
 
+  const handleSelect = () => {
+    if (selectedFields.length === 0) {
+      message.warning('请至少选择一个字段');
+      return;
+    }
+    onSelect(selectedFields);
+    setSelectedFields([]);
+    setSearchText('');
+    setCurrentCategory('all');
+  };
+
+  const handleCancel = () => {
+    setSelectedFields([]);
+    setSearchText('');
+    setCurrentCategory('all');
+    onClose();
+  };
+
+  const rowSelection = {
+    selectedRowKeys: selectedFields.map(f => f.id),
+    onChange: (selectedRowKeys: React.Key[], selectedRows: Field[]) => {
+      setSelectedFields(selectedRows);
+    },
+  };
+
   return (
     <Drawer
       title="字段库"
       placement="right"
       width={1000}
-      onClose={onClose}
+      onClose={handleCancel}
       open={visible}
       bodyStyle={{ padding: '12px' }}
       extra={

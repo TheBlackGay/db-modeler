@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Space, Table, Tooltip, Modal, Select, message, Spin, Result } from 'antd';
+import { Button, Space, Table, Tooltip, Modal, Select, message, Spin, Result, Form, Input } from 'antd';
 import { DeleteOutlined, EditOutlined, ExportOutlined, MenuOutlined, CopyOutlined, PlusOutlined } from '@ant-design/icons';
 import { useParams, useNavigate } from 'react-router-dom';
 import type { Table as TableType, Field, FieldTemplate, Project } from '../../types/models';
@@ -99,6 +99,8 @@ const TableDesigner: React.FC = () => {
   const [showCopyFieldsModal, setShowCopyFieldsModal] = useState(false);
   const [targetTableId, setTargetTableId] = useState<string>('');
   const [isFieldManagerVisible, setIsFieldManagerVisible] = useState(false);
+  const [showTableForm, setShowTableForm] = useState(false);
+  const [editingTable, setEditingTable] = useState<TableType | null>(null);
 
   const handleFieldSubmit = useCallback((values: Partial<Field>) => {
     if (!table || !projectId) return;
@@ -170,20 +172,20 @@ const TableDesigner: React.FC = () => {
     });
   }, [dispatch, projectId, table]);
 
-  const handleFieldLibrarySelect = useCallback((field: Field) => {
+  const handleFieldLibrarySelect = useCallback((fields: Field[]) => {
     if (!table || !projectId) return;
 
     const now = new Date().toISOString();
-    const fieldData: Field = {
+    const newFields = fields.map(field => ({
       ...field,
       id: generateId(),
       createdAt: now,
       updatedAt: now,
-    };
+    }));
 
     const updatedTable = {
       ...table,
-      fields: [...table.fields, fieldData],
+      fields: [...table.fields, ...newFields],
       updatedAt: now,
     };
 
@@ -506,6 +508,36 @@ const TableDesigner: React.FC = () => {
     dispatch(updateTable(updatedTable));
   };
 
+  const handleCreateTable = () => {
+    setEditingTable(null);
+    setShowTableForm(true);
+  };
+
+  const handleTableFormSubmit = (values: any) => {
+    if (!currentProject || !projectId) return;
+
+    const now = new Date().toISOString();
+    const newTable: TableType = {
+      id: generateId(),
+      name: values.name,
+      description: values.description || '',
+      fields: [],
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    const updatedProject = {
+      ...currentProject,
+      tables: [...currentProject.tables, newTable],
+      updatedAt: now,
+    };
+
+    dispatch(setCurrentProject(updatedProject));
+    setShowTableForm(false);
+    message.success('表创建成功');
+    navigate(`/project/${projectId}/tables/${newTable.id}`);
+  };
+
   if (loading) {
     return (
       <div style={{ textAlign: 'center', padding: '50px' }}>
@@ -532,16 +564,13 @@ const TableDesigner: React.FC = () => {
   return (
     <div style={{ padding: '24px' }}>
       <div style={{ marginBottom: 16 }}>
-        <h2 style={{ marginBottom: 16 }}>表结构设计 - {table.name}</h2>
+        <h2 style={{ marginBottom: 16 }}>表结构设计 - {table?.name}</h2>
         <Space>
-          <Button type="primary" onClick={handleAddField}>
+          <Button onClick={handleAddField}>
             添加字段
           </Button>
           <Button onClick={() => setShowFieldLibrary(true)}>
             从字段库添加
-          </Button>
-          <Button onClick={() => setShowTemplateManager(true)}>
-            从模板添加
           </Button>
           <Button onClick={() => setShowSQLModal(true)} icon={<ExportOutlined />}>
             导出SQL
@@ -562,13 +591,6 @@ const TableDesigner: React.FC = () => {
               </Button>
             </>
           )}
-          <Button 
-            type="primary" 
-            onClick={() => setIsFieldManagerVisible(true)}
-            icon={<PlusOutlined />}
-          >
-            管理字段
-          </Button>
         </Space>
       </div>
 
@@ -651,6 +673,34 @@ const TableDesigner: React.FC = () => {
         onFieldUpdate={handleFieldUpdate}
         onFieldDelete={handleFieldDelete}
       />
+
+      <Modal
+        title="新建表"
+        open={showTableForm}
+        onCancel={() => setShowTableForm(false)}
+        onOk={() => {
+          const form = document.querySelector('form');
+          if (form) {
+            form.requestSubmit();
+          }
+        }}
+      >
+        <Form onFinish={handleTableFormSubmit}>
+          <Form.Item
+            name="name"
+            label="表名"
+            rules={[{ required: true, message: '请输入表名' }]}
+          >
+            <Input placeholder="请输入表名" />
+          </Form.Item>
+          <Form.Item
+            name="description"
+            label="描述"
+          >
+            <Input.TextArea placeholder="请输入表描述" />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };

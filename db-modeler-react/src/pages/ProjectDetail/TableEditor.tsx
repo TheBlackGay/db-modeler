@@ -17,13 +17,8 @@ const TableEditor: React.FC<TableEditorProps> = ({ project }) => {
   const [editorVisible, setEditorVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState(null);
 
-  const handleCreate = () => {
-    setSelectedTable(null);
-    setEditorVisible(true);
-  };
-
   const handleEdit = (table: any) => {
-    navigate(`/project/${project.id}/tables/${table.id}`);
+    navigate(`/project/${project.id}/table/${table.id}`);
   };
 
   const columns = [
@@ -64,11 +59,6 @@ const TableEditor: React.FC<TableEditorProps> = ({ project }) => {
 
   return (
     <div>
-      <div style={{ marginBottom: '16px' }}>
-        <Button type="primary" onClick={handleCreate}>
-          新建表
-        </Button>
-      </div>
       <Table
         columns={columns}
         dataSource={project.tables}
