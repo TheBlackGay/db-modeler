@@ -610,41 +610,107 @@ const TableDesigner: React.FC = () => {
 
   return (
     <div style={{ padding: '24px' }}>
-      <div style={{ marginBottom: 16 }}>
+      <div style={{ marginBottom: 24 }}>
         <h2 style={{ marginBottom: 16 }}>表结构设计 - {table?.name}</h2>
-        <Space>
-          <Button onClick={handleAddField}>
-            添加字段
-          </Button>
-          <Button onClick={() => setShowFieldLibrary(true)}>
-            从字段库添加
-          </Button>
-          <Button onClick={() => setShowDDLImportModal(true)}>
-            从 DDL 导入
-          </Button>
-          <Button onClick={() => setShowIndexManager(true)}>
-            索引管理
-          </Button>
-          <Button onClick={() => setShowSQLModal(true)} icon={<ExportOutlined />}>
-            导出SQL
-          </Button>
-          {selectedRowKeys.length > 0 && (
-            <>
-              <Button onClick={() => setShowBatchEditForm(true)}>
-                批量编辑
-              </Button>
-              <Button danger onClick={handleBatchDelete}>
-                批量删除
-              </Button>
-              <Button 
-                icon={<CopyOutlined />}
-                onClick={() => setShowCopyFieldsModal(true)}
-              >
-                复制到其他表
-              </Button>
-            </>
-          )}
-        </Space>
+        
+        <div style={{ 
+          background: '#f5f5f5', 
+          padding: 16, 
+          borderRadius: 8,
+          marginBottom: 16 
+        }}>
+          <Space direction="vertical" style={{ width: '100%' }}>
+            <div>
+              <Space wrap size={[40, 16]}>
+                <span>
+                  <strong>表名：</strong>
+                  {table.name}
+                </span>
+                <span>
+                  <strong>注释：</strong>
+                  {table.description || '-'}
+                </span>
+                <span>
+                  <strong>引擎：</strong>
+                  {table.engine || '-'}
+                </span>
+                <span>
+                  <strong>字符集：</strong>
+                  {table.charset || '-'}
+                </span>
+                <span>
+                  <strong>排序规则：</strong>
+                  {table.collation || '-'}
+                </span>
+                <span>
+                  <strong>自增值：</strong>
+                  {table.autoIncrement || '-'}
+                </span>
+                <span>
+                  <strong>行格式：</strong>
+                  {table.rowFormat || '-'}
+                </span>
+                <span>
+                  <strong>表空间：</strong>
+                  {table.tableSpace || '-'}
+                </span>
+              </Space>
+            </div>
+            <div>
+              <Space size={16}>
+                <span>
+                  <strong>字段数：</strong>
+                  {table.fields.length}
+                </span>
+                <span>
+                  <strong>索引数：</strong>
+                  {table.indexes?.length || 0}
+                </span>
+                <span>
+                  <strong>创建时间：</strong>
+                  {new Date(table.createdAt).toLocaleString()}
+                </span>
+                <span>
+                  <strong>更新时间：</strong>
+                  {new Date(table.updatedAt).toLocaleString()}
+                </span>
+              </Space>
+            </div>
+          </Space>
+        </div>
+
+        <div style={{ marginBottom: 16 }}>
+          <Space>
+            <Button onClick={handleAddField}>
+              添加字段
+            </Button>
+            <Button onClick={() => setShowFieldLibrary(true)}>
+              从字段库添加
+            </Button>
+            <Button onClick={() => setShowIndexManager(true)}>
+              索引管理
+            </Button>
+            <Button onClick={() => setShowSQLModal(true)} icon={<ExportOutlined />}>
+              导出SQL
+            </Button>
+            {selectedRowKeys.length > 0 && (
+              <>
+                <Button onClick={() => setShowBatchEditForm(true)}>
+                  批量编辑
+                </Button>
+                <Button danger onClick={handleBatchDelete}>
+                  批量删除
+                </Button>
+                <Button 
+                  icon={<CopyOutlined />}
+                  onClick={() => setShowCopyFieldsModal(true)}
+                >
+                  复制到其他表
+                </Button>
+              </>
+            )}
+          </Space>
+        </div>
       </div>
 
       <Table

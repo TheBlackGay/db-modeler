@@ -40,6 +40,14 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: 'project/:projectId/table/:tableId',
+        element: (
+          <Suspense fallback={<Spin />}>
+            <TableDesigner />
+          </Suspense>
+        ),
+      },
+      {
         path: 'project/:projectId/api',
         element: (
           <Suspense fallback={<Spin />}>

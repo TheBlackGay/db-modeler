@@ -48,6 +48,13 @@ export interface Table {
   name: string;
   description?: string;
   fields: Field[];
+  indexes?: Index[];
+  engine?: string;
+  charset?: string;
+  collation?: string;
+  autoIncrement?: number;
+  rowFormat?: string;
+  tableSpace?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -292,4 +299,10 @@ export interface Parameter {
   type: string;
   required: boolean;
   description?: string;
+}
+
+export interface Index {
+  name: string;
+  type: 'PRIMARY' | 'UNIQUE' | 'INDEX' | 'FULLTEXT' | 'SPATIAL';
+  fields: string[];
 } 
