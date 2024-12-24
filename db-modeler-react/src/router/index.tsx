@@ -9,6 +9,7 @@ import { Settings } from '../pages/Settings';
 import { ApiManager } from '../pages/ApiManager/ApiManager';
 import InterfaceDebug from '../pages/interface/debug/InterfaceDebug';
 import { Spin } from 'antd';
+import ERDiagram from '../pages/ProjectDetail/ERDiagram';
 
 export const router = createBrowserRouter([
   {
@@ -76,6 +77,14 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Spin />}>
             <Settings />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'project/:projectId/er-diagram',
+        element: (
+          <Suspense fallback={<Spin />}>
+            <ERDiagram />
           </Suspense>
         ),
       },

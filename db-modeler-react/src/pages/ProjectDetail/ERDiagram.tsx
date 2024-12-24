@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
-import { Button, Space, Tooltip } from 'antd';
-import { ZoomInOutlined, ZoomOutOutlined, DownloadOutlined, RedoOutlined } from '@ant-design/icons';
+import React, { useCallback, useState } from 'react';
+import { Button, Space, Tooltip, Modal, Form, Select, message, Switch, Radio } from 'antd';
+import { ZoomInOutlined, ZoomOutOutlined, DownloadOutlined, RedoOutlined, CompressOutlined, ExpandOutlined } from '@ant-design/icons';
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -9,26 +9,53 @@ import ReactFlow, {
   useEdgesState,
   Node,
   Edge,
+  Connection,
   ConnectionMode,
   Panel,
   useReactFlow,
   ReactFlowProvider,
+  addEdge,
+  MarkerType,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import type { Project, Table } from '../../types/models';
+import type { RootState } from '../../store';
 import { TableNode } from './nodes/TableNode';
 
 const nodeTypes = {
   tableNode: TableNode,
 };
 
-interface ERDiagramProps {
-  project: Project;
+// 关系类型
+type RelationType = '1:1' | '1:n' | 'n:1' | 'n:n';
+
+interface EdgeData {
+  relationType: RelationType;
+  sourceField: string;
+  targetField: string;
 }
 
-const Flow: React.FC<ERDiagramProps> = ({ project }) => {
+const Flow: React.FC = () => {
+  const { projectId } = useParams();
+  const project = useSelector((state: RootState) => 
+    state.projects.items.find((p: Project) => p.id === projectId)
+  );
+
+  if (!project) {
+    return <div>项目不存在</div>;
+  }
+
   const { fitView, zoomIn, zoomOut } = useReactFlow();
+  const [isAddExistingModalVisible, setIsAddExistingModalVisible] = useState(false);
+  const [isEdgeModalVisible, setIsEdgeModalVisible] = useState(false);
+  const [selectedEdge, setSelectedEdge] = useState<Edge<EdgeData> | null>(null);
+  const [existingForm] = Form.useForm();
+  const [edgeForm] = Form.useForm();
+  const [addedTableIds, setAddedTableIds] = useState<Set<string>>(new Set());
+  const [isSimpleMode, setIsSimpleMode] = useState(false);
 
   // 创建节点数据
   const createNodes = (tables: Table[]): Node[] => {
@@ -62,27 +89,40 @@ const Flow: React.FC<ERDiagramProps> = ({ project }) => {
           label: table.name,
           description: table.description,
           fields,
+          isSimpleMode,
         },
       };
     });
   };
 
   // 创建边数据
-  const createEdges = (tables: Table[]): Edge[] => {
-    const edges: Edge[] = [];
+  const createEdges = (tables: Table[]): Edge<EdgeData>[] => {
+    const edges: Edge<EdgeData>[] = [];
     tables.forEach(table => {
       table.fields.forEach(field => {
         if (field.foreignKey) {
+          const relationType: RelationType = field.unique ? '1:1' : 'n:1';
           edges.push({
             id: `${table.id}-${field.foreignKey.tableId}`,
-            source: field.foreignKey.tableId,
-            target: table.id,
-            label: `${table.name}.${field.name} -> ${field.foreignKey.tableName}.${field.foreignKey.fieldName}`,
+            source: table.id,
+            target: field.foreignKey.tableId,
+            data: {
+              relationType,
+              sourceField: field.name,
+              targetField: field.foreignKey.fieldName,
+            },
             type: 'smoothstep',
             animated: true,
+            markerEnd: {
+              type: MarkerType.ArrowClosed,
+              width: 20,
+              height: 20,
+            },
             style: {
               stroke: '#1890ff',
+              strokeWidth: 2,
             },
+            label: `[${relationType}] ${table.name} -> ${field.foreignKey.tableName}`,
           });
         }
       });
@@ -90,8 +130,54 @@ const Flow: React.FC<ERDiagramProps> = ({ project }) => {
     return edges;
   };
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(createNodes(project.tables));
-  const [edges, setEdges, onEdgesChange] = useEdgesState(createEdges(project.tables));
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  // 初始化已添加的表 ID
+  React.useEffect(() => {
+    const initialTableIds = new Set(nodes.map(node => node.id));
+    setAddedTableIds(initialTableIds);
+  }, []);
+
+  // 处理连接
+  const onConnect = useCallback((connection: Connection) => {
+    if (!connection.source || !connection.target) return;
+    
+    const sourceTable = project.tables.find((t: Table) => t.id === connection.source);
+    const targetTable = project.tables.find((t: Table) => t.id === connection.target);
+    
+    if (!sourceTable || !targetTable) return;
+
+    setEdges(edges => addEdge({
+      ...connection,
+      type: 'smoothstep',
+      animated: true,
+      data: {
+        relationType: '1:n',
+        sourceField: '',
+        targetField: '',
+      },
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        width: 20,
+        height: 20,
+      },
+      style: {
+        stroke: '#1890ff',
+        strokeWidth: 2,
+      },
+      label: `[1:n] ${sourceTable.name} -> ${targetTable.name}`,
+    }, edges));
+  }, [project.tables]);
+
+  // 处理边点击
+  const onEdgeClick = useCallback((event: React.MouseEvent, edge: Edge) => {
+    setSelectedEdge(edge);
+    edgeForm.setFieldsValue({
+      relationType: edge.data?.relationType || '1:n',
+    });
+    setIsEdgeModalVisible(true);
+  }, [edgeForm]);
 
   // 导出图片
   const handleExport = useCallback(() => {
@@ -119,23 +205,120 @@ const Flow: React.FC<ERDiagramProps> = ({ project }) => {
     }
   }, []);
 
+  // 处理添加已有表
+  const handleAddExistingTable = () => {
+    setIsAddExistingModalVisible(true);
+  };
+
+  const handleAddExistingModalOk = () => {
+    existingForm.validateFields().then(values => {
+      const selectedTables = project.tables.filter(table => 
+        values.tableIds.includes(table.id)
+      );
+
+      // 更新节点
+      const newNodes = createNodes(selectedTables);
+      setNodes(nodes => [...nodes, ...newNodes]);
+
+      // 更新已添加的表 ID
+      setAddedTableIds(prev => new Set([...prev, ...values.tableIds]));
+
+      // 更新边
+      const newEdges = createEdges(selectedTables);
+      setEdges(edges => [...edges, ...newEdges]);
+
+      // 关闭弹窗
+      setIsAddExistingModalVisible(false);
+      existingForm.resetFields();
+      message.success('表添加成功');
+    });
+  };
+
+  // 处理边样式修改
+  const handleEdgeModalOk = () => {
+    edgeForm.validateFields().then(values => {
+      if (!selectedEdge) return;
+
+      setEdges(edges => edges.map(edge => {
+        if (edge.id === selectedEdge.id) {
+          const sourceTable = project.tables.find(t => t.id === edge.source);
+          const targetTable = project.tables.find(t => t.id === edge.target);
+          
+          if (!sourceTable || !targetTable) return edge;
+
+          return {
+            ...edge,
+            data: {
+              ...edge.data,
+              relationType: values.relationType,
+            },
+            label: `[${values.relationType}] ${sourceTable.name} -> ${targetTable.name}`,
+          };
+        }
+        return edge;
+      }));
+
+      setIsEdgeModalVisible(false);
+      edgeForm.resetFields();
+      setSelectedEdge(null);
+      message.success('关系修改成功');
+    });
+  };
+
+  // 切换简化模式
+  const toggleSimpleMode = () => {
+    setIsSimpleMode(!isSimpleMode);
+    setNodes(nodes => nodes.map(node => ({
+      ...node,
+      data: {
+        ...node.data,
+        isSimpleMode: !isSimpleMode,
+      },
+    })));
+  };
+
   return (
-    <div style={{ width: '100%', height: 'calc(100vh - 250px)' }}>
+    <div style={{ width: '100%', height: 'calc(100vh - 64px)' }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        onEdgeClick={onEdgeClick}
         nodeTypes={nodeTypes}
-        connectionMode={ConnectionMode.Loose}
+        connectionMode={ConnectionMode.Strict}
         fitView
         attributionPosition="bottom-left"
+        minZoom={0.1}
+        maxZoom={4}
+        defaultViewport={{ x: 0, y: 0, zoom: 1 }}
       >
-        <Controls />
-        <MiniMap />
+        <Controls showInteractive={false} />
+        <MiniMap
+          nodeColor="#1890ff"
+          nodeStrokeWidth={3}
+          zoomable
+          pannable
+          style={{
+            backgroundColor: '#f0f2f5',
+            border: '1px solid #d9d9d9',
+          }}
+        />
         <Background gap={12} size={1} />
         <Panel position="top-right">
           <Space>
+            <Tooltip title="添加已有表">
+              <Button onClick={handleAddExistingTable}>
+                添加表
+              </Button>
+            </Tooltip>
+            <Tooltip title={isSimpleMode ? "详细模式" : "简化模式"}>
+              <Button 
+                icon={isSimpleMode ? <ExpandOutlined /> : <CompressOutlined />}
+                onClick={toggleSimpleMode}
+              />
+            </Tooltip>
             <Tooltip title="放大">
               <Button 
                 icon={<ZoomInOutlined />} 
@@ -163,14 +346,70 @@ const Flow: React.FC<ERDiagramProps> = ({ project }) => {
           </Space>
         </Panel>
       </ReactFlow>
+
+      <Modal
+        title="添加已有表"
+        open={isAddExistingModalVisible}
+        onOk={handleAddExistingModalOk}
+        onCancel={() => {
+          setIsAddExistingModalVisible(false);
+          existingForm.resetFields();
+        }}
+      >
+        <Form form={existingForm} layout="vertical">
+          <Form.Item
+            name="tableIds"
+            label="选择表"
+            rules={[{ required: true, message: '请选择要添加的表' }]}
+          >
+            <Select
+              mode="multiple"
+              placeholder="请选择要添加的表"
+              style={{ width: '100%' }}
+              options={project.tables
+                .filter(table => !addedTableIds.has(table.id))
+                .map(table => ({
+                  label: table.name,
+                  value: table.id,
+                }))}
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      <Modal
+        title="修改关系"
+        open={isEdgeModalVisible}
+        onOk={handleEdgeModalOk}
+        onCancel={() => {
+          setIsEdgeModalVisible(false);
+          edgeForm.resetFields();
+          setSelectedEdge(null);
+        }}
+      >
+        <Form form={edgeForm} layout="vertical">
+          <Form.Item
+            name="relationType"
+            label="关系类型"
+            rules={[{ required: true, message: '请选择关系类型' }]}
+          >
+            <Radio.Group>
+              <Radio.Button value="1:1">一对一</Radio.Button>
+              <Radio.Button value="1:n">一对多</Radio.Button>
+              <Radio.Button value="n:1">多对一</Radio.Button>
+              <Radio.Button value="n:n">多对多</Radio.Button>
+            </Radio.Group>
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };
 
-const ERDiagram: React.FC<ERDiagramProps> = (props) => {
+const ERDiagram: React.FC = () => {
   return (
     <ReactFlowProvider>
-      <Flow {...props} />
+      <Flow />
     </ReactFlowProvider>
   );
 };
