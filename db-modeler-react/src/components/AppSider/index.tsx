@@ -6,7 +6,6 @@ import {
   TableOutlined,
   SettingOutlined,
   CloudServerOutlined,
-  PlusOutlined,
   ApiOutlined,
 } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -84,12 +83,6 @@ const AppSider: React.FC = () => {
           label: table.name,
           onClick: () => navigate(`/project/${currentProject.id}/tables/${table.id}`),
         })),
-        {
-          key: 'new-table',
-          icon: <PlusOutlined />,
-          label: '新建表',
-          onClick: () => navigate(`/project/${currentProject.id}/tables/new`),
-        },
       ],
     },
     {

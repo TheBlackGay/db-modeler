@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Tabs, Spin, Result, Button, Space, Modal, Form, Input, message } from 'antd';
+import { Tabs, Spin, Result, Button, Space } from 'antd';
 import type { RootState } from '../../store';
-import type { Project, Table } from '../../types/models';
+import type { Project } from '../../types/models';
 import { loadProjects, setCurrentProject } from '../../store/projectsSlice';
 import TableEditor from './TableEditor';
 import ERDiagram from './ERDiagram';
-import { generateId } from '../../utils/helpers';
 
 const PROJECTS_STORAGE_KEY = 'db_modeler_projects';
 
@@ -28,57 +27,11 @@ const ProjectDetail: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showTableForm, setShowTableForm] = useState(false);
 
   // 从 Redux store 获取项目数据
   const project = useSelector((state: RootState) =>
     state.projects.items.find((p) => p.id === id)
   );
-
-  const handleCreateTable = () => {
-    setShowTableForm(true);
-  };
-
-  const handleTableFormSubmit = (values: any) => {
-    if (!project || !id) return;
-
-    const now = new Date().toISOString();
-    const newTable: Table = {
-      id: generateId(),
-      name: values.name,
-      description: values.description || '',
-      fields: [],
-      createdAt: now,
-      updatedAt: now,
-    };
-
-    const updatedProject = {
-      ...project,
-      tables: [...project.tables, newTable],
-      updatedAt: now,
-    };
-
-    dispatch(setCurrentProject(updatedProject));
-    setShowTableForm(false);
-    message.success('表创建成功');
-    navigate(`/project/${id}/tables/${newTable.id}`);
-  };
-
-  const validateTableName = (_: any, value: string) => {
-    if (!value) {
-      return Promise.reject('请输入表名');
-    }
-    // 表名规范：只能包含字母、数字和下划线，必须以字母开头，长度在1-64之间
-    const tableNamePattern = /^[a-zA-Z][a-zA-Z0-9_]{0,63}$/;
-    if (!tableNamePattern.test(value)) {
-      return Promise.reject('表名只能包含字母、数字和下划线，必须以字母开头，长度在1-64之间');
-    }
-    // 检查表名是否已存在
-    if (project?.tables.some(t => t.name.toLowerCase() === value.toLowerCase())) {
-      return Promise.reject('表名已存在');
-    }
-    return Promise.resolve();
-  };
 
   useEffect(() => {
     const loadProject = async () => {
@@ -159,43 +112,7 @@ const ProjectDetail: React.FC = () => {
     <div style={{ padding: '24px' }}>
       <h2>{project.name}</h2>
       <p>{project.description}</p>
-      <div style={{ marginBottom: 16 }}>
-        <Button type="primary" onClick={handleCreateTable}>
-          新建表
-        </Button>
-      </div>
       <Tabs items={items} />
-
-      <Modal
-        title="新建表"
-        open={showTableForm}
-        onCancel={() => setShowTableForm(false)}
-        onOk={() => {
-          const form = document.querySelector('form');
-          if (form) {
-            form.requestSubmit();
-          }
-        }}
-      >
-        <Form onFinish={handleTableFormSubmit}>
-          <Form.Item
-            name="name"
-            label="表名"
-            rules={[
-              { required: true, message: '请输入表名' },
-              { validator: validateTableName }
-            ]}
-          >
-            <Input placeholder="请输入表名，只能包含字母、数字和下划线，必须以字母开头" />
-          </Form.Item>
-          <Form.Item
-            name="description"
-            label="描述"
-          >
-            <Input.TextArea placeholder="请输入表描述" />
-          </Form.Item>
-        </Form>
-      </Modal>
     </div>
   );
 };
