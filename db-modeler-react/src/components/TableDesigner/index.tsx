@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Space, Table, Tooltip, Modal, Select, message, Spin, Result, Form, Input } from 'antd';
 import { DeleteOutlined, EditOutlined, ExportOutlined, MenuOutlined, CopyOutlined, PlusOutlined } from '@ant-design/icons';
 import { useParams, useNavigate } from 'react-router-dom';
-import type { Table as TableType, Field, FieldTemplate, Project } from '../../types/models';
+import type { Table as TableType, Field, FieldTemplate, Project, Index } from '../../types/models';
 import { updateTable, setCurrentProject, loadProjects } from '../../store/projectsSlice';
 import { generateId } from '../../utils/helpers';
 import { RootState } from '../../store';
@@ -13,6 +13,8 @@ import FieldLibrary from '../FieldLibrary';
 import BatchEditForm from '../BatchEditForm';
 import TemplateManager from '../../features/sql/components/TemplateManager';
 import FieldManager from '../FieldManager';
+import IndexManager from '../IndexManager';
+import DDLImportModal from '../DDLImportModal';
 
 const PROJECTS_STORAGE_KEY = 'db_modeler_projects';
 
@@ -101,6 +103,8 @@ const TableDesigner: React.FC = () => {
   const [isFieldManagerVisible, setIsFieldManagerVisible] = useState(false);
   const [showTableForm, setShowTableForm] = useState(false);
   const [editingTable, setEditingTable] = useState<TableType | null>(null);
+  const [showIndexManager, setShowIndexManager] = useState(false);
+  const [showDDLImportModal, setShowDDLImportModal] = useState(false);
 
   const handleFieldSubmit = useCallback((values: Partial<Field>) => {
     if (!table || !projectId) return;
@@ -538,6 +542,49 @@ const TableDesigner: React.FC = () => {
     navigate(`/project/${projectId}/tables/${newTable.id}`);
   };
 
+  const handleUpdateIndexes = (indexes: Index[]) => {
+    if (!table || !projectId) return;
+    const updatedTable = {
+      projectId,
+      tableId: table.id,
+      data: {
+        ...table,
+        indexes,
+      }
+    };
+    dispatch(updateTable(updatedTable));
+  };
+
+  const handleDDLImport = (importedTable: TableType) => {
+    if (!table || !projectId) return;
+
+    const updatedTable = {
+      ...table,
+      fields: importedTable.fields,
+      updatedAt: new Date().toISOString(),
+    };
+
+    dispatch(updateTable({
+      projectId,
+      tableId: table.id,
+      data: updatedTable,
+    }));
+  };
+
+  const handleBatchDDLImport = (tables: TableType[]) => {
+    if (!currentProject || !projectId) return;
+
+    const now = new Date().toISOString();
+    const updatedProject = {
+      ...currentProject,
+      tables: [...currentProject.tables, ...tables],
+      updatedAt: now,
+    };
+
+    dispatch(setCurrentProject(updatedProject));
+    message.success(`成功导入 ${tables.length} 个表`);
+  };
+
   if (loading) {
     return (
       <div style={{ textAlign: 'center', padding: '50px' }}>
@@ -571,6 +618,12 @@ const TableDesigner: React.FC = () => {
           </Button>
           <Button onClick={() => setShowFieldLibrary(true)}>
             从字段库添加
+          </Button>
+          <Button onClick={() => setShowDDLImportModal(true)}>
+            从 DDL 导入
+          </Button>
+          <Button onClick={() => setShowIndexManager(true)}>
+            索引管理
           </Button>
           <Button onClick={() => setShowSQLModal(true)} icon={<ExportOutlined />}>
             导出SQL
@@ -701,6 +754,20 @@ const TableDesigner: React.FC = () => {
           </Form.Item>
         </Form>
       </Modal>
+
+      <IndexManager
+        visible={showIndexManager}
+        onClose={() => setShowIndexManager(false)}
+        table={table}
+        onUpdateIndexes={handleUpdateIndexes}
+      />
+
+      <DDLImportModal
+        visible={showDDLImportModal}
+        onCancel={() => setShowDDLImportModal(false)}
+        onImport={handleDDLImport}
+        onBatchImport={handleBatchDDLImport}
+      />
     </div>
   );
 };
