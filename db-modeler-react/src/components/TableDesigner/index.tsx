@@ -1,109 +1,92 @@
-import React, { useCallback, useState, useMemo, useRef } from 'react';
+import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Space, Table, Tooltip, Modal, Select } from 'antd';
+import { Button, Space, Table, Tooltip, Modal, Select, message, Spin, Result } from 'antd';
 import { DeleteOutlined, EditOutlined, ExportOutlined, MenuOutlined, CopyOutlined } from '@ant-design/icons';
-import { useParams } from 'react-router-dom';
-import type { Table as TableType, Field, FieldTemplate } from '../../types/models';
-import { updateTable, setCurrentProject } from '../../store/projectsSlice';
+import { useParams, useNavigate } from 'react-router-dom';
+import type { Table as TableType, Field, FieldTemplate, Project } from '../../types/models';
+import { updateTable, setCurrentProject, loadProjects } from '../../store/projectsSlice';
 import { generateId } from '../../utils/helpers';
 import { RootState } from '../../store';
 import FieldForm from '../FieldForm';
 import SQLExportModal from '../SQLExportModal';
 import FieldLibrary from '../FieldLibrary';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import update from 'immutability-helper';
 import BatchEditForm from '../BatchEditForm';
-import TemplateManager from '../TemplateManager';
+import TemplateManager from '../../features/sql/components/TemplateManager';
 
-interface DraggableBodyRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
-  index: number;
-  moveRow: (dragIndex: number, hoverIndex: number) => void;
-  className?: string;
-  style?: React.CSSProperties;
-}
+const PROJECTS_STORAGE_KEY = 'db_modeler_projects';
 
-const DraggableBodyRow = ({
-  index,
-  moveRow,
-  className,
-  style,
-  ...restProps
-}: DraggableBodyRowProps) => {
-  const ref = useRef<HTMLTableRowElement>(null);
-  const [{ isOver, dropClassName }, drop] = useDrop({
-    accept: 'row',
-    collect: (monitor) => {
-      const { index: dragIndex } = monitor.getItem() || {};
-      if (dragIndex === index) {
-        return {};
-      }
-      return {
-        isOver: monitor.isOver(),
-        dropClassName: dragIndex < index ? ' drop-over-downward' : ' drop-over-upward',
-      };
-    },
-    drop: (item: { index: number }) => {
-      moveRow(item.index, index);
-    },
-  });
-
-  const [, drag] = useDrag({
-    type: 'row',
-    item: { index },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-
-  drop(drag(ref));
-
-  return (
-    <tr
-      ref={ref}
-      className={`${className}${isOver ? dropClassName : ''}`}
-      style={{ cursor: 'move', ...style }}
-      {...restProps}
-    />
-  );
+const loadProjectsFromStorage = (): Project[] => {
+  try {
+    const storedProjects = localStorage.getItem(PROJECTS_STORAGE_KEY);
+    return storedProjects ? JSON.parse(storedProjects) : [];
+  } catch (error) {
+    console.error('加载项目失败:', error);
+    return [];
+  }
 };
 
 const TableDesigner: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { projectId, tableId } = useParams<{ projectId: string; tableId: string }>();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  
-  // 从 Redux store 中选择数据
-  const currentProject = useSelector((state: RootState) => state.projects.currentProject);
-  const projects = useSelector((state: RootState) => state.projects.items);
-  
-  // 使用 useMemo 计算派生状态
-  const { table, projectId } = useMemo(() => {
-    // 如果没有 currentProject，尝试从 URL 中的表 ID 找到对应的项目
-    if (!currentProject) {
-      for (const project of projects) {
-        const table = project.tables.find(t => t.id === id);
-        if (table) {
-          // 找到表所属的项目，自动设置为当前项目
-          dispatch(setCurrentProject(project.id));
-          return {
-            table,
-            projectId: project.id
-          };
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [initialized, setInitialized] = useState(false);
+
+  const currentProject = useSelector((state: RootState) => 
+    state.projects.items.find(p => p.id === projectId)
+  );
+
+  const table = currentProject?.tables.find(t => t.id === tableId);
+
+  useEffect(() => {
+    const loadProject = async () => {
+      if (!projectId || !tableId) {
+        setError('项目或表 ID 无效');
+        setLoading(false);
+        return;
+      }
+
+      if (!currentProject && !initialized) {
+        try {
+          const projects = loadProjectsFromStorage();
+          if (projects.length > 0) {
+            dispatch(loadProjects(projects));
+            const foundProject = projects.find(p => p.id === projectId);
+            if (foundProject) {
+              dispatch(setCurrentProject(foundProject));
+              const foundTable = foundProject.tables.find(t => t.id === tableId);
+              if (!foundTable) {
+                setError('表不存在');
+              }
+            } else {
+              setError('项目不存在');
+            }
+          } else {
+            setError('没有找到任何项目');
+          }
+        } catch (err) {
+          setError('加载项目时出错');
+          console.error('加载项目失败:', err);
         }
+        setInitialized(true);
+      }
+      setLoading(false);
+    };
+
+    loadProject();
+  }, [dispatch, projectId, tableId, currentProject, initialized]);
+
+  // 等待 Redux store 更新完成
+  useEffect(() => {
+    if (initialized && !loading) {
+      if (!currentProject) {
+        setError('项目不存在');
+      } else if (!table) {
+        setError('表不存在');
       }
     }
-    
-    // 如果有 currentProject，按原来的逻辑查找
-    if (currentProject) {
-      const table = currentProject.tables.find(t => t.id === id);
-      return {
-        table,
-        projectId: currentProject.id
-      };
-    }
-    
-    return { table: null, projectId: null };
-  }, [currentProject, projects, id, dispatch]);
+  }, [initialized, loading, currentProject, table]);
 
   const [editingField, setEditingField] = useState<Field | undefined>();
   const [showFieldForm, setShowFieldForm] = useState(false);
@@ -115,11 +98,10 @@ const TableDesigner: React.FC = () => {
   const [showCopyFieldsModal, setShowCopyFieldsModal] = useState(false);
   const [targetTableId, setTargetTableId] = useState<string>('');
 
-  if (!table || !projectId) {
-    return <div>表格不存在</div>;
-  }
-
   const handleFieldSubmit = useCallback((values: Partial<Field>) => {
+    if (!table || !projectId) return;
+
+    const now = new Date().toISOString();
     const fieldData: Field = {
       id: editingField?.id || generateId(),
       name: values.name || '',
@@ -134,22 +116,17 @@ const TableDesigner: React.FC = () => {
       index: values.index ?? false,
       unsigned: values.unsigned ?? false,
       zerofill: values.zerofill ?? false,
+      createdAt: editingField?.createdAt || now,
+      updatedAt: now,
     };
 
     const updatedTable = {
       ...table,
-      fields: [...table.fields],
-      updatedAt: new Date().toISOString(),
+      fields: editingField
+        ? table.fields.map(f => (f.id === editingField.id ? fieldData : f))
+        : [...table.fields, fieldData],
+      updatedAt: now,
     };
-
-    if (editingField) {
-      const index = updatedTable.fields.findIndex(f => f.id === editingField.id);
-      if (index !== -1) {
-        updatedTable.fields[index] = fieldData;
-      }
-    } else {
-      updatedTable.fields.push(fieldData);
-    }
 
     dispatch(updateTable({ 
       projectId, 
@@ -160,62 +137,74 @@ const TableDesigner: React.FC = () => {
     setEditingField(undefined);
   }, [dispatch, editingField, projectId, table]);
 
-  const handleDeleteField = useCallback((fieldId: string) => {
-    const updatedTable = {
-      ...table,
-      fields: table.fields.filter(f => f.id !== fieldId),
-    };
-    dispatch(updateTable({ projectId, tableId: table.id, data: updatedTable }));
-  }, [dispatch, projectId, table]);
+  const handleAddField = useCallback(() => {
+    setEditingField(undefined);
+    setShowFieldForm(true);
+  }, []);
 
   const handleEditField = useCallback((field: Field) => {
     setEditingField(field);
     setShowFieldForm(true);
   }, []);
 
-  const handleAddField = useCallback(() => {
-    setEditingField(undefined);
-    setShowFieldForm(true);
-  }, []);
+  const handleDeleteField = useCallback((fieldId: string) => {
+    if (!table || !projectId) return;
+
+    Modal.confirm({
+      title: '确认删除',
+      content: '确定要删除这个字段吗？',
+      onOk: () => {
+        const updatedTable = {
+          ...table,
+          fields: table.fields.filter(f => f.id !== fieldId),
+          updatedAt: new Date().toISOString(),
+        };
+        dispatch(updateTable({ 
+          projectId, 
+          tableId: table.id, 
+          data: updatedTable 
+        }));
+      },
+    });
+  }, [dispatch, projectId, table]);
 
   const handleFieldLibrarySelect = useCallback((field: Field) => {
+    if (!table || !projectId) return;
+
+    const now = new Date().toISOString();
+    const fieldData: Field = {
+      ...field,
+      id: generateId(),
+      createdAt: now,
+      updatedAt: now,
+    };
+
     const updatedTable = {
       ...table,
-      fields: [...table.fields, { ...field, id: generateId() }],
+      fields: [...table.fields, fieldData],
+      updatedAt: now,
     };
-    dispatch(updateTable({ projectId, tableId: table.id, data: updatedTable }));
+
+    dispatch(updateTable({ 
+      projectId, 
+      tableId: table.id, 
+      data: updatedTable 
+    }));
     setShowFieldLibrary(false);
   }, [dispatch, projectId, table]);
 
-  const moveRow = useCallback(
-    (dragIndex: number, hoverIndex: number) => {
-      const updatedTable = {
-        ...table,
-        fields: update(table.fields, {
-          $splice: [
-            [dragIndex, 1],
-            [hoverIndex, 0, table.fields[dragIndex]],
-          ],
-        }),
-      };
-      
-      dispatch(updateTable({ 
-        projectId, 
-        tableId: table.id, 
-        data: updatedTable 
-      }));
-    },
-    [dispatch, projectId, table]
-  );
+  const handleBatchEdit = useCallback((values: Partial<Field>) => {
+    if (!table || !projectId) return;
 
-  const handleBatchEdit = (values: Partial<Field>) => {
+    const now = new Date().toISOString();
     const updatedTable = {
       ...table,
       fields: table.fields.map(field => 
         selectedRowKeys.includes(field.id) 
-          ? { ...field, ...values }
+          ? { ...field, ...values, updatedAt: now }
           : field
       ),
+      updatedAt: now,
     };
     
     dispatch(updateTable({ 
@@ -225,30 +214,113 @@ const TableDesigner: React.FC = () => {
     }));
     setShowBatchEditForm(false);
     setSelectedRowKeys([]);
-  };
+  }, [dispatch, projectId, selectedRowKeys, table]);
 
-  const handleBatchDelete = () => {
+  const handleBatchDelete = useCallback(() => {
+    if (!table || !projectId) return;
+
+    Modal.confirm({
+      title: '确认批量删除',
+      content: `确定要删除选中的 ${selectedRowKeys.length} 个字段吗？`,
+      onOk: () => {
+        const updatedTable = {
+          ...table,
+          fields: table.fields.filter(field => !selectedRowKeys.includes(field.id)),
+          updatedAt: new Date().toISOString(),
+        };
+        
+        dispatch(updateTable({ 
+          projectId, 
+          tableId: table.id, 
+          data: updatedTable 
+        }));
+        setSelectedRowKeys([]);
+      },
+    });
+  }, [dispatch, projectId, selectedRowKeys, table]);
+
+  const handleTemplateSelect = useCallback((template: FieldTemplate) => {
+    if (!table || !projectId) return;
+
+    const now = new Date().toISOString();
+    const fieldData: Field = {
+      id: generateId(),
+      name: template.name,
+      type: template.type,
+      length: template.length,
+      nullable: template.nullable,
+      defaultValue: template.defaultValue,
+      comment: template.description,
+      isPrimaryKey: template.isPrimaryKey,
+      isAutoIncrement: template.isAutoIncrement,
+      unique: template.unique,
+      index: template.index,
+      unsigned: template.unsigned,
+      zerofill: template.zerofill,
+      createdAt: now,
+      updatedAt: now,
+    };
+
     const updatedTable = {
       ...table,
-      fields: table.fields.filter(field => !selectedRowKeys.includes(field.id)),
+      fields: [...table.fields, fieldData],
+      updatedAt: now,
     };
-    
+
     dispatch(updateTable({ 
       projectId, 
       tableId: table.id, 
       data: updatedTable 
     }));
-    setSelectedRowKeys([]);
-  };
+    setShowTemplateManager(false);
+  }, [dispatch, projectId, table]);
 
-  const rowSelection = {
+  const handleCopyFields = useCallback(() => {
+    if (!targetTableId || selectedRowKeys.length === 0 || !currentProject || !projectId) return;
+
+    const targetTable = currentProject?.tables.find(t => t.id === targetTableId);
+    if (!targetTable) return;
+
+    const now = new Date().toISOString();
+    const selectedFields = table?.fields.filter(f => selectedRowKeys.includes(f.id)) || [];
+    const newFields = selectedFields.map(field => ({
+      ...field,
+      id: generateId(),
+      createdAt: now,
+      updatedAt: now,
+    }));
+
+    const updatedTable = {
+      ...targetTable,
+      fields: [...targetTable.fields, ...newFields],
+      updatedAt: now,
+    };
+
+    dispatch(updateTable({
+      projectId,
+      tableId: targetTableId,
+      data: updatedTable,
+    }));
+
+    setShowCopyFieldsModal(false);
+    setTargetTableId('');
+    setSelectedRowKeys([]);
+    message.success('字段已复制到目标表');
+  }, [currentProject, dispatch, projectId, selectedRowKeys, table, targetTableId]);
+
+  const otherTables = useMemo(() => {
+    if (!currentProject || !table) return [];
+    return currentProject.tables.filter(t => t.id !== table.id);
+  }, [currentProject, table]);
+
+  const rowSelection = useMemo(() => ({
     selectedRowKeys,
     onChange: (newSelectedRowKeys: React.Key[]) => {
       setSelectedRowKeys(newSelectedRowKeys);
     },
-  };
+  }), [selectedRowKeys]);
 
-  const columns = [
+  const columns = useMemo(() => [
     {
       title: '字段名',
       dataIndex: 'name',
@@ -391,197 +463,137 @@ const TableDesigner: React.FC = () => {
         </Space>
       ),
     },
-  ];
+  ], [handleEditField, handleDeleteField]);
 
-  const components = {
-    body: {
-      row: (props: any) => <DraggableBodyRow {...props} moveRow={moveRow} />,
-    },
-  };
+  if (loading) {
+    return (
+      <div style={{ textAlign: 'center', padding: '50px' }}>
+        <Spin size="large" tip="加载表格中..." />
+      </div>
+    );
+  }
 
-  const handleTemplateSelect = (template: FieldTemplate) => {
-    const fieldData: Field = {
-      id: generateId(),
-      name: template.name,
-      type: template.type,
-      length: template.length,
-      nullable: template.nullable,
-      defaultValue: template.defaultValue,
-      comment: template.description,
-      isPrimaryKey: template.isPrimaryKey,
-      isAutoIncrement: template.isAutoIncrement,
-      unique: template.unique,
-      index: template.index,
-      unsigned: template.unsigned,
-      zerofill: template.zerofill,
-    };
-
-    const updatedTable = {
-      ...table,
-      fields: [...table.fields, fieldData],
-    };
-
-    dispatch(updateTable({ 
-      projectId, 
-      tableId: table.id, 
-      data: updatedTable 
-    }));
-    setShowTemplateManager(false);
-  };
-
-  // 获取当前项目中的其他表
-  const otherTables = useMemo(() => {
-    if (!currentProject) return [];
-    return currentProject.tables.filter(t => t.id !== table.id);
-  }, [currentProject, table.id]);
-
-  const handleCopyFields = () => {
-    if (!targetTableId || selectedRowKeys.length === 0) return;
-
-    const targetTable = currentProject?.tables.find(t => t.id === targetTableId);
-    if (!targetTable) return;
-
-    const selectedFields = table.fields.filter(f => selectedRowKeys.includes(f.id));
-    const newFields = selectedFields.map(field => ({
-      ...field,
-      id: generateId(),
-    }));
-
-    const updatedTable = {
-      ...targetTable,
-      fields: [...targetTable.fields, ...newFields],
-    };
-
-    dispatch(updateTable({
-      projectId,
-      tableId: targetTableId,
-      data: updatedTable,
-    }));
-
-    setShowCopyFieldsModal(false);
-    setTargetTableId('');
-    setSelectedRowKeys([]);
-    message.success('字段已复制到目标表');
-  };
+  if (error || !table || !projectId || !currentProject) {
+    return (
+      <Result
+        status="404"
+        title="表格不存在"
+        subTitle={error || '请确认项目和表 ID 是否正确'}
+        extra={
+          <Button type="primary" onClick={() => navigate('/')}>
+            返回首页
+          </Button>
+        }
+      />
+    );
+  }
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <div style={{ padding: '24px' }}>
-        <div style={{ marginBottom: 16 }}>
-          <h2 style={{ marginBottom: 16 }}>表结构设计 - {table.name}</h2>
-          <Space>
-            <Button type="primary" onClick={handleAddField}>
-              添加字段
-            </Button>
-            <Button onClick={() => setShowFieldLibrary(true)}>
-              从字段库添加
-            </Button>
-            <Button onClick={() => setShowTemplateManager(true)}>
-              从模板添加
-            </Button>
-            <Button onClick={() => setShowSQLModal(true)} icon={<ExportOutlined />}>
-              导出SQL
-            </Button>
-            {selectedRowKeys.length > 0 && (
-              <>
-                <Button onClick={() => setShowBatchEditForm(true)}>
-                  批量编辑
-                </Button>
-                <Button danger onClick={handleBatchDelete}>
-                  批量删除
-                </Button>
-                <Button 
-                  icon={<CopyOutlined />}
-                  onClick={() => setShowCopyFieldsModal(true)}
-                >
-                  复制到其他表
-                </Button>
-              </>
-            )}
-          </Space>
-        </div>
-
-        <Table
-          components={components}
-          rowSelection={rowSelection}
-          columns={[
-            {
-              title: '',
-              dataIndex: 'sort',
-              width: 30,
-              className: 'drag-visible',
-              render: () => <MenuOutlined style={{ cursor: 'move', color: '#999' }} />,
-            },
-            ...columns,
-          ]}
-          dataSource={table.fields}
-          rowKey="id"
-          size="middle"
-          pagination={false}
-          bordered
-          scroll={{ x: 1500 }}
-        />
-
-        <FieldForm
-          visible={showFieldForm}
-          onCancel={() => setShowFieldForm(false)}
-          initialValues={editingField}
-          onSubmit={handleFieldSubmit}
-        />
-
-        <SQLExportModal
-          visible={showSQLModal}
-          onCancel={() => setShowSQLModal(false)}
-          table={table}
-        />
-
-        <FieldLibrary
-          visible={showFieldLibrary}
-          onCancel={() => setShowFieldLibrary(false)}
-          onSelect={handleFieldLibrarySelect}
-        />
-
-        <BatchEditForm
-          visible={showBatchEditForm}
-          onCancel={() => setShowBatchEditForm(false)}
-          onSubmit={handleBatchEdit}
-          selectedCount={selectedRowKeys.length}
-        />
-
-        <TemplateManager
-          visible={showTemplateManager}
-          onCancel={() => setShowTemplateManager(false)}
-          onSelect={handleTemplateSelect}
-        />
-
-        <Modal
-          title="复制字段到其他表"
-          open={showCopyFieldsModal}
-          onCancel={() => {
-            setShowCopyFieldsModal(false);
-            setTargetTableId('');
-          }}
-          onOk={handleCopyFields}
-          okButtonProps={{ disabled: !targetTableId }}
-        >
-          <div style={{ marginBottom: 16 }}>
-            已选择 {selectedRowKeys.length} 个字段
-          </div>
-          <Select
-            style={{ width: '100%' }}
-            placeholder="请选择目标表"
-            value={targetTableId}
-            onChange={setTargetTableId}
-          >
-            {otherTables.map(t => (
-              <Select.Option key={t.id} value={t.id}>
-                {t.name}
-              </Select.Option>
-            ))}
-          </Select>
-        </Modal>
+    <div style={{ padding: '24px' }}>
+      <div style={{ marginBottom: 16 }}>
+        <h2 style={{ marginBottom: 16 }}>表结构设计 - {table.name}</h2>
+        <Space>
+          <Button type="primary" onClick={handleAddField}>
+            添加字段
+          </Button>
+          <Button onClick={() => setShowFieldLibrary(true)}>
+            从字段库添加
+          </Button>
+          <Button onClick={() => setShowTemplateManager(true)}>
+            从模板添加
+          </Button>
+          <Button onClick={() => setShowSQLModal(true)} icon={<ExportOutlined />}>
+            导出SQL
+          </Button>
+          {selectedRowKeys.length > 0 && (
+            <>
+              <Button onClick={() => setShowBatchEditForm(true)}>
+                批量编辑
+              </Button>
+              <Button danger onClick={handleBatchDelete}>
+                批量删除
+              </Button>
+              <Button 
+                icon={<CopyOutlined />}
+                onClick={() => setShowCopyFieldsModal(true)}
+              >
+                复制到其他表
+              </Button>
+            </>
+          )}
+        </Space>
       </div>
-    </DndProvider>
+
+      <Table
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={table.fields}
+        rowKey="id"
+        size="middle"
+        pagination={false}
+        bordered
+        scroll={{ x: 1500 }}
+      />
+
+      <FieldForm
+        visible={showFieldForm}
+        onCancel={() => setShowFieldForm(false)}
+        initialValues={editingField}
+        onSubmit={handleFieldSubmit}
+      />
+
+      <SQLExportModal
+        visible={showSQLModal}
+        onCancel={() => setShowSQLModal(false)}
+        table={table}
+      />
+
+      <FieldLibrary
+        visible={showFieldLibrary}
+        onCancel={() => setShowFieldLibrary(false)}
+        onSelect={handleFieldLibrarySelect}
+      />
+
+      <BatchEditForm
+        visible={showBatchEditForm}
+        onCancel={() => setShowBatchEditForm(false)}
+        onSubmit={handleBatchEdit}
+        selectedCount={selectedRowKeys.length}
+      />
+
+      <TemplateManager
+        visible={showTemplateManager}
+        onCancel={() => setShowTemplateManager(false)}
+        onSelect={handleTemplateSelect}
+      />
+
+      <Modal
+        title="复制字段到其他表"
+        open={showCopyFieldsModal}
+        onCancel={() => {
+          setShowCopyFieldsModal(false);
+          setTargetTableId('');
+        }}
+        onOk={handleCopyFields}
+        okButtonProps={{ disabled: !targetTableId }}
+      >
+        <div style={{ marginBottom: 16 }}>
+          已选择 {selectedRowKeys.length} 个字段
+        </div>
+        <Select
+          style={{ width: '100%' }}
+          placeholder="请选择目标表"
+          value={targetTableId}
+          onChange={setTargetTableId}
+        >
+          {otherTables.map(t => (
+            <Select.Option key={t.id} value={t.id}>
+              {t.name}
+            </Select.Option>
+          ))}
+        </Select>
+      </Modal>
+    </div>
   );
 };
 
