@@ -1,7 +1,9 @@
 import type { Project, Field, FieldTemplate, FieldTemplateCategory } from '../types/models';
+import { mockFields } from '../data/mockFieldLibrary';
 
 const STORAGE_KEY = 'db-modeler-projects';
 const FIELD_LIBRARY_KEY = 'db-modeler-field-library';
+const FIELD_LIBRARY_INITIALIZED_KEY = 'db-modeler-field-library-initialized';
 const FIELD_TEMPLATES_KEY = 'db-modeler-field-templates';
 const TEMPLATE_CATEGORIES_KEY = 'db-modeler-template-categories';
 
@@ -18,21 +20,46 @@ const parse = <T>(json: string | null, defaultValue: T): T => {
 
 // 加载字段库
 export const loadFieldLibrary = (): Field[] => {
-  return parse(localStorage.getItem(FIELD_LIBRARY_KEY), []);
+  try {
+    // 检查是否已初始化
+    const isInitialized = localStorage.getItem(FIELD_LIBRARY_INITIALIZED_KEY);
+    if (!isInitialized) {
+      // 首次加载，初始化模拟数据
+      localStorage.setItem(FIELD_LIBRARY_KEY, JSON.stringify(mockFields));
+      localStorage.setItem(FIELD_LIBRARY_INITIALIZED_KEY, 'true');
+      return mockFields;
+    }
+
+    const data = localStorage.getItem(FIELD_LIBRARY_KEY);
+    return data ? JSON.parse(data) : [];
+  } catch (error) {
+    console.error('加载字段库失败:', error);
+    return [];
+  }
 };
 
 // 保存字段到字段库
-export const saveFieldToLibrary = (field: Field) => {
-  const fields = loadFieldLibrary();
-  fields.push(field);
-  localStorage.setItem(FIELD_LIBRARY_KEY, JSON.stringify(fields));
+export const saveFieldToLibrary = (field: Field): void => {
+  try {
+    const fields = loadFieldLibrary();
+    fields.push(field);
+    localStorage.setItem(FIELD_LIBRARY_KEY, JSON.stringify(fields));
+  } catch (error) {
+    console.error('保存字段失败:', error);
+    throw error;
+  }
 };
 
 // 从字段库中删除字段
-export const removeFieldFromLibrary = (fieldId: string) => {
-  const fields = loadFieldLibrary();
-  const updatedFields = fields.filter(field => field.id !== fieldId);
-  localStorage.setItem(FIELD_LIBRARY_KEY, JSON.stringify(updatedFields));
+export const removeFieldFromLibrary = (fieldId: string): void => {
+  try {
+    const fields = loadFieldLibrary();
+    const updatedFields = fields.filter(f => f.id !== fieldId);
+    localStorage.setItem(FIELD_LIBRARY_KEY, JSON.stringify(updatedFields));
+  } catch (error) {
+    console.error('删除字段失败:', error);
+    throw error;
+  }
 };
 
 // 加载项目列表
@@ -172,4 +199,13 @@ export const deleteTemplateCategory = (id: string) => {
   const categories = loadTemplateCategories();
   const updatedCategories = categories.filter(c => c.id !== id);
   saveTemplateCategories(updatedCategories);
+};
+
+export const saveFieldLibrary = async (fields: Field[]): Promise<void> => {
+  try {
+    localStorage.setItem(FIELD_LIBRARY_KEY, JSON.stringify(fields));
+  } catch (error) {
+    console.error('保存字段库失败:', error);
+    throw error;
+  }
 }; 

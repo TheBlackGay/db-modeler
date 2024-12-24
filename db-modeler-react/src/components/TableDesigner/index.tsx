@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Space, Table, Tooltip, Modal, Select, message, Spin, Result } from 'antd';
-import { DeleteOutlined, EditOutlined, ExportOutlined, MenuOutlined, CopyOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, ExportOutlined, MenuOutlined, CopyOutlined, PlusOutlined } from '@ant-design/icons';
 import { useParams, useNavigate } from 'react-router-dom';
 import type { Table as TableType, Field, FieldTemplate, Project } from '../../types/models';
 import { updateTable, setCurrentProject, loadProjects } from '../../store/projectsSlice';
@@ -12,6 +12,7 @@ import SQLExportModal from '../SQLExportModal';
 import FieldLibrary from '../FieldLibrary';
 import BatchEditForm from '../BatchEditForm';
 import TemplateManager from '../../features/sql/components/TemplateManager';
+import FieldManager from '../FieldManager';
 
 const PROJECTS_STORAGE_KEY = 'db_modeler_projects';
 
@@ -97,6 +98,7 @@ const TableDesigner: React.FC = () => {
   const [showTemplateManager, setShowTemplateManager] = useState(false);
   const [showCopyFieldsModal, setShowCopyFieldsModal] = useState(false);
   const [targetTableId, setTargetTableId] = useState<string>('');
+  const [isFieldManagerVisible, setIsFieldManagerVisible] = useState(false);
 
   const handleFieldSubmit = useCallback((values: Partial<Field>) => {
     if (!table || !projectId) return;
@@ -465,6 +467,45 @@ const TableDesigner: React.FC = () => {
     },
   ], [handleEditField, handleDeleteField]);
 
+  const handleFieldAdd = (field: Field) => {
+    if (!table || !projectId) return;
+    const updatedTable = {
+      projectId,
+      tableId: table.id,
+      data: {
+        ...table,
+        fields: [...table.fields, field],
+      }
+    };
+    dispatch(updateTable(updatedTable));
+  };
+
+  const handleFieldUpdate = (field: Field) => {
+    if (!table || !projectId) return;
+    const updatedTable = {
+      projectId,
+      tableId: table.id,
+      data: {
+        ...table,
+        fields: table.fields.map(f => f.id === field.id ? field : f),
+      }
+    };
+    dispatch(updateTable(updatedTable));
+  };
+
+  const handleFieldDelete = (fieldId: string) => {
+    if (!table || !projectId) return;
+    const updatedTable = {
+      projectId,
+      tableId: table.id,
+      data: {
+        ...table,
+        fields: table.fields.filter(f => f.id !== fieldId),
+      }
+    };
+    dispatch(updateTable(updatedTable));
+  };
+
   if (loading) {
     return (
       <div style={{ textAlign: 'center', padding: '50px' }}>
@@ -521,6 +562,13 @@ const TableDesigner: React.FC = () => {
               </Button>
             </>
           )}
+          <Button 
+            type="primary" 
+            onClick={() => setIsFieldManagerVisible(true)}
+            icon={<PlusOutlined />}
+          >
+            管理字段
+          </Button>
         </Space>
       </div>
 
@@ -550,8 +598,9 @@ const TableDesigner: React.FC = () => {
 
       <FieldLibrary
         visible={showFieldLibrary}
-        onCancel={() => setShowFieldLibrary(false)}
+        onClose={() => setShowFieldLibrary(false)}
         onSelect={handleFieldLibrarySelect}
+        existingFields={table?.fields || []}
       />
 
       <BatchEditForm
@@ -593,6 +642,15 @@ const TableDesigner: React.FC = () => {
           ))}
         </Select>
       </Modal>
+
+      <FieldManager
+        visible={isFieldManagerVisible}
+        onClose={() => setIsFieldManagerVisible(false)}
+        fields={table?.fields || []}
+        onFieldAdd={handleFieldAdd}
+        onFieldUpdate={handleFieldUpdate}
+        onFieldDelete={handleFieldDelete}
+      />
     </div>
   );
 };

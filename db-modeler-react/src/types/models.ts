@@ -1,5 +1,7 @@
 import type { UploadFile } from 'antd/es/upload/interface';
 
+export type FieldCategory = 'basic' | 'user' | 'time' | 'status' | 'address' | 'system' | 'custom';
+
 export interface Field {
   id: string;
   name: string;
@@ -7,24 +9,26 @@ export interface Field {
   length?: number;
   precision?: number;
   scale?: number;
-  nullable: boolean;
+  nullable?: boolean;
   defaultValue?: string;
   comment?: string;
-  isPrimaryKey: boolean;
-  isAutoIncrement: boolean;
-  unique: boolean;
-  index: boolean;
-  unsigned: boolean;
-  zerofill: boolean;
+  isPrimaryKey?: boolean;
+  isAutoIncrement?: boolean;
+  unique?: boolean;
+  index?: boolean;
+  unsigned?: boolean;
+  zerofill?: boolean;
   createdAt: string;
   updatedAt: string;
+  deletedAt?: string;
+  category?: FieldCategory;
 }
 
 export interface FieldTemplate extends Omit<Field, 'id' | 'name'> {
   id: string;
   name: string;
   description: string;
-  category: string;
+  category?: FieldCategory;
   isBuiltin?: boolean;
   createdAt: string;
   updatedAt: string;
