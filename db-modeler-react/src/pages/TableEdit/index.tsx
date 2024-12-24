@@ -15,10 +15,10 @@ import {
   ExclamationCircleOutlined,
   CheckCircleOutlined,
 } from '@ant-design/icons';
-import { fieldTypes, type IField, type IProject, type ITable } from '../../data/mockData';
+import { fieldTypes, type IField, type IProject, type ITable } from '../../types';
 import { useParams, useNavigate, useOutletContext, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { updateProject } from '../../store/projectsSlice';
+import { updateProject } from '../../store/projectSlice';
 import type { ColumnsType } from 'antd/es/table';
 import { v4 as uuidv4 } from 'uuid';
 import classNames from 'classnames';

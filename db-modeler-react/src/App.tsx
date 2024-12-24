@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RouterProvider } from 'react-router-dom';
-import { ConfigProvider } from 'antd';
+import { useDispatch } from 'react-redux';
+import { loadProjects } from './store/projectsSlice';
+import { mockProjects } from './data/mockData';
 import { router } from './router';
-import zhCN from 'antd/locale/zh_CN';
 
-export const App: React.FC = () => {
-  return (
-    <ConfigProvider locale={zhCN}>
-      <RouterProvider router={router} />
-    </ConfigProvider>
-  );
-}; 
+const App: React.FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log('Loading mock projects:', mockProjects);
+    dispatch(loadProjects(mockProjects));
+  }, [dispatch]);
+
+  return <RouterProvider router={router} />;
+};
+
+export default App; 

@@ -75,6 +75,11 @@ const projectsSlice = createSlice({
     },
     setCurrentProject: (state, action: PayloadAction<Project>) => {
       state.currentProject = action.payload;
+      const index = state.items.findIndex(p => p.id === action.payload.id);
+      if (index !== -1) {
+        state.items[index] = action.payload;
+        saveProjectsToStorage(state.items);
+      }
     },
     updateTable: (state, action: PayloadAction<UpdateTablePayload>) => {
       const { projectId, tableId, data } = action.payload;
@@ -84,6 +89,9 @@ const projectsSlice = createSlice({
         if (tableIndex !== -1) {
           state.items[projectIndex].tables[tableIndex] = data;
           state.items[projectIndex].updatedAt = new Date().toISOString();
+          if (state.currentProject?.id === projectId) {
+            state.currentProject = state.items[projectIndex];
+          }
           saveProjectsToStorage(state.items);
         }
       }

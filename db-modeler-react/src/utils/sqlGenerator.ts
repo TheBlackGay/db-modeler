@@ -243,4 +243,24 @@ function formatDefaultValue(value: string, type: string): string {
   }
   
   return `'${value.replace(/'/g, "''")}'`;
+}
+
+export function generateBatchSQLScript(tables: Table[], options: SQLGeneratorOptions): string {
+  const lines: string[] = [];
+  
+  // 添加批量导出注释
+  if (options.includeComments) {
+    lines.push(`-- 批量导出表结构`);
+    lines.push(`-- 导出时间: ${new Date().toISOString()}`);
+    lines.push(`-- 数据库类型: ${options.dialect.toUpperCase()}`);
+    lines.push('');
+  }
+  
+  // 生成每个表的SQL
+  for (const table of tables) {
+    lines.push(generateSQLScript(table, options));
+    lines.push(''); // 添加空行分隔
+  }
+  
+  return lines.join('\n');
 } 

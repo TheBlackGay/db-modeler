@@ -1,71 +1,76 @@
 import React, { Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { Layout } from '../components/Layout';
-import { ProjectList } from '../pages/ProjectList';
-import { NewProject } from '../pages/NewProject';
-import { ProjectDetail } from '../pages/ProjectDetail';
-import { TableEdit } from '../pages/TableEdit';
+import ProjectList from '../pages/ProjectList';
+import ProjectDetail from '../pages/ProjectDetail';
+import TableDesigner from '../components/TableDesigner';
 import { DatabaseConnections } from '../pages/DatabaseConnections';
 import { Settings } from '../pages/Settings';
-import { ApiManager } from '../pages/ApiManager';
-import { interfaceRoutes } from '../pages/interface/routes';
+import { ApiManager } from '../pages/ApiManager/ApiManager';
+import InterfaceDebug from '../pages/interface/debug/InterfaceDebug';
 import { Spin } from 'antd';
 
-// 创建加载中组件
-const LoadingComponent: React.FC = () => (
-  <div style={{ padding: '50px', textAlign: 'center' }}>
-    <Spin size="large" />
-  </div>
-);
-
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
     children: [
       {
-        path: '/',
-        element: <ProjectList />,
-      },
-      {
-        path: '/project/new',
-        element: <NewProject />,
-      },
-      {
-        path: '/project/:projectId',
-        element: <ProjectDetail />,
-      },
-      {
-        path: '/project/:projectId/table/:tableId',
-        element: <TableEdit />,
-      },
-      {
-        path: '/project/:projectId/table/new',
-        element: <TableEdit />,
-      },
-      {
-        path: '/connections',
-        element: <DatabaseConnections />,
-      },
-      {
-        path: '/api-manager',
-        element: <ApiManager />,
-      },
-      {
-        path: '/settings',
-        element: <Settings />,
-      },
-      // 添加接口管理模块路由
-      ...interfaceRoutes.map(route => ({
-        ...route,
+        index: true,
         element: (
-          <Suspense fallback={<LoadingComponent />}>
-            {route.element}
+          <Suspense fallback={<Spin />}>
+            <ProjectList />
           </Suspense>
         ),
-      })),
+      },
+      {
+        path: 'project/:id',
+        element: (
+          <Suspense fallback={<Spin />}>
+            <ProjectDetail />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'project/:projectId/tables/:tableId',
+        element: (
+          <Suspense fallback={<Spin />}>
+            <TableDesigner />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'project/:projectId/api',
+        element: (
+          <Suspense fallback={<Spin />}>
+            <ApiManager />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'project/:projectId/api/debug',
+        element: (
+          <Suspense fallback={<Spin />}>
+            <InterfaceDebug />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'project/:projectId/connections',
+        element: (
+          <Suspense fallback={<Spin />}>
+            <DatabaseConnections />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'project/:projectId/settings',
+        element: (
+          <Suspense fallback={<Spin />}>
+            <Settings />
+          </Suspense>
+        ),
+      },
     ],
   },
-]);
-
-export { router }; 
+]); 

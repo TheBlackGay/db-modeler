@@ -112,16 +112,23 @@ const AppSider: React.FC = () => {
       ],
     },
     {
-      key: 'connections',
-      icon: <CloudServerOutlined />,
-      label: '数据库连接',
-      onClick: () => navigate('/connections'),
-    },
-    {
-      key: 'settings',
+      key: 'project-settings',
       icon: <SettingOutlined />,
       label: '项目设置',
-      onClick: () => navigate('/settings'),
+      children: [
+        {
+          key: 'connections',
+          icon: <CloudServerOutlined />,
+          label: '数据库连接',
+          onClick: () => navigate(`/project/${currentProject.id}/connections`),
+        },
+        {
+          key: 'settings',
+          icon: <SettingOutlined />,
+          label: '项目配置',
+          onClick: () => navigate(`/project/${currentProject.id}/settings`),
+        },
+      ],
     },
   ];
 

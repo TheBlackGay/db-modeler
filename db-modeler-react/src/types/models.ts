@@ -1,8 +1,12 @@
+import type { UploadFile } from 'antd/es/upload/interface';
+
 export interface Field {
   id: string;
   name: string;
   type: string;
   length?: number;
+  precision?: number;
+  scale?: number;
   nullable: boolean;
   defaultValue?: string;
   comment?: string;
@@ -12,6 +16,8 @@ export interface Field {
   index: boolean;
   unsigned: boolean;
   zerofill: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface FieldTemplate extends Omit<Field, 'id' | 'name'> {
@@ -37,8 +43,34 @@ export interface Table {
   id: string;
   name: string;
   description?: string;
-  comment: string;
   fields: Field[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface TestRecord {
+  id: string;
+  timestamp: string;
+  status: 'success' | 'failure';
+  responseTime: number;
+  serverInfo?: {
+    version: string;
+    platform: string;
+    charset: string;
+  };
+  error?: string;
+}
+
+export interface Connection {
+  id: string;
+  name: string;
+  type: 'mysql' | 'postgresql' | 'oracle' | 'sqlserver';
+  host: string;
+  port: number;
+  database: string;
+  username: string;
+  password: string;
+  testHistory: TestRecord[];
   createdAt: string;
   updatedAt: string;
 }
@@ -46,23 +78,98 @@ export interface Table {
 export interface Project {
   id: string;
   name: string;
-  description: string;
+  description?: string;
   tables: Table[];
   createdAt: string;
   updatedAt: string;
-  api_groups?: EolinkerApiGroup[];
-  apis?: EolinkerApi[];
 }
 
 export type ProjectSummary = Omit<Project, 'tables'>;
 
 export interface RootState {
   projects: {
-    items: Project[];
+    projects: Project[];
     loading: boolean;
     error: string | null;
     currentProject: Project | null;
   };
+  history: {
+    items: RequestHistory[];
+  };
+  env: {
+    environments: Environment[];
+    currentEnvId: string | null;
+  };
+}
+
+export interface Environment {
+  id: string;
+  name: string;
+  variables: { [key: string]: string };
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type BodyType = 'none' | 'form-data' | 'x-www-form-urlencoded' | 'raw';
+export type RawType = 'json' | 'xml' | 'text';
+export type FormDataParamType = 'text' | 'file';
+
+export interface RequestHistory {
+  id: string;
+  timestamp: number;
+  method: string;
+  url: string;
+  params: UrlParam[];
+  headers: HeaderParam[];
+  bodyType: BodyType;
+  rawType?: RawType;
+  rawContent?: string;
+  formDataParams?: FormDataParam[];
+  urlEncodedParams?: UrlParam[];
+  response: ResponseData;
+}
+
+export interface UrlParam {
+  key: string;
+  value: string;
+  description?: string;
+  enabled: boolean;
+}
+
+export interface HeaderParam {
+  key: string;
+  value: string;
+  description?: string;
+  enabled: boolean;
+}
+
+export interface FormDataParam extends UrlParam {
+  type: FormDataParamType;
+  file?: UploadFile | File;
+}
+
+export interface ResponseData {
+  status: number;
+  statusText: string;
+  headers: Record<string, string>;
+  contentType: string;
+  data: any;
+  rawData: string;
+  responseTime: number;
+  duration: number;
+  size: number;
+}
+
+export interface RequestOptions {
+  method: string;
+  url: string;
+  params: UrlParam[];
+  headers: Record<string, string>;
+  bodyType: BodyType;
+  rawType: RawType;
+  rawContent: string;
+  formDataParams: Array<Omit<FormDataParam, 'file'> & { file?: File }>;
+  urlEncodedParams: UrlParam[];
 }
 
 // API方法类型
@@ -99,4 +206,86 @@ export interface EolinkerApiGroup {
   order: number;
   created_at: string;
   updated_at: string;
+}
+
+export interface ConnectionFormData {
+  name: string;
+  host: string;
+  port: number;
+  database: string;
+  username: string;
+  password: string;
+  type: Connection['type'];
+}
+
+export interface TestResult {
+  status: TestRecord['status'];
+  responseTime?: number;
+  serverInfo?: TestRecord['serverInfo'];
+  error?: string;
+}
+
+export interface ChartData {
+  timestamp: Date;
+  responseTime: number;
+  status: TestRecord['status'];
+}
+
+export interface ChartPoint {
+  x: number;
+  y: number;
+}
+
+export interface ExportData {
+  connections: Array<Omit<Connection, 'password'>>;
+  exportTime: string;
+}
+
+export interface TestHistoryExportData {
+  testHistory: Array<{
+    connectionName: string;
+    history: TestRecord[];
+  }>;
+  exportTime: string;
+}
+
+export interface Api {
+  id: string;
+  name: string;
+  description?: string;
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  path: string;
+  requestParameters?: {
+    query?: Array<{
+      name: string;
+      type: string;
+      required: boolean;
+      description?: string;
+    }>;
+    body?: {
+      type: string;
+      properties: Record<string, {
+        type: string;
+        description?: string;
+        required?: boolean;
+      }>;
+    };
+  };
+  responseParameters?: {
+    type: string;
+    properties: Record<string, {
+      type: string;
+      description?: string;
+    }>;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Parameter {
+  id: string;
+  name: string;
+  type: string;
+  required: boolean;
+  description?: string;
 } 

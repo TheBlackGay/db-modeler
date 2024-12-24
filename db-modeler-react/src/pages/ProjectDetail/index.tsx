@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Tabs, Spin, Result, Button } from 'antd';
+import { Tabs, Spin, Result, Button, Space } from 'antd';
 import type { RootState } from '../../store';
 import type { Project } from '../../types/models';
 import { loadProjects, setCurrentProject } from '../../store/projectsSlice';
@@ -13,6 +13,7 @@ const PROJECTS_STORAGE_KEY = 'db_modeler_projects';
 const loadProjectsFromStorage = (): Project[] => {
   try {
     const storedProjects = localStorage.getItem(PROJECTS_STORAGE_KEY);
+    console.log('从 localStorage 加载的项目数据:', storedProjects);
     return storedProjects ? JSON.parse(storedProjects) : [];
   } catch (error) {
     console.error('加载项目失败:', error);
@@ -26,8 +27,8 @@ const ProjectDetail: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [initialized, setInitialized] = useState(false);
 
+  // 从 Redux store 获取项目数据
   const project = useSelector((state: RootState) =>
     state.projects.items.find((p) => p.id === id)
   );
@@ -40,38 +41,42 @@ const ProjectDetail: React.FC = () => {
         return;
       }
 
-      if (!project && !initialized) {
-        try {
+      try {
+        // 如果 Redux store 中没有项目数据，尝试从 localStorage 加载
+        if (!project) {
           const projects = loadProjectsFromStorage();
+          console.log('从 localStorage 加载的项目列表:', projects);
+          
           if (projects.length > 0) {
+            // 先加载所有项目到 Redux store
             dispatch(loadProjects(projects));
+            
+            // 查找当前项目
             const foundProject = projects.find(p => p.id === id);
+            console.log('找到的项目:', foundProject);
+            
             if (foundProject) {
+              // 设置当前项目
               dispatch(setCurrentProject(foundProject));
             } else {
-              setError('项目不存在');
+              console.log('未找到项目，ID:', id);
+              setError(`未找到 ID 为 ${id} 的项目，该项目可能已被删除或不存在`);
             }
           } else {
-            setError('没有找到任何项目');
+            console.log('项目列表为空');
+            setError('系统中还没有任何项目，请先创建一个新项目');
           }
-        } catch (err) {
-          setError('加载项目时出错');
-          console.error('加载项目失败:', err);
         }
-        setInitialized(true);
+      } catch (err) {
+        console.error('加载项目时出错:', err);
+        setError('加载项目时出错，请刷新页面重试');
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     loadProject();
-  }, [dispatch, id, project, initialized]);
-
-  // 等待 Redux store 更新完成
-  useEffect(() => {
-    if (initialized && !loading && !project) {
-      setError('项目不存在');
-    }
-  }, [initialized, loading, project]);
+  }, [dispatch, id, project]);
 
   if (loading) {
     return (
@@ -88,9 +93,14 @@ const ProjectDetail: React.FC = () => {
         title="项目不存在"
         subTitle={error || '请确认项目 ID 是否正确'}
         extra={
-          <Button type="primary" onClick={() => navigate('/')}>
-            返回首页
-          </Button>
+          <Space>
+            <Button type="primary" onClick={() => navigate('/')}>
+              返回项目列表
+            </Button>
+            <Button onClick={() => window.location.reload()}>
+              刷新页面
+            </Button>
+          </Space>
         }
       />
     );

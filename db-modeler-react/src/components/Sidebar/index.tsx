@@ -6,6 +6,7 @@ import {
   DatabaseOutlined,
   ApiOutlined,
   SettingOutlined,
+  BugOutlined,
 } from '@ant-design/icons';
 import styles from './Sidebar.module.scss';
 
@@ -30,6 +31,11 @@ export const Sidebar: React.FC = () => {
       key: '/api-manager',
       icon: <ApiOutlined />,
       label: '接口管理',
+    },
+    {
+      key: '/interface/debug',
+      icon: <BugOutlined />,
+      label: '接口调试',
     },
     {
       key: '/settings',

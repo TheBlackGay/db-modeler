@@ -1,73 +1,41 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export interface DatabaseConnection {
-  id: string;
-  name: string;
-  host: string;
-  port: number;
-  database: string;
-  username: string;
-  password: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface Settings {
-  theme: {
-    darkMode: boolean;
-    primaryColor: string;
-    compactMode: boolean;
-  };
-  database: {
-    connectionTimeout: number;
-    maxConnections: number;
-    defaultDatabase: string;
-    sslEnabled: boolean;
-  };
-  export: {
-    indentStyle: 'space' | 'tab';
-    indentSize: number;
-    lineEnding: 'lf' | 'crlf';
-    upperCase: boolean;
-  };
-}
-
-interface Project {
-  id: string;
-  name: string;
-  description: string;
-  connections: DatabaseConnection[];
-  settings: Settings;
-  createdAt: string;
-  updatedAt: string;
-}
+import { saveProjects } from '../utils/storage';
+import type { IProject, IConnection } from '../types';
 
 interface ProjectState {
-  projects: Project[];
-  currentProject: Project | null;
+  projects: IProject[];
+  currentProject: IProject | null;
   loading: boolean;
+  error: string | null;
 }
 
 const initialState: ProjectState = {
   projects: [],
   currentProject: null,
   loading: false,
+  error: null,
 };
 
 const projectSlice = createSlice({
   name: 'projects',
   initialState,
   reducers: {
-    addProject: (state, action: PayloadAction<Project>) => {
-      state.projects.push(action.payload);
+    setProjects: (state, action: PayloadAction<IProject[]>) => {
+      state.projects = action.payload;
+      saveProjects(state.projects);
     },
-    updateProject: (state, action: PayloadAction<Project>) => {
+    addProject: (state, action: PayloadAction<IProject>) => {
+      state.projects.push(action.payload);
+      saveProjects(state.projects);
+    },
+    updateProject: (state, action: PayloadAction<IProject>) => {
       const index = state.projects.findIndex(p => p.id === action.payload.id);
       if (index !== -1) {
         state.projects[index] = action.payload;
         if (state.currentProject?.id === action.payload.id) {
           state.currentProject = action.payload;
         }
+        saveProjects(state.projects);
       }
     },
     deleteProject: (state, action: PayloadAction<string>) => {
@@ -75,6 +43,7 @@ const projectSlice = createSlice({
       if (state.currentProject?.id === action.payload) {
         state.currentProject = null;
       }
+      saveProjects(state.projects);
     },
     setCurrentProject: (state, action: PayloadAction<string>) => {
       const project = state.projects.find(p => p.id === action.payload);
@@ -83,16 +52,20 @@ const projectSlice = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
-    addConnection: (state, action: PayloadAction<{ projectId: string; connection: DatabaseConnection }>) => {
+    setError: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload;
+    },
+    addConnection: (state, action: PayloadAction<{ projectId: string; connection: IConnection }>) => {
       const project = state.projects.find(p => p.id === action.payload.projectId);
       if (project) {
         project.connections.push(action.payload.connection);
         if (state.currentProject?.id === action.payload.projectId) {
           state.currentProject = project;
         }
+        saveProjects(state.projects);
       }
     },
-    updateConnection: (state, action: PayloadAction<{ projectId: string; connection: DatabaseConnection }>) => {
+    updateConnection: (state, action: PayloadAction<{ projectId: string; connection: IConnection }>) => {
       const project = state.projects.find(p => p.id === action.payload.projectId);
       if (project) {
         const index = project.connections.findIndex(c => c.id === action.payload.connection.id);
@@ -101,6 +74,7 @@ const projectSlice = createSlice({
           if (state.currentProject?.id === action.payload.projectId) {
             state.currentProject = project;
           }
+          saveProjects(state.projects);
         }
       }
     },
@@ -111,19 +85,23 @@ const projectSlice = createSlice({
         if (state.currentProject?.id === action.payload.projectId) {
           state.currentProject = project;
         }
+        saveProjects(state.projects);
       }
     },
   },
 });
 
 export const {
+  setProjects,
   addProject,
   updateProject,
   deleteProject,
   setCurrentProject,
   setLoading,
+  setError,
   addConnection,
   updateConnection,
   deleteConnection,
 } = projectSlice.actions;
+
 export default projectSlice.reducer; 
