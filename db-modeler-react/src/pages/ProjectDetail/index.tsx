@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Tabs, Spin, Result, Button } from 'antd';
 import type { RootState } from '../../store';
 import type { Project } from '../../types/models';
-import { loadProjects } from '../../store/projectsSlice';
+import { loadProjects, setCurrentProject } from '../../store/projectsSlice';
 import TableEditor from './TableEditor';
 import ERDiagram from './ERDiagram';
 
@@ -26,6 +26,7 @@ const ProjectDetail: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [initialized, setInitialized] = useState(false);
 
   const project = useSelector((state: RootState) =>
     state.projects.items.find((p) => p.id === id)
@@ -39,13 +40,15 @@ const ProjectDetail: React.FC = () => {
         return;
       }
 
-      if (!project) {
+      if (!project && !initialized) {
         try {
           const projects = loadProjectsFromStorage();
           if (projects.length > 0) {
             dispatch(loadProjects(projects));
             const foundProject = projects.find(p => p.id === id);
-            if (!foundProject) {
+            if (foundProject) {
+              dispatch(setCurrentProject(foundProject));
+            } else {
               setError('项目不存在');
             }
           } else {
@@ -55,12 +58,20 @@ const ProjectDetail: React.FC = () => {
           setError('加载项目时出错');
           console.error('加载项目失败:', err);
         }
+        setInitialized(true);
       }
       setLoading(false);
     };
 
     loadProject();
-  }, [dispatch, id, project]);
+  }, [dispatch, id, project, initialized]);
+
+  // 等待 Redux store 更新完成
+  useEffect(() => {
+    if (initialized && !loading && !project) {
+      setError('项目不存在');
+    }
+  }, [initialized, loading, project]);
 
   if (loading) {
     return (
