@@ -18,6 +18,7 @@ export interface Field {
   index?: boolean;
   unsigned?: boolean;
   zerofill?: boolean;
+  foreignKey?: ForeignKey;
   createdAt: string;
   updatedAt: string;
   deletedAt?: string;
@@ -305,4 +306,11 @@ export interface Index {
   name: string;
   type: 'PRIMARY' | 'UNIQUE' | 'INDEX' | 'FULLTEXT' | 'SPATIAL';
   fields: string[];
+}
+
+export interface ForeignKey {
+  tableId: string;
+  tableName: string;
+  fieldId: string;
+  fieldName: string;
 } 
