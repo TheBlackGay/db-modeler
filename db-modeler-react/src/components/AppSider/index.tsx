@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout, Menu } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
@@ -7,25 +7,64 @@ import {
   SettingOutlined,
   CloudServerOutlined,
   PlusOutlined,
+  ApiOutlined,
 } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
+import { loadProjects } from '../../store/projectsSlice';
+import type { Project } from '../../types/models';
 
 const { Sider } = Layout;
+
+const PROJECTS_STORAGE_KEY = 'db_modeler_projects';
+
+const loadProjectsFromStorage = (): Project[] => {
+  try {
+    const storedProjects = localStorage.getItem(PROJECTS_STORAGE_KEY);
+    return storedProjects ? JSON.parse(storedProjects) : [];
+  } catch (error) {
+    console.error('加载项目失败:', error);
+    return [];
+  }
+};
 
 const AppSider: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
 
-  const currentProject = useSelector((state: RootState) => {
-    const projectId = location.pathname.split('/')[2];
-    return state.projects.items.find(p => p.id === projectId);
-  });
+  const paths = location.pathname.split('/');
+  const projectId = paths[2];
+
+  const currentProject = useSelector((state: RootState) => 
+    state.projects.items.find(p => p.id === projectId)
+  );
+
+  useEffect(() => {
+    if (!currentProject && projectId) {
+      const projects = loadProjectsFromStorage();
+      if (projects.length > 0) {
+        dispatch(loadProjects(projects));
+      }
+    }
+  }, [currentProject, dispatch, projectId]);
 
   if (!currentProject) {
     return null;
   }
+
+  const selectedKeys = (() => {
+    if (paths[3] === 'tables' && paths[4]) {
+      return [`table-${paths[4]}`];
+    }
+    if (paths[3] === 'api') {
+      return ['api'];
+    }
+    return ['tables-list'];
+  })();
+
+  const openKeys = ['tables', 'api'];
 
   const items = [
     {
@@ -54,16 +93,35 @@ const AppSider: React.FC = () => {
       ],
     },
     {
+      key: 'api',
+      icon: <ApiOutlined />,
+      label: 'API 管理',
+      children: [
+        {
+          key: 'api-list',
+          icon: <ApiOutlined />,
+          label: '接口列表',
+          onClick: () => navigate(`/project/${currentProject.id}/api`),
+        },
+        {
+          key: 'api-debug',
+          icon: <ApiOutlined />,
+          label: '接口调试',
+          onClick: () => navigate(`/project/${currentProject.id}/api/debug`),
+        },
+      ],
+    },
+    {
       key: 'connections',
       icon: <CloudServerOutlined />,
       label: '数据库连接',
-      onClick: () => navigate(`/project/${currentProject.id}/connections`),
+      onClick: () => navigate('/connections'),
     },
     {
       key: 'settings',
       icon: <SettingOutlined />,
       label: '项目设置',
-      onClick: () => navigate(`/project/${currentProject.id}/settings`),
+      onClick: () => navigate('/settings'),
     },
   ];
 
@@ -78,8 +136,8 @@ const AppSider: React.FC = () => {
     >
       <Menu
         mode="inline"
-        defaultSelectedKeys={['tables']}
-        defaultOpenKeys={['tables']}
+        selectedKeys={selectedKeys}
+        defaultOpenKeys={openKeys}
         items={items}
         className="h-full"
       />

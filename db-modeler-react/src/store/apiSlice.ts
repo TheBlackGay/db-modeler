@@ -1,71 +1,56 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { Api } from '../types/models';
 
-export interface ApiParameter {
-  id: string;
-  name: string;
-  type: string;
-  required: boolean;
-  description?: string;
-}
-
-export interface Api {
-  id: string;
-  name: string;
-  path: string;
-  method: string;
-  description?: string;
-  requestParameters: ApiParameter[];
-  responseParameters: ApiParameter[];
-  createdAt: string;
-  updatedAt: string;
-}
+const API_STORAGE_KEY = 'db_modeler_apis';
 
 interface ApiState {
-  apis: Api[];
-  currentApi: Api | null;
-  loading: boolean;
+  items: Api[];
 }
 
-const initialState: ApiState = {
-  apis: [],
-  currentApi: null,
-  loading: false,
+const loadApisFromStorage = (): Api[] => {
+  try {
+    const storedApis = localStorage.getItem(API_STORAGE_KEY);
+    return storedApis ? JSON.parse(storedApis) : [];
+  } catch (error) {
+    console.error('加载 API 失败:', error);
+    return [];
+  }
 };
 
-const apiSlice = createSlice({
+const saveApisToStorage = (apis: Api[]) => {
+  try {
+    localStorage.setItem(API_STORAGE_KEY, JSON.stringify(apis));
+  } catch (error) {
+    console.error('保存 API 失败:', error);
+  }
+};
+
+const initialState: ApiState = {
+  items: loadApisFromStorage(),
+};
+
+export const apiSlice = createSlice({
   name: 'api',
   initialState,
   reducers: {
-    setApis: (state, action: PayloadAction<Api[]>) => {
-      state.apis = action.payload;
-    },
     addApi: (state, action: PayloadAction<Api>) => {
-      state.apis.push(action.payload);
+      state.items.push(action.payload);
+      saveApisToStorage(state.items);
     },
     updateApi: (state, action: PayloadAction<Api>) => {
-      const index = state.apis.findIndex(api => api.id === action.payload.id);
+      const index = state.items.findIndex(api => api.id === action.payload.id);
       if (index !== -1) {
-        state.apis[index] = action.payload;
-        if (state.currentApi?.id === action.payload.id) {
-          state.currentApi = action.payload;
-        }
+        state.items[index] = action.payload;
+        saveApisToStorage(state.items);
       }
     },
     deleteApi: (state, action: PayloadAction<string>) => {
-      state.apis = state.apis.filter(api => api.id !== action.payload);
-      if (state.currentApi?.id === action.payload) {
-        state.currentApi = null;
-      }
-    },
-    setCurrentApi: (state, action: PayloadAction<string>) => {
-      const api = state.apis.find(api => api.id === action.payload);
-      state.currentApi = api || null;
-    },
-    setLoading: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload;
+      state.items = state.items.filter(api => api.id !== action.payload);
+      saveApisToStorage(state.items);
     },
   },
 });
 
-export const { setApis, addApi, updateApi, deleteApi, setCurrentApi, setLoading } = apiSlice.actions;
+export const { addApi, updateApi, deleteApi } = apiSlice.actions;
+
 export default apiSlice.reducer; 
