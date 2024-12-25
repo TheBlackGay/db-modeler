@@ -1,119 +1,150 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { Tabs, Spin, Result, Button, Space } from 'antd';
-import type { RootState } from '../../store';
-import type { Project } from '../../types/models';
-import { loadProjects, setCurrentProject } from '../../store/projectsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { Tabs, Spin, Result } from 'antd';
+import { KawaiiButton } from '../../components/anime/AnimeComponents';
+import { RootState } from '../../store';
+import { loadProjects } from '../../store/projectsSlice';
 import TableEditor from './TableEditor';
+import FieldEditor from './FieldEditor';
 import ERDiagram from './ERDiagram';
+import { useSound } from '../../hooks/useSound';
 
-const PROJECTS_STORAGE_KEY = 'db_modeler_projects';
+const PageContainer = styled.div`
+  padding: 24px;
+  min-height: 100vh;
+  background: ${props => props.theme.colors.background};
+`;
 
-const loadProjectsFromStorage = (): Project[] => {
-  try {
-    const storedProjects = localStorage.getItem(PROJECTS_STORAGE_KEY);
-    console.log('从 localStorage 加载的项目数据:', storedProjects);
-    return storedProjects ? JSON.parse(storedProjects) : [];
-  } catch (error) {
-    console.error('加载项目失败:', error);
-    return [];
-  }
-};
+const Header = styled.div`
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Title = styled.h1`
+  color: ${props => props.theme.colors.text};
+  font-size: 24px;
+  margin: 0;
+  font-family: ${props => props.theme.fonts.kawaii};
+`;
+
+const Description = styled.p`
+  color: ${props => props.theme.colors.textLight};
+  margin: 8px 0 0;
+`;
 
 const ProjectDetail: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const dispatch = useDispatch();
+  const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  // 从 Redux store 获取项目数据
-  const project = useSelector((state: RootState) =>
-    state.projects.items.find((p) => p.id === id)
-  );
+  const dispatch = useDispatch();
+  const { items: projects, loading, error } = useSelector((state: RootState) => state.projects);
+  const [activeTableId, setActiveTableId] = useState<string | null>(null);
+  const { playClick, playHover } = useSound();
 
   useEffect(() => {
-    const loadProject = async () => {
-      if (!id) {
-        setError('项目 ID 无效');
-        setLoading(false);
-        return;
-      }
+    console.log('Loading projects...', { projectId, projects }); // 添加调试日志
+    if (!projects.length) {
+      dispatch(loadProjects());
+    }
+  }, [dispatch, projects.length, projectId]);
 
-      try {
-        if (!project) {
-          const projects = loadProjectsFromStorage();
-          if (projects.length > 0) {
-            dispatch(loadProjects(projects));
-            const foundProject = projects.find(p => p.id === id);
-            if (foundProject) {
-              dispatch(setCurrentProject(foundProject));
-            } else {
-              setError(`未找到 ID 为 ${id} 的项目，该项目可能已被删除或不存在`);
-            }
-          } else {
-            setError('系统中还没有任何项目，请先创建一个新项目');
-          }
-        }
-      } catch (err) {
-        console.error('加载项目时出错:', err);
-        setError('加载项目时出错，请刷新页面重试');
-      } finally {
-        setLoading(false);
-      }
-    };
+  const currentProject = projects.find(p => p.id === projectId);
+  console.log('Current project:', { projectId, currentProject, projects }); // 添加调试日志
 
-    loadProject();
-  }, [dispatch, id, project]);
+  const handleBack = () => {
+    playClick();
+    navigate('/projects');
+  };
+
+  const handleTableClick = (tableId: string) => {
+    playClick();
+    setActiveTableId(tableId);
+  };
+
+  const handleBackToTables = () => {
+    playClick();
+    setActiveTableId(null);
+  };
 
   if (loading) {
     return (
-      <div style={{ textAlign: 'center', padding: '50px' }}>
-        <Spin size="large" tip="加载项目中..." />
-      </div>
+      <PageContainer>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+          <Spin size="large" />
+        </div>
+      </PageContainer>
     );
   }
 
-  if (error || !project) {
+  if (!currentProject) {
     return (
-      <Result
-        status="404"
-        title="项目不存在"
-        subTitle={error || '请确认项目 ID 是否正确'}
-        extra={
-          <Space>
-            <Button type="primary" onClick={() => navigate('/')}>
+      <PageContainer>
+        <Result
+          status="error"
+          title="加载失败"
+          subTitle="项目不存在"
+          extra={
+            <KawaiiButton
+              type="primary"
+              onClick={handleBack}
+              onMouseEnter={playHover}
+            >
               返回项目列表
-            </Button>
-            <Button onClick={() => window.location.reload()}>
-              刷新页面
-            </Button>
-          </Space>
-        }
-      />
+            </KawaiiButton>
+          }
+        />
+      </PageContainer>
     );
   }
-
-  const items = [
-    {
-      key: 'tables',
-      label: '表管理',
-      children: <TableEditor project={project} />,
-    },
-    {
-      key: 'er',
-      label: 'ER图',
-      children: <ERDiagram project={project} />,
-    },
-  ];
 
   return (
-    <div style={{ padding: '24px' }}>
-      <h2>{project.name}</h2>
-      <p>{project.description}</p>
-      <Tabs items={items} />
-    </div>
+    <PageContainer>
+      <Header>
+        <div>
+          <Title>{currentProject.name}</Title>
+          <Description>{currentProject.description}</Description>
+        </div>
+        <KawaiiButton
+          onClick={handleBack}
+          onMouseEnter={playHover}
+        >
+          返回项目列表
+        </KawaiiButton>
+      </Header>
+
+      {activeTableId ? (
+        <FieldEditor
+          projectId={currentProject.id}
+          tableId={activeTableId}
+          onBack={handleBackToTables}
+        />
+      ) : (
+        <Tabs
+          defaultActiveKey="tables"
+          items={[
+            {
+              key: 'tables',
+              label: '表管理',
+              children: (
+                <TableEditor
+                  projectId={currentProject.id}
+                  tables={currentProject.tables}
+                  onTableClick={handleTableClick}
+                />
+              ),
+            },
+            {
+              key: 'er',
+              label: 'ER图',
+              children: <ERDiagram />,
+            },
+          ]}
+        />
+      )}
+    </PageContainer>
   );
 };
 

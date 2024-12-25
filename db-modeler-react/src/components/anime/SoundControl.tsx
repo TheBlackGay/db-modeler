@@ -1,111 +1,53 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { soundManager } from '../../utils/SoundManager';
-import { bounce } from './Animations';
+import { Button, Tooltip } from 'antd';
+import { bounceAnimation, pulseAnimation } from './Animations';
+import { SoundOutlined, SoundFilled } from '@ant-design/icons';
+import { useSound } from '../../hooks/useSound';
 
-const SoundControlContainer = styled.div`
+const SoundButton = styled(Button)`
   position: fixed;
   bottom: 20px;
-  left: 20px;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-`;
-
-const SoundButton = styled.button<{ $isMuted?: boolean }>`
-  background: white;
-  border: 2px solid var(--anime-primary);
-  border-radius: 50%;
+  right: 20px;
   width: 40px;
   height: 40px;
-  cursor: pointer;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(255, 105, 180, 0.2);
-  
+  background: ${props => props.theme.colors.primary};
+  border-color: ${props => props.theme.colors.primary};
+  box-shadow: ${props => props.theme.shadows.medium};
+  z-index: 1000;
+
   &:hover {
-    transform: scale(1.1);
-    animation: ${bounce} 0.5s ease;
+    background: ${props => props.theme.colors.secondary};
+    border-color: ${props => props.theme.colors.secondary};
+    animation: ${bounceAnimation} 0.5s ease;
   }
 
-  &::before {
-    content: ${props => props.$isMuted ? '"🔇"' : '"🔊"'};
+  .anticon {
     font-size: 20px;
-  }
-`;
-
-const VolumeSlider = styled.input`
-  -webkit-appearance: none;
-  width: 80px;
-  height: 4px;
-  background: var(--anime-secondary);
-  border-radius: 2px;
-  outline: none;
-  opacity: 0;
-  transition: all 0.3s ease;
-  transform: rotate(-90deg);
-  transform-origin: 40px 40px;
-  position: absolute;
-  bottom: 40px;
-  left: -20px;
-
-  &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 12px;
-    height: 12px;
-    background: var(--anime-primary);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-
-    &:hover {
-      transform: scale(1.2);
-    }
-  }
-
-  ${SoundControlContainer}:hover & {
-    opacity: 1;
+    color: white;
+    animation: ${pulseAnimation} 2s ease infinite;
   }
 `;
 
 const SoundControl: React.FC = () => {
-  const [isMuted, setIsMuted] = useState(soundManager.isSoundMuted());
-  const [volume, setVolume] = useState(0.5);
+  const [isMuted, setIsMuted] = React.useState(false);
+  const { playClick } = useSound();
 
-  const handleToggleMute = () => {
-    soundManager.toggleMute();
-    setIsMuted(soundManager.isSoundMuted());
-    soundManager.play('click');
-  };
-
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseFloat(e.target.value);
-    setVolume(newVolume);
-    soundManager.setVolume(newVolume);
-    soundManager.play('pop');
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+    playClick();
   };
 
   return (
-    <SoundControlContainer>
-      <VolumeSlider
-        type="range"
-        min="0"
-        max="1"
-        step="0.1"
-        value={volume}
-        onChange={handleVolumeChange}
-      />
-      <SoundButton
-        $isMuted={isMuted}
-        onClick={handleToggleMute}
-        title={isMuted ? "开启音效" : "关闭音效"}
-      />
-    </SoundControlContainer>
+    <Tooltip title={isMuted ? "开启音效" : "关闭音效"} placement="left">
+      <SoundButton onClick={toggleMute} type="primary">
+        {isMuted ? <SoundOutlined /> : <SoundFilled />}
+      </SoundButton>
+    </Tooltip>
   );
 };
 

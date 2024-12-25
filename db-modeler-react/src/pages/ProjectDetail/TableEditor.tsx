@@ -1,178 +1,103 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Button, Table, Space, Modal, message, Form, Input, Layout } from 'antd';
-import { EditOutlined, DeleteOutlined, ExclamationCircleOutlined, ImportOutlined, PlusOutlined, TableOutlined } from '@ant-design/icons';
-import type { Project, Table as TableType } from '../../types/models';
-import { updateProject } from '../../store/projectsSlice';
-import FieldEditor from './FieldEditor';
-import { useNavigate } from 'react-router-dom';
-import DDLImportModal from '../../components/DDLImportModal';
-import { generateId } from '../../utils/helpers';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { Table, Button, Modal, Form, Input, Space, Tooltip, message } from 'antd';
+import { PlusOutlined, EditOutlined, DeleteOutlined, SettingOutlined } from '@ant-design/icons';
 import { KawaiiButton } from '../../components/anime/AnimeComponents';
+import { Table as TableType, Field, Project } from '../../types/models';
+import { updateProject } from '../../store/projectsSlice';
+import { useSound } from '../../hooks/useSound';
+import { RootState } from '../../store';
 
-const TableContainer = styled.div`
-  .ant-table {
-    background: var(--anime-card-background);
-    border-radius: 12px;
-    box-shadow: var(--anime-shadow);
-    overflow: hidden;
-  }
-  
-  .ant-table-thead > tr > th {
-    background: var(--anime-header-background);
-    color: var(--anime-text);
-  }
-
-  .ant-table-tbody > tr > td {
-    background: var(--anime-card-background);
-    color: var(--anime-text);
-  }
-
-  .ant-table-tbody > tr:hover > td {
-    background: var(--anime-hover-background) !important;
-  }
-
-  .ant-table-row {
-    transition: all 0.3s ease;
-    &:hover {
-      transform: translateY(-2px);
-    }
-  }
+const EditorContainer = styled.div`
+  padding: 20px;
+  background: ${props => props.theme.colors.backgroundLight};
+  border-radius: ${props => props.theme.borderRadius.large};
+  box-shadow: ${props => props.theme.shadows.medium};
 `;
 
-const StyledButton = styled(KawaiiButton)`
-  margin-right: 8px;
-`;
-
-const ActionButton = styled(Button)`
-  &.ant-btn-text {
-    color: var(--anime-text);
-    &:hover {
-      color: var(--anime-primary);
-      background: var(--anime-hover-background);
-    }
-    &.ant-btn-dangerous {
-      color: var(--anime-danger);
-      &:hover {
-        color: var(--anime-danger-hover);
-        background: var(--anime-danger-background);
-      }
-    }
-  }
+const TableTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 `;
 
 interface TableEditorProps {
-  project: Project;
+  projectId: string;
+  tables: TableType[];
+  onTableClick: (tableId: string) => void;
 }
 
-const TableEditor: React.FC<TableEditorProps> = ({ project }) => {
+const TableEditor: React.FC<TableEditorProps> = ({ projectId, tables, onTableClick }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [editorVisible, setEditorVisible] = useState(false);
-  const [selectedTable, setSelectedTable] = useState(null);
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [showDDLImportModal, setShowDDLImportModal] = useState(false);
-  const [showTableForm, setShowTableForm] = useState(false);
+  const [form] = Form.useForm();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [editingTable, setEditingTable] = useState<TableType | null>(null);
+  const { playClick, playHover } = useSound();
+  const currentProject = useSelector((state: RootState) => 
+    state.projects.items.find(p => p.id === projectId)
+  );
 
-  const handleEdit = (table: TableType) => {
-    navigate(`/project/${project.id}/tables/${table.id}`);
+  const handleAddTable = () => {
+    playClick();
+    setEditingTable(null);
+    form.resetFields();
+    setIsModalVisible(true);
   };
 
-  const handleDelete = (tableId: string) => {
+  const handleEditTable = (table: TableType) => {
+    playClick();
+    setEditingTable(table);
+    form.setFieldsValue(table);
+    setIsModalVisible(true);
+  };
+
+  const handleDeleteTable = (tableId: string) => {
+    playClick();
     Modal.confirm({
       title: '确认删除',
-      icon: <ExclamationCircleOutlined />,
       content: '确定要删除这个表吗？此操作不可恢复。',
-      okText: '确认',
-      cancelText: '取消',
       onOk: () => {
-        const updatedProject = {
-          ...project,
-          tables: project.tables.filter(t => t.id !== tableId),
-          updatedAt: new Date().toISOString(),
-        };
-        dispatch(updateProject(updatedProject));
-        message.success('表删除成功');
-      },
+        if (currentProject) {
+          const updatedTables = tables.filter(t => t.id !== tableId);
+          dispatch(updateProject({
+            ...currentProject,
+            tables: updatedTables,
+          }));
+          message.success('表已删除');
+        }
+      }
     });
   };
 
-  const handleBatchDelete = () => {
-    Modal.confirm({
-      title: '确认批量删除',
-      icon: <ExclamationCircleOutlined />,
-      content: `确定要删除选中的 ${selectedRowKeys.length} 个表吗？此操作不可恢复。`,
-      okText: '确认',
-      cancelText: '取消',
-      onOk: () => {
-        const updatedProject = {
-          ...project,
-          tables: project.tables.filter(t => !selectedRowKeys.includes(t.id)),
-          updatedAt: new Date().toISOString(),
-        };
-        dispatch(updateProject(updatedProject));
-        setSelectedRowKeys([]);
-        message.success(`成功删除 ${selectedRowKeys.length} 个表`);
-      },
-    });
-  };
+  const handleModalOk = async () => {
+    try {
+      const values = await form.validateFields();
+      if (!currentProject) return;
 
-  const handleBatchDDLImport = (tables: TableType[]) => {
-    const now = new Date().toISOString();
-    const updatedProject = {
-      ...project,
-      tables: [...project.tables, ...tables],
-      updatedAt: now,
-    };
-    dispatch(updateProject(updatedProject));
-    message.success(`成功导入 ${tables.length} 个表`);
-  };
+      const newTable: TableType = {
+        id: editingTable?.id || crypto.randomUUID(),
+        name: values.name,
+        description: values.description,
+        fields: editingTable?.fields || [],
+        createdAt: editingTable?.createdAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
 
-  const handleTableFormSubmit = (values: any) => {
-    const now = new Date().toISOString();
-    const newTable: TableType = {
-      id: generateId(),
-      name: values.name,
-      description: values.description || '',
-      fields: [],
-      createdAt: now,
-      updatedAt: now,
-    };
+      const updatedTables = editingTable
+        ? tables.map(t => t.id === editingTable.id ? newTable : t)
+        : [...tables, newTable];
 
-    const updatedProject = {
-      ...project,
-      tables: [...project.tables, newTable],
-      updatedAt: now,
-    };
-
-    dispatch(updateProject(updatedProject));
-    setShowTableForm(false);
-    message.success('表创建成功');
-    navigate(`/project/${project.id}/tables/${newTable.id}`);
-  };
-
-  const validateTableName = (_: any, value: string) => {
-    if (!value) {
-      return Promise.reject('请输入表名');
+      dispatch(updateProject({
+        ...currentProject,
+        tables: updatedTables,
+      }));
+      setIsModalVisible(false);
+      message.success(`表${editingTable ? '已更新' : '已创建'}`);
+    } catch (error) {
+      console.error('验证失败:', error);
     }
-    // 表名规范：只能包含字母、数字和下划线，必须以字母开头，长度在1-64之间
-    const tableNamePattern = /^[a-zA-Z][a-zA-Z0-9_]{0,63}$/;
-    if (!tableNamePattern.test(value)) {
-      return Promise.reject('表名只能包含字母、数字和下划线，必须以字母开头，长度在1-64之间');
-    }
-    // 检查表名是否已存在
-    if (project?.tables.some(t => t.name.toLowerCase() === value.toLowerCase())) {
-      return Promise.reject('表名已存在');
-    }
-    return Promise.resolve();
-  };
-
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: (newSelectedRowKeys: React.Key[]) => {
-      setSelectedRowKeys(newSelectedRowKeys);
-    },
   };
 
   const columns = [
@@ -180,176 +105,116 @@ const TableEditor: React.FC<TableEditorProps> = ({ project }) => {
       title: '表名',
       dataIndex: 'name',
       key: 'name',
-      render: (text: string, record: TableType) => (
-        <a onClick={() => handleEdit(record)}>{text}</a>
-      ),
-      sorter: (a: TableType, b: TableType) => a.name.localeCompare(b.name),
-      filterSearch: true,
-      onFilter: (value: any, record: TableType) => 
-        record.name.toLowerCase().includes(String(value).toLowerCase()),
     },
     {
       title: '描述',
       dataIndex: 'description',
       key: 'description',
-      filterSearch: true,
-      onFilter: (value: any, record: TableType) => 
-        record.description?.toLowerCase().includes(String(value).toLowerCase()) || false,
     },
     {
       title: '字段数',
       key: 'fieldCount',
-      render: (_: any, record: TableType) => record.fields?.length || 0,
-      sorter: (a: TableType, b: TableType) => (a.fields?.length || 0) - (b.fields?.length || 0),
-    },
-    {
-      title: '索引数',
-      key: 'indexCount',
-      render: (_: any, record: TableType) => record.indexes?.length || 0,
-      sorter: (a: TableType, b: TableType) => (a.indexes?.length || 0) - (b.indexes?.length || 0),
-    },
-    {
-      title: '引擎',
-      dataIndex: 'engine',
-      key: 'engine',
-      filters: [
-        { text: 'InnoDB', value: 'InnoDB' },
-        { text: 'MyISAM', value: 'MyISAM' },
-      ],
-      onFilter: (value: any, record: TableType) => record.engine === value,
-    },
-    {
-      title: '字符集',
-      key: 'charset',
-      render: (_: any, record: TableType) => 
-        record.charset && record.collation ? 
-        `${record.charset} (${record.collation})` : 
-        record.charset || '-',
-      filters: [
-        { text: 'utf8mb4', value: 'utf8mb4' },
-        { text: 'utf8', value: 'utf8' },
-      ],
-      onFilter: (value: any, record: TableType) => record.charset === value,
+      render: (_: unknown, record: TableType) => record.fields?.length || 0,
     },
     {
       title: '创建时间',
+      dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (_: any, record: TableType) => new Date(record.createdAt).toLocaleString(),
-      sorter: (a: TableType, b: TableType) => 
-        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+      render: (text: string) => new Date(text).toLocaleString(),
     },
     {
       title: '操作',
       key: 'action',
-      render: (_: any, record: TableType) => (
-        <Space size="middle">
-          <ActionButton
-            type="text"
-            icon={<EditOutlined />}
-            onClick={() => handleEdit(record)}
-          >
-            编辑
-          </ActionButton>
-          <ActionButton
-            type="text"
-            danger
-            icon={<DeleteOutlined />}
-            onClick={() => handleDelete(record.id)}
-          >
-            删除
-          </ActionButton>
+      render: (_: unknown, record: TableType) => (
+        <Space>
+          <Tooltip title="编辑表">
+            <KawaiiButton
+              type="text"
+              icon={<EditOutlined />}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEditTable(record);
+              }}
+              onMouseEnter={playHover}
+            />
+          </Tooltip>
+          <Tooltip title="管理字段">
+            <KawaiiButton
+              type="text"
+              icon={<SettingOutlined />}
+              onClick={(e) => {
+                e.stopPropagation();
+                onTableClick(record.id);
+              }}
+              onMouseEnter={playHover}
+            />
+          </Tooltip>
+          <Tooltip title="删除表">
+            <KawaiiButton
+              type="text"
+              danger
+              icon={<DeleteOutlined />}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteTable(record.id);
+              }}
+              onMouseEnter={playHover}
+            />
+          </Tooltip>
         </Space>
       ),
     },
   ];
 
   return (
-    <TableContainer>
-      <div style={{ marginBottom: 16 }}>
-        <Space>
-          <StyledButton 
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => setShowTableForm(true)}
-          >
-            新建表
-          </StyledButton>
-          <StyledButton 
-            type="primary" 
-            icon={<ImportOutlined />}
-            onClick={() => setShowDDLImportModal(true)}
-          >
-            从 DDL 导入
-          </StyledButton>
-          {selectedRowKeys.length > 0 && (
-            <>
-              <span>已选择 {selectedRowKeys.length} 个表</span>
-              <StyledButton danger onClick={handleBatchDelete}>
-                批量删除
-              </StyledButton>
-            </>
-          )}
-        </Space>
-      </div>
+    <EditorContainer>
+      <TableTitle>
+        <KawaiiButton
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={handleAddTable}
+          onMouseEnter={playHover}
+        >
+          创建表
+        </KawaiiButton>
+      </TableTitle>
 
       <Table
-        rowSelection={rowSelection}
         columns={columns}
-        dataSource={project.tables}
+        dataSource={tables}
         rowKey="id"
-        pagination={{
-          defaultPageSize: 10,
-          showSizeChanger: true,
-          showQuickJumper: true,
-          showTotal: (total) => `共 ${total} 个表`,
-        }}
-      />
-
-      <FieldEditor
-        visible={editorVisible}
-        table={selectedTable}
-        onCancel={() => setEditorVisible(false)}
-        project={project}
-      />
-
-      <DDLImportModal
-        visible={showDDLImportModal}
-        onCancel={() => setShowDDLImportModal(false)}
-        onImport={() => {}}
-        onBatchImport={handleBatchDDLImport}
+        onRow={(record) => ({
+          onClick: () => onTableClick(record.id),
+          style: { cursor: 'pointer' }
+        })}
       />
 
       <Modal
-        title="新建表"
-        open={showTableForm}
-        onCancel={() => setShowTableForm(false)}
-        onOk={() => {
-          const form = document.querySelector('form');
-          if (form) {
-            form.requestSubmit();
-          }
-        }}
+        title={editingTable ? '编辑表' : '创建表'}
+        open={isModalVisible}
+        onOk={handleModalOk}
+        onCancel={() => setIsModalVisible(false)}
       >
-        <Form onFinish={handleTableFormSubmit}>
+        <Form
+          form={form}
+          layout="vertical"
+        >
           <Form.Item
             name="name"
             label="表名"
-            rules={[
-              { required: true, message: '请输入表名' },
-              { validator: validateTableName }
-            ]}
+            rules={[{ required: true, message: '请输入表名' }]}
           >
-            <Input placeholder="请输入表名，只能包含字母、数字和下划线，必须以字母开头" />
+            <Input placeholder="请输入表名" />
           </Form.Item>
           <Form.Item
             name="description"
             label="描述"
           >
-            <Input.TextArea placeholder="请输入表描述" />
+            <Input.TextArea placeholder="请输入表的描述" />
           </Form.Item>
         </Form>
       </Modal>
-    </TableContainer>
+    </EditorContainer>
   );
 };
 

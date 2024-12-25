@@ -7,22 +7,12 @@ export interface Field {
   name: string;
   type: string;
   length?: number;
-  precision?: number;
-  scale?: number;
-  nullable?: boolean;
+  nullable: boolean;
   defaultValue?: string;
-  comment?: string;
-  isPrimaryKey?: boolean;
-  isAutoIncrement?: boolean;
-  unique?: boolean;
-  index?: boolean;
-  unsigned?: boolean;
-  zerofill?: boolean;
-  foreignKey?: ForeignKey;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt?: string;
-  category?: FieldCategory;
+  isPrimaryKey: boolean;
+  isForeignKey: boolean;
+  referencedTable?: string;
+  referencedField?: string;
 }
 
 export interface FieldTemplate extends Omit<Field, 'id' | 'name'> {
@@ -49,13 +39,6 @@ export interface Table {
   name: string;
   description?: string;
   fields: Field[];
-  indexes?: Index[];
-  engine?: string;
-  charset?: string;
-  collation?: string;
-  autoIncrement?: number;
-  rowFormat?: string;
-  tableSpace?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -90,28 +73,24 @@ export interface Connection {
 export interface Project {
   id: string;
   name: string;
-  description?: string;
+  description: string;
   tables: Table[];
   createdAt: string;
   updatedAt: string;
+  isFavorite?: boolean;
 }
 
 export type ProjectSummary = Omit<Project, 'tables'>;
 
 export interface RootState {
-  projects: {
-    projects: Project[];
-    loading: boolean;
-    error: string | null;
-    currentProject: Project | null;
-  };
-  history: {
-    items: RequestHistory[];
-  };
-  env: {
-    environments: Environment[];
-    currentEnvId: string | null;
-  };
+  projects: ProjectState;
+}
+
+export interface ProjectState {
+  items: Project[];
+  currentProject: Project | null;
+  loading: boolean;
+  error: string | null;
 }
 
 export interface Environment {
@@ -303,14 +282,44 @@ export interface Parameter {
 }
 
 export interface Index {
+  id: string;
   name: string;
-  type: 'PRIMARY' | 'UNIQUE' | 'INDEX' | 'FULLTEXT' | 'SPATIAL';
+  type: 'PRIMARY' | 'UNIQUE' | 'INDEX' | 'FULLTEXT';
   fields: string[];
+  comment?: string;
 }
 
 export interface ForeignKey {
+  id: string;
   tableId: string;
   tableName: string;
   fieldId: string;
   fieldName: string;
+  onDelete?: string;
+  onUpdate?: string;
+}
+
+export interface DatabaseConnection {
+  id: string;
+  name: string;
+  type: 'mysql' | 'postgresql' | 'mongodb';
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+  database: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ApiEndpoint {
+  id: string;
+  name: string;
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  path: string;
+  description?: string;
+  requestBody?: string;
+  responseBody?: string;
+  createdAt: string;
+  updatedAt: string;
 } 

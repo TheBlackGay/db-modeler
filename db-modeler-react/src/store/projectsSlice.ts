@@ -1,30 +1,34 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { Project, Table } from '../types/models';
+import { Project } from '../types/models';
 
 interface ProjectsState {
   items: Project[];
   loading: boolean;
   error: string | null;
-  currentProject: Project | null;
 }
-
-const PROJECTS_STORAGE_KEY = 'db_modeler_projects';
 
 const loadProjectsFromStorage = (): Project[] => {
   try {
-    const storedProjects = localStorage.getItem(PROJECTS_STORAGE_KEY);
-    return storedProjects ? JSON.parse(storedProjects) : [];
+    console.log('Loading projects from storage...');
+    const savedProjects = localStorage.getItem('projects');
+    console.log('Raw saved projects:', savedProjects);
+    if (savedProjects) {
+      const parsedProjects = JSON.parse(savedProjects);
+      console.log('Parsed projects:', parsedProjects);
+      return parsedProjects;
+    }
   } catch (error) {
-    console.error('加载项目失败:', error);
-    return [];
+    console.error('Failed to load projects from storage:', error);
   }
+  console.log('No projects found in storage, returning empty array');
+  return [];
 };
 
 const saveProjectsToStorage = (projects: Project[]) => {
   try {
-    localStorage.setItem(PROJECTS_STORAGE_KEY, JSON.stringify(projects));
+    localStorage.setItem('projects', JSON.stringify(projects));
   } catch (error) {
-    console.error('保存项目失败:', error);
+    console.error('Failed to save projects to storage:', error);
   }
 };
 
@@ -32,82 +36,86 @@ const initialState: ProjectsState = {
   items: loadProjectsFromStorage(),
   loading: false,
   error: null,
-  currentProject: null,
 };
-
-interface UpdateTablePayload {
-  projectId: string;
-  tableId: string;
-  data: Table;
-}
 
 const projectsSlice = createSlice({
   name: 'projects',
   initialState,
   reducers: {
-    addProject: (state, action: PayloadAction<Project>) => {
-      state.items.push(action.payload);
-      saveProjectsToStorage(state.items);
-    },
-    updateProject: (state, action: PayloadAction<Project>) => {
-      const index = state.items.findIndex(p => p.id === action.payload.id);
-      if (index !== -1) {
-        state.items[index] = action.payload;
-        saveProjectsToStorage(state.items);
-      }
-    },
-    deleteProject: (state, action: PayloadAction<string>) => {
-      state.items = state.items.filter(p => p.id !== action.payload);
-      saveProjectsToStorage(state.items);
-    },
-    loadProjects: (state, action: PayloadAction<Project[]>) => {
-      state.items = action.payload;
-      state.loading = false;
-      state.error = null;
-      saveProjectsToStorage(state.items);
-    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
-    setError: (state, action: PayloadAction<string>) => {
+    setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
-      state.loading = false;
     },
-    setCurrentProject: (state, action: PayloadAction<Project>) => {
-      state.currentProject = action.payload;
-      const index = state.items.findIndex(p => p.id === action.payload.id);
-      if (index !== -1) {
-        state.items[index] = action.payload;
-        saveProjectsToStorage(state.items);
+    loadProjects: (state) => {
+      try {
+        state.loading = true;
+        const loadedProjects = loadProjectsFromStorage();
+        console.log('Loaded projects from storage:', loadedProjects);
+        state.items = loadedProjects;
+        state.error = null;
+      } catch (error) {
+        console.error('Failed to load projects:', error);
+        state.error = '加载项目失败';
+      } finally {
+        state.loading = false;
       }
     },
-    updateTable: (state, action: PayloadAction<UpdateTablePayload>) => {
-      const { projectId, tableId, data } = action.payload;
-      const projectIndex = state.items.findIndex(p => p.id === projectId);
-      if (projectIndex !== -1) {
-        const tableIndex = state.items[projectIndex].tables.findIndex(t => t.id === tableId);
-        if (tableIndex !== -1) {
-          state.items[projectIndex].tables[tableIndex] = data;
-          state.items[projectIndex].updatedAt = new Date().toISOString();
-          if (state.currentProject?.id === projectId) {
-            state.currentProject = state.items[projectIndex];
-          }
+    addProject: (state, action: PayloadAction<Project>) => {
+      try {
+        const newProject = {
+          ...action.payload,
+          id: action.payload.id || crypto.randomUUID(),
+          tables: action.payload.tables || [],
+          createdAt: action.payload.createdAt || new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+        console.log('Adding new project:', newProject);
+        state.items.push(newProject);
+        saveProjectsToStorage(state.items);
+        state.error = null;
+      } catch (error) {
+        console.error('Failed to add project:', error);
+        state.error = '添加项目失败';
+      }
+    },
+    updateProject: (state, action: PayloadAction<Project>) => {
+      try {
+        const index = state.items.findIndex(p => p.id === action.payload.id);
+        if (index !== -1) {
+          state.items[index] = {
+            ...action.payload,
+            updatedAt: new Date().toISOString(),
+          };
           saveProjectsToStorage(state.items);
+          state.error = null;
+        } else {
+          state.error = '项目不存在';
         }
+      } catch (error) {
+        state.error = '更新项目失败';
+      }
+    },
+    deleteProject: (state, action: PayloadAction<string>) => {
+      try {
+        state.items = state.items.filter(p => p.id !== action.payload);
+        saveProjectsToStorage(state.items);
+        state.error = null;
+      } catch (error) {
+        state.error = '删除项目失败';
       }
     },
   },
 });
 
-export const { 
-  addProject, 
-  updateProject, 
-  deleteProject, 
-  loadProjects,
+export const {
   setLoading,
   setError,
-  setCurrentProject,
-  updateTable,
+  loadProjects,
+  addProject,
+  updateProject,
+  deleteProject,
 } = projectsSlice.actions;
 
 export default projectsSlice.reducer; 
