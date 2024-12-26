@@ -35,14 +35,56 @@ export interface FieldTemplateCategory {
   updatedAt: string;
 }
 
+export interface Column {
+  id: string;
+  name: string;
+  type: string;
+  description?: string;
+  isNullable: boolean;
+  defaultValue?: string;
+}
+
+export interface Relation {
+  id: string;
+  sourceTable: string;
+  targetTable: string;
+  type: 'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many';
+  sourceColumn: string;
+  targetColumn: string;
+}
+
 export interface Table {
   id: string;
   name: string;
   description?: string;
-  fields: Field[];
-  createdAt: string;
-  updatedAt: string;
-  projectId: string;
+  columns?: Column[];
+  relations?: Relation[];
+  indexes?: {
+    id: string;
+    name: string;
+    columns: string[];
+    type: 'btree' | 'hash' | 'gist' | 'gin';
+  }[];
+  constraints?: {
+    id: string;
+    name: string;
+    type: 'primary' | 'unique' | 'foreign' | 'check';
+    definition: string;
+  }[];
+  triggers?: {
+    id: string;
+    name: string;
+    timing: 'before' | 'after';
+    event: 'insert' | 'update' | 'delete';
+    function: string;
+  }[];
+  procedures?: {
+    id: string;
+    name: string;
+    parameters: string[];
+    returnType: string;
+    definition: string;
+  }[];
 }
 
 export interface TestRecord {
@@ -75,7 +117,7 @@ export interface Connection {
 export interface Project {
   id: string;
   name: string;
-  description: string;
+  description?: string;
   tables: Table[];
   createdAt: string;
   updatedAt: string;
