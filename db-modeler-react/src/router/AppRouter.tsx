@@ -1,6 +1,5 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import MainLayout from '../components/Layout/MainLayout';
 import Projects from '../pages/Projects';
 import ProjectDetail from '../pages/ProjectDetail';
 import TableEdit from '../pages/TableEdit';
@@ -10,17 +9,15 @@ import Settings from '../pages/Settings';
 
 const AppRouter: React.FC = () => {
   return (
-    <MainLayout>
-      <Routes>
-        <Route path="/" element={<Navigate to="/projects" replace />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/project/:projectId" element={<ProjectDetail />} />
-        <Route path="/project/:projectId/table/:tableId" element={<TableEdit />} />
-        <Route path="/connections" element={<DatabaseConnections />} />
-        <Route path="/api" element={<ApiManager />} />
-        <Route path="/settings" element={<Settings />} />
-      </Routes>
-    </MainLayout>
+    <Routes>
+      <Route path="/" element={<Navigate to="/projects" replace />} />
+      <Route path="/projects" element={<Projects />} />
+      <Route path="/project/:projectId" element={<ProjectDetail />} />
+      <Route path="/project/:projectId/table/:tableId" element={<TableEdit />} />
+      <Route path="/connections" element={<DatabaseConnections />} />
+      <Route path="/api" element={<ApiManager />} />
+      <Route path="/settings" element={<Settings />} />
+    </Routes>
   );
 };
 
