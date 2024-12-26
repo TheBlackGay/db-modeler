@@ -1,39 +1,53 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { FieldTemplate, FieldTemplateCategory } from '../types/models';
-import { loadFieldTemplates, saveFieldTemplates, loadTemplateCategories } from '../services/storage';
+import { FieldTemplate } from '../types/models';
 
 interface TemplatesState {
   items: FieldTemplate[];
-  categories: FieldTemplateCategory[];
+  loading: boolean;
+  error: string | null;
 }
 
 const initialState: TemplatesState = {
-  items: loadFieldTemplates(),
-  categories: loadTemplateCategories(),
+  items: [],
+  loading: false,
+  error: null,
 };
 
-export const templatesSlice = createSlice({
+const templatesSlice = createSlice({
   name: 'templates',
   initialState,
   reducers: {
+    setTemplates: (state, action: PayloadAction<FieldTemplate[]>) => {
+      state.items = action.payload;
+    },
     addTemplate: (state, action: PayloadAction<FieldTemplate>) => {
       state.items.push(action.payload);
-      saveFieldTemplates(state.items);
     },
     updateTemplate: (state, action: PayloadAction<FieldTemplate>) => {
-      const index = state.items.findIndex(t => t.id === action.payload.id);
+      const index = state.items.findIndex(item => item.id === action.payload.id);
       if (index !== -1) {
         state.items[index] = action.payload;
-        saveFieldTemplates(state.items);
       }
     },
     deleteTemplate: (state, action: PayloadAction<string>) => {
-      state.items = state.items.filter(t => t.id !== action.payload);
-      saveFieldTemplates(state.items);
+      state.items = state.items.filter(item => item.id !== action.payload);
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
+    setError: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload;
     },
   },
 });
 
-export const { addTemplate, updateTemplate, deleteTemplate } = templatesSlice.actions;
+export const {
+  setTemplates,
+  addTemplate,
+  updateTemplate,
+  deleteTemplate,
+  setLoading,
+  setError,
+} = templatesSlice.actions;
 
 export default templatesSlice.reducer; 

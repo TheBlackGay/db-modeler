@@ -4,90 +4,82 @@ import { Layout } from '../components/Layout';
 import ProjectList from '../pages/ProjectList';
 import ProjectDetail from '../pages/ProjectDetail';
 import TableDesigner from '../components/TableDesigner';
-import { DatabaseConnections } from '../pages/DatabaseConnections';
-import { Settings } from '../pages/Settings';
+import DatabaseConnections from '../pages/DatabaseConnections';
+import Settings from '../pages/Settings';
 import { ApiManager } from '../pages/ApiManager/ApiManager';
 import InterfaceDebug from '../pages/interface/debug/InterfaceDebug';
 import { Spin } from 'antd';
 import ERDiagram from '../pages/ProjectDetail/ERDiagram';
+import NotFound from '../pages/NotFound';
+import FieldTemplates from '../pages/FieldTemplates';
+import ApiDocs from '../pages/ApiDocs';
+import DataDictionary from '../pages/DataDictionary';
+import BatchEdit from '../pages/BatchEdit';
+
+const withSuspense = (Component: React.ComponentType) => (
+  <Suspense fallback={<Spin />}>
+    <Component />
+  </Suspense>
+);
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
+    errorElement: withSuspense(NotFound),
     children: [
       {
         index: true,
-        element: (
-          <Suspense fallback={<Spin />}>
-            <ProjectList />
-          </Suspense>
-        ),
+        element: withSuspense(ProjectList),
       },
       {
         path: 'project/:id',
-        element: (
-          <Suspense fallback={<Spin />}>
-            <ProjectDetail />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'project/:projectId/tables/:tableId',
-        element: (
-          <Suspense fallback={<Spin />}>
-            <TableDesigner />
-          </Suspense>
-        ),
+        element: withSuspense(ProjectDetail),
       },
       {
         path: 'project/:projectId/table/:tableId',
-        element: (
-          <Suspense fallback={<Spin />}>
-            <TableDesigner />
-          </Suspense>
-        ),
+        element: withSuspense(TableDesigner),
       },
       {
         path: 'project/:projectId/api',
-        element: (
-          <Suspense fallback={<Spin />}>
-            <ApiManager />
-          </Suspense>
-        ),
+        element: withSuspense(ApiManager),
       },
       {
         path: 'project/:projectId/api/debug',
-        element: (
-          <Suspense fallback={<Spin />}>
-            <InterfaceDebug />
-          </Suspense>
-        ),
+        element: withSuspense(InterfaceDebug),
+      },
+      {
+        path: 'project/:projectId/api/docs',
+        element: withSuspense(ApiDocs),
       },
       {
         path: 'project/:projectId/connections',
-        element: (
-          <Suspense fallback={<Spin />}>
-            <DatabaseConnections />
-          </Suspense>
-        ),
+        element: withSuspense(DatabaseConnections),
       },
       {
         path: 'project/:projectId/settings',
-        element: (
-          <Suspense fallback={<Spin />}>
-            <Settings />
-          </Suspense>
-        ),
+        element: withSuspense(Settings),
       },
       {
         path: 'project/:projectId/er-diagram',
-        element: (
-          <Suspense fallback={<Spin />}>
-            <ERDiagram />
-          </Suspense>
-        ),
+        element: withSuspense(ERDiagram),
       },
+      {
+        path: 'project/:projectId/field-templates',
+        element: withSuspense(FieldTemplates),
+      },
+      {
+        path: 'project/:projectId/data-dictionary',
+        element: withSuspense(DataDictionary),
+      },
+      {
+        path: 'project/:projectId/batch-edit',
+        element: withSuspense(BatchEdit),
+      },
+      {
+        path: '*',
+        element: withSuspense(NotFound),
+      }
     ],
   },
 ]); 

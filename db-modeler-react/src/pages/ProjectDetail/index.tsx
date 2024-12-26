@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Tabs, Spin, Result } from 'antd';
 import { KawaiiButton } from '../../components/anime/AnimeComponents';
 import { RootState } from '../../store';
-import { loadProjects } from '../../store/projectsSlice';
+import { loadProjects, setCurrentProject } from '../../store/projectsSlice';
 import TableEditor from './TableEditor';
 import FieldEditor from './FieldEditor';
 import ERDiagram from './ERDiagram';
@@ -40,22 +40,28 @@ const ProjectDetail: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { items: projects, loading, error } = useSelector((state: RootState) => state.projects);
+  const { items: projects, currentProject, loading, error } = useSelector((state: RootState) => state.projects);
   const [activeTableId, setActiveTableId] = useState<string | null>(null);
   const { playClick, playHover } = useSound();
 
   useEffect(() => {
-    console.log('Loading projects...', { projectId, projects }); // 添加调试日志
     if (!projects.length) {
       dispatch(loadProjects());
     }
-  }, [dispatch, projects.length, projectId]);
+  }, [dispatch, projects.length]);
 
-  const currentProject = projects.find(p => p.id === projectId);
-  console.log('Current project:', { projectId, currentProject, projects }); // 添加调试日志
+  useEffect(() => {
+    if (projectId && (!currentProject || currentProject.id !== projectId)) {
+      const project = projects.find(p => p.id === projectId);
+      if (project) {
+        dispatch(setCurrentProject(project));
+      }
+    }
+  }, [dispatch, projectId, projects, currentProject]);
 
   const handleBack = () => {
     playClick();
+    dispatch(setCurrentProject(null));
     navigate('/projects');
   };
 

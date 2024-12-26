@@ -13,6 +13,7 @@ export interface Field {
   isForeignKey: boolean;
   referencedTable?: string;
   referencedField?: string;
+  description?: string;
 }
 
 export interface FieldTemplate extends Omit<Field, 'id' | 'name'> {
@@ -41,6 +42,7 @@ export interface Table {
   fields: Field[];
   createdAt: string;
   updatedAt: string;
+  projectId: string;
 }
 
 export interface TestRecord {
@@ -322,4 +324,22 @@ export interface ApiEndpoint {
   responseBody?: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ApiParam {
+  id: string;
+  name: string;
+  type: string;
+  required: boolean;
+  description?: string;
+  example?: string;
+  default_value?: string;
+}
+
+export interface ApiResponse {
+  id: string;
+  status_code: number;
+  description?: string;
+  schema: Record<string, any>;
+  example?: Record<string, any>;
 } 
