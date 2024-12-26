@@ -11,7 +11,17 @@ import {
   TableOutlined,
   ApiOutlined,
   CodeOutlined,
-  TeamOutlined
+  TeamOutlined,
+  CalendarOutlined,
+  FireOutlined,
+  RocketOutlined,
+  ExperimentOutlined,
+  SafetyCertificateOutlined,
+  BulbOutlined,
+  CloudOutlined,
+  ToolOutlined,
+  GiftOutlined,
+  SmileOutlined
 } from '@ant-design/icons';
 import AchievementButton from './AchievementButton';
 import AchievementModal from './AchievementModal';
@@ -63,6 +73,8 @@ export interface Achievement {
   condition: () => boolean;
   category: string;
   points: number;
+  type: 'normal' | 'daily' | 'weekly' | 'monthly' | 'special';
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
 }
 
 const achievements: Achievement[] = [
@@ -73,7 +85,9 @@ const achievements: Achievement[] = [
     icon: <StarOutlined />,
     condition: () => true,
     category: '入门',
-    points: 10
+    points: 10,
+    type: 'normal',
+    rarity: 'common'
   },
   {
     id: 'five_tables',
@@ -82,7 +96,9 @@ const achievements: Achievement[] = [
     icon: <TableOutlined />,
     condition: () => false,
     category: '建模',
-    points: 20
+    points: 20,
+    type: 'normal',
+    rarity: 'common'
   },
   {
     id: 'complex_relation',
@@ -91,7 +107,9 @@ const achievements: Achievement[] = [
     icon: <HeartOutlined />,
     condition: () => false,
     category: '建模',
-    points: 30
+    points: 30,
+    type: 'normal',
+    rarity: 'rare'
   },
   {
     id: 'master',
@@ -100,7 +118,9 @@ const achievements: Achievement[] = [
     icon: <CrownOutlined />,
     condition: () => false,
     category: '建模',
-    points: 50
+    points: 50,
+    type: 'normal',
+    rarity: 'epic'
   },
   {
     id: 'speed',
@@ -109,7 +129,9 @@ const achievements: Achievement[] = [
     icon: <ThunderboltOutlined />,
     condition: () => false,
     category: '速度',
-    points: 30
+    points: 30,
+    type: 'normal',
+    rarity: 'common'
   },
   {
     id: 'documentation',
@@ -118,7 +140,9 @@ const achievements: Achievement[] = [
     icon: <BookOutlined />,
     condition: () => false,
     category: '文档',
-    points: 20
+    points: 20,
+    type: 'normal',
+    rarity: 'common'
   },
   {
     id: 'api_design',
@@ -127,7 +151,9 @@ const achievements: Achievement[] = [
     icon: <ApiOutlined />,
     condition: () => false,
     category: 'API',
-    points: 25
+    points: 25,
+    type: 'normal',
+    rarity: 'rare'
   },
   {
     id: 'code_generation',
@@ -136,7 +162,9 @@ const achievements: Achievement[] = [
     icon: <CodeOutlined />,
     condition: () => false,
     category: '代码',
-    points: 15
+    points: 15,
+    type: 'normal',
+    rarity: 'common'
   },
   {
     id: 'team_player',
@@ -145,7 +173,9 @@ const achievements: Achievement[] = [
     icon: <TeamOutlined />,
     condition: () => false,
     category: '团队',
-    points: 20
+    points: 20,
+    type: 'normal',
+    rarity: 'common'
   },
   {
     id: 'perfect',
@@ -154,7 +184,130 @@ const achievements: Achievement[] = [
     icon: <TrophyOutlined />,
     condition: () => false,
     category: '特殊',
-    points: 100
+    points: 100,
+    type: 'special',
+    rarity: 'legendary'
+  },
+  {
+    id: 'daily_login',
+    title: '每日签到',
+    description: '每日登录系统',
+    icon: <CalendarOutlined />,
+    condition: () => false,
+    category: '日常',
+    points: 5,
+    type: 'daily',
+    rarity: 'common'
+  },
+  {
+    id: 'daily_create',
+    title: '日常创造',
+    description: '每日创建或修改一个表',
+    icon: <FireOutlined />,
+    condition: () => false,
+    category: '日常',
+    points: 10,
+    type: 'daily',
+    rarity: 'common'
+  },
+  {
+    id: 'daily_perfect',
+    title: '完美的一天',
+    description: '一天内完成所有每日任务',
+    icon: <CrownOutlined />,
+    condition: () => false,
+    category: '日常',
+    points: 30,
+    type: 'daily',
+    rarity: 'rare'
+  },
+  {
+    id: 'weekly_project',
+    title: '周计划达人',
+    description: '一周内创建3个项目',
+    icon: <RocketOutlined />,
+    condition: () => false,
+    category: '周常',
+    points: 50,
+    type: 'weekly',
+    rarity: 'rare'
+  },
+  {
+    id: 'weekly_tables',
+    title: '高产开发者',
+    description: '一周内创建20个表',
+    icon: <ExperimentOutlined />,
+    condition: () => false,
+    category: '周常',
+    points: 100,
+    type: 'weekly',
+    rarity: 'epic'
+  },
+  {
+    id: 'monthly_master',
+    title: '月度建模大师',
+    description: '一个月内完成10个完整的数据库设计',
+    icon: <SafetyCertificateOutlined />,
+    condition: () => false,
+    category: '月常',
+    points: 200,
+    type: 'monthly',
+    rarity: 'legendary'
+  },
+  {
+    id: 'innovation',
+    title: '创新先锋',
+    description: '使用所有高级建模功能',
+    icon: <BulbOutlined />,
+    condition: () => false,
+    category: '特殊',
+    points: 50,
+    type: 'special',
+    rarity: 'epic'
+  },
+  {
+    id: 'cloud_master',
+    title: '云端专家',
+    description: '成功导出并部署数据库',
+    icon: <CloudOutlined />,
+    condition: () => false,
+    category: '特殊',
+    points: 100,
+    type: 'special',
+    rarity: 'epic'
+  },
+  {
+    id: 'tool_expert',
+    title: '工具达人',
+    description: '使用所有辅助工具',
+    icon: <ToolOutlined />,
+    condition: () => false,
+    category: '特殊',
+    points: 30,
+    type: 'special',
+    rarity: 'rare'
+  },
+  {
+    id: 'hidden_gift',
+    title: '惊喜发现',
+    description: '发现一个隐藏功能',
+    icon: <GiftOutlined />,
+    condition: () => false,
+    category: '隐藏',
+    points: 50,
+    type: 'special',
+    rarity: 'legendary'
+  },
+  {
+    id: 'happy_modeler',
+    title: '快乐建模者',
+    description: '连续使用系统30天',
+    icon: <SmileOutlined />,
+    condition: () => false,
+    category: '隐藏',
+    points: 100,
+    type: 'special',
+    rarity: 'legendary'
   }
 ];
 
