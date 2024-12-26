@@ -81,7 +81,7 @@ export const saveProjects = (projects: Project[]) => {
       updatedAt: project.updatedAt || new Date().toISOString(),
     }));
     
-    localStorage.setItem('db-modeler-projects', JSON.stringify(projectsToSave));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(projectsToSave));
   } catch (error) {
     console.error('保存项目失败:', error);
   }
@@ -156,18 +156,23 @@ export const deleteFieldTemplate = (id: string) => {
 
 // 加载模板分类
 export const loadTemplateCategories = (): FieldTemplateCategory[] => {
+  const now = new Date().toISOString();
   return parse(localStorage.getItem(TEMPLATE_CATEGORIES_KEY), [
     {
       id: 'basic',
       name: '基础字段',
       description: '常用的基础字段类型',
-      isBuiltin: true
+      isBuiltin: true,
+      createdAt: now,
+      updatedAt: now
     },
     {
       id: 'custom',
       name: '自定义字段',
       description: '用户自定义的字段模板',
-      isBuiltin: false
+      isBuiltin: false,
+      createdAt: now,
+      updatedAt: now
     }
   ]);
 };

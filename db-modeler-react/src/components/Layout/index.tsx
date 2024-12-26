@@ -10,7 +10,7 @@ import { loadProjects, setCurrentProject } from '../../store/projectsSlice';
 
 const { Content } = AntLayout;
 
-export const Layout: React.FC = () => {
+const Layout: React.FC = () => {
   const location = useLocation();
   const params = useParams<{ id?: string; projectId?: string }>();
   const dispatch = useDispatch();
@@ -48,4 +48,6 @@ export const Layout: React.FC = () => {
       </AntLayout>
     </AntLayout>
   );
-}; 
+};
+
+export default Layout; 

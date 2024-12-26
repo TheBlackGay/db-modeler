@@ -57,6 +57,7 @@ export interface Table {
   id: string;
   name: string;
   description?: string;
+  fields: Field[];
   columns?: Column[];
   relations?: Relation[];
   indexes?: {
@@ -85,6 +86,8 @@ export interface Table {
     returnType: string;
     definition: string;
   }[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface TestRecord {
