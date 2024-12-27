@@ -14,7 +14,7 @@
 	"dependencies": {
 		"@ant-design/charts": "^2.2.6",
 		"@ant-design/graphs": "^2.0.4",
-		"@ant-design/icons": "^5.3.1",
+		"@ant-design/icons": "^5.5.2",
 		"@antv/g6": "^5.0.39",
 		"@antv/layout": "^1.2.14-beta.8",
 		"@monaco-editor/react": "^4.6.0",
@@ -57,6 +57,7 @@
 		"concurrently": "^8.2.2",
 		"electron": "^33.2.1",
 		"electron-builder": "^25.1.8",
+		"live2d-widget": "^3.1.4",
 		"react-redux": "^9.2.0",
 		"sass-embedded": "^1.83.0",
 		"typescript": "^5.3.3",

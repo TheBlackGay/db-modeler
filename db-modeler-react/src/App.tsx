@@ -19,6 +19,7 @@ import {
   ApiOutlined,
   SettingOutlined,
 } from '@ant-design/icons';
+import Live2D from './components/anime/Live2D';
 
 const { Header, Content } = Layout;
 
@@ -32,6 +33,12 @@ const StyledHeader = styled(Header)`
   display: flex;
   align-items: center;
   height: 64px;
+`;
+
+const RightSection = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: auto;
 `;
 
 const Logo = styled(Link)`
@@ -121,7 +128,10 @@ const App: React.FC = () => {
               <StyledHeader>
                 <Logo to="/">DB Modeler</Logo>
                 <NavigationMenu />
-                <AchievementSystem />
+                <RightSection>
+                  <Live2D position="right" />
+                  <AchievementSystem />
+                </RightSection>
               </StyledHeader>
               <StyledContent>
                 <Transition type="fade">
